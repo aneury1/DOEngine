@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <math.h>
 
 #include "Window.h"
@@ -46,7 +46,7 @@ void DrawTriangle(const Point& p1, const Point& p2,  const Point& p3,const Color
 void Spline::Draw()
 {
     extern Window *window;
-    SDL_SetRenderDrawColor(window->getRender(), this->color.r, color->g. color->b, 255);
+    SDL_SetRenderDrawColor(window->getRender(), this->color->r, color->g, color->b, 255);
     for(auto it : points)
     {
 

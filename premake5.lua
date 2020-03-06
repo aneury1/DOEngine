@@ -53,7 +53,7 @@ project "DOEngine"
 	--}
 
   filter  "platforms:Win32" 
-    defines{"WIN32"}
+    defines{"__WIN32__"}
     system "windows"
     architecture "x32"
  

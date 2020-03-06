@@ -12,4 +12,7 @@ class DevState: public GameState{
   virtual void onExit();
   virtual void Update();
   virtual void Render();
+private:
+	SDL_Joystick* joy;
+	SDL_Event ev;
 };

@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "Window.h"
  
 struct DrawConfiguration
