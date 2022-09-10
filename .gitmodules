@@ -6,3 +6,6 @@
 	path = thirdparty/SDL_ttf
 	url = git@github.com:libsdl-org/SDL_ttf.git
 	branch = main
+[submodule "thirdparty/SDL_image"]
+	path = thirdparty/SDL_image
+	url = git@github.com:libsdl-org/SDL_image.git

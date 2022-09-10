@@ -17,7 +17,8 @@ project "DOEngine"
 	"src",
 	"thirdparty/SDL/include",
 	"thirdparty/SDL/build/include/",
-	"thirdparty/SDL_ttf/"
+	"thirdparty/SDL_ttf/",
+ "thirdparty/SDL_image/"
 	}
 
    files {
@@ -30,17 +31,14 @@ project "DOEngine"
 
    --postbuildcommands{"{COPY} assets %{cfg.buildtarget.directory}"}
 
-   libdirs {
-		"thirdparty/SDL/build",
-      "thirdparty/SDL_ttf/build",
-      "thirdparty/SDL_ttf/build/external/freetype"
-	}
 
    links {
       "SDL2",
       "SDL2_ttf",
+      "SDL2_image",
       "SDL2lib",
       "SDL2_ttflib",
+      "SDL2_imagelib",
       "freetype"
      }
 
@@ -48,9 +46,23 @@ project "DOEngine"
     defines { "DEBUG" }
     symbols "On"
 
+    libdirs {
+      "thirdparty/SDL/build/Debug",
+      "thirdparty/SDL_ttf/build/Debug",
+      "thirdparty/SDL_ttf/build/Debug/external/freetype",
+      "thirdparty/SDL_image/build/Debug"
+   }
+
   filter "configurations:Release"
     defines { "NDEBUG" }
     optimize "On"
+
+    libdirs {
+      "thirdparty/SDL/build/Release",
+      "thirdparty/SDL_ttf/build/Release",
+      "thirdparty/SDL_ttf/build/Release/external/freetype",
+      "thirdparty/SDL_image/build/Debug"
+	}
 
   filter  "platforms:Win32" 
     defines{"WIN32"}
@@ -142,6 +154,50 @@ project "SDL2_ttflib"
    rebuildcommands {
 	   "{RMDIR} %{cfg.targetdir}",
 	   "cmake -DCMAKE_BUILD_TYPE=Release %{prj.location} -DSDL2TTF_VENDORED=ON -DBUILD_SHARED_LIBS=OFF -B %{cfg.targetdir}",
+	   "cmake --build %{cfg.targetdir} --config Release"
+   }
+
+   cleancommands {
+	   "{RMDIR} %{cfg.targetdir}"
+   }
+
+project "SDL2_imagelib"
+   kind "Makefile"
+   objdir()
+
+   location("thirdparty/SDL_image/")
+   includedirs{"./"}
+   targetname "SDL2_image"
+   
+   filter "configurations:Debug"
+		targetdir "%{prj.location}/build/Debug"
+   
+   buildcommands {
+      "cmake %{prj.location} -DSDL2IMAGE_VENDORED=ON -DBUILD_SHARED_LIBS=OFF -B %{cfg.targetdir}",
+	   "cmake --build %{cfg.targetdir}"
+   }
+   
+   rebuildcommands {
+	   "{RMDIR} %{cfg.targetdir}",
+	   "cmake %{prj.location} -DSDL2IMAGE_VENDORED=ON -DBUILD_SHARED_LIBS=OFF -B %{cfg.targetdir}",
+	   "cmake --build %{cfg.targetdir}"
+   }
+
+   cleancommands {
+	   "{RMDIR} %{cfg.targetdir}"
+   }
+   
+   filter "configurations:Release"
+		targetdir "%{prj.location}/build/Release"
+   
+   buildcommands {
+	   "cmake -DCMAKE_BUILD_TYPE=Release %{prj.location} -DSDL2IMAGE_VENDORED=ON -DBUILD_SHARED_LIBS=OFF -B %{cfg.targetdir}",
+	   "cmake --build %{cfg.targetdir} --config Release"
+   }
+   
+   rebuildcommands {
+	   "{RMDIR} %{cfg.targetdir}",
+	   "cmake -DCMAKE_BUILD_TYPE=Release %{prj.location} -DSDL2IMAGE_VENDORED=ON -DBUILD_SHARED_LIBS=OFF -B %{cfg.targetdir}",
 	   "cmake --build %{cfg.targetdir} --config Release"
    }
 
