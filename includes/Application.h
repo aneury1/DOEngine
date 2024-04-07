@@ -26,9 +26,11 @@ class Application
     bool dirty;
 
    static Application *applicationObject;
-
+    Application();
+    ~Application();
+ 
    void _internalResize(){
-      ///todo.
+      SDL_SetWindowSize(window, window_rect.w, window_rect.h);
     }
 
     public:
@@ -38,9 +40,6 @@ class Application
             applicationObject = new Application();
         return applicationObject;
     }
-    Application();
-    ~Application();
- 
 
     const bool    IsRunning() const;
     doengine::gfx::Renderer* getRender() const  {return render;}
@@ -75,8 +74,15 @@ class Application
         return window_rect.w;
     }
 
-    typedef unsigned char ColorT;
     void SetWindowPencilColor(doengine::Color color);
+
+    void addState(GameState *state, int id){
+        this->gsm->AddState(state, id);
+    }
+
+    bool setState(int id){
+        gsm->setState(id);
+    }
 
     private:
     void destroy();
