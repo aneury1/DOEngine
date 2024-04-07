@@ -70,7 +70,7 @@ FetchContent_MakeAvailable(sdl_mixer)
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 message("END Fecthing SDL Source code")
 add_library(${PROJECT_NAME}
-    # Window/Window.cpp
+    src/Application/Application.cpp
     src/Timer/FPSManager.cpp
     src/Tilemap/Tilemap.cpp
     src/Texture/Texture.cpp
@@ -101,30 +101,12 @@ add_library(${PROJECT_NAME}
     includes/Tilemap.h
     includes/UDPPacket.h
     includes/Vector.h
+    includes/Application.h
 )
 
 target_link_options(${PROJECT_NAME} PRIVATE
     "LINKER:-static" -static-libgcc -static-libstdc++)
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    SDL2::SDL2
-    SDL2::SDL2main
-    SDL2_ttf SDL2_image
-    SDL2_mixer)
-
-add_executable(${PROJECT_NAME}-sample
-    # Sample APP
-    sample/Window.h
-    sample/Window.cpp
-    sample/CanvasTestState.cpp
-    sample/MatrixTestState.cpp
-    sample/SortedState.cpp
-    sample/main.cpp
-)
-
-target_link_options(${PROJECT_NAME}-sample PRIVATE
-    "LINKER:-static" -static-libgcc -static-libstdc++)
-target_link_libraries(${PROJECT_NAME}-sample PRIVATE
-    ${PROJECT_NAME}
     SDL2::SDL2
     SDL2::SDL2main
     SDL2_ttf SDL2_image

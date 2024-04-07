@@ -1,7 +1,6 @@
 
 #pragma once
 #include "Color.h"
-#include "abstract/AbstractWindow.h"
 #include <gmock/gmock-function-mocker.h>
 
 namespace doengine::mocks

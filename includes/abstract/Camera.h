@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract/AbstractWindow.h"
+
 #include "abstract/Camera.h"
 
 namespace doengine

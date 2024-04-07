@@ -1,11 +1,9 @@
 #pragma once
 
 // #include "DOEngine.h"
-#include "abstract/AbstractWindow.h"
+#include "Application.h"
 #include "abstract/EventHandler.h"
 #include <vector>
-
-using doengine::AbstractWindow;
 
 struct Event
 {
@@ -20,7 +18,7 @@ struct Event
 
     static void getMousePosition(int* x, int* y);
 
-    static void PollEvent(AbstractWindow* window);
+    static void PollEvent();
     static void AddKeyPressEventListener(KeyUpEvent* ev);
     static void AddKeyPressEventListener(KeyDownEvent* ev);
     static void RemoveKeyPressEventListener(KeyUpEvent* ev);

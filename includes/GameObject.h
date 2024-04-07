@@ -1,14 +1,11 @@
 #pragma once
 
-#include "abstract/AbstractWindow.h"
 #include <string>
-
-using doengine::AbstractWindow;
 
 class GameObject
 {
   protected:
-    AbstractWindow* window;
+ 
     bool renderable;
     bool solid;
     int layer;
@@ -17,7 +14,7 @@ class GameObject
     std::string texture_id;
 
   public:
-    GameObject(AbstractWindow* window) : window(window)
+    GameObject()
     {
     }
 

@@ -1,5 +1,5 @@
 #include "Geometric.h"
-#include "Window.h"
+#include "Application.h"
 #include "Canvas.h"
 #include "TTFText.h"
 
@@ -201,7 +201,7 @@ void arc(Window *window, int x, int y, int radius, double startAngle, double end
     
   
     const int NUM_SEGMENTS = 100; // Number of line segments to approximate the arc
-    SDL_SetRenderDrawColor(window->getRender(), _color.r, _color.g, _color.b, _color.a);
+    SDL_SetRenderDrawColor(Application::getApplication()->getRender(), _color.r, _color.g, _color.b, _color.a);
  
     for (int i = 0; i <= NUM_SEGMENTS; ++i) 
     {
@@ -209,32 +209,32 @@ void arc(Window *window, int x, int y, int radius, double startAngle, double end
         int x1 = x + static_cast<int>(radius * cos(angle));
         int y1 = y + static_cast<int>(radius * sin(angle));
         
-          SDL_RenderDrawPoint(window->getRender(), _offset.x+x1, _offset.y+ y1);
+          SDL_RenderDrawPoint(Application::getApplication()->getRender(), _offset.x+x1, _offset.y+ y1);
  
     }
  
 }
 
-void DrawPoint(const Point &point, const Color& color, doengine::AbstractWindow *window){
-   /// SDL_SetRenderDrawColor(window->getRender(), color.r, color.g, color.b, color.a);
-    SDL_RenderDrawPoint(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), point.x, point.y);
+void DrawPoint(const Point &point, const Color& color){
+   /// SDL_SetRenderDrawColor(Application::getApplication()->getRender(), color.r, color.g, color.b, color.a);
+    SDL_RenderDrawPoint(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), point.x, point.y);
 }
 void DrawLine(const Point& p1, const Point& p2, const Color &color, Window *window){
-    /// SDL_SetRenderDrawColor(window->getRender(), color.r, color.g, color.b, color.a);
-     SDL_RenderDrawLine(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), p1.x, p1.y, p2.x, p2.y);
+    /// SDL_SetRenderDrawColor(Application::getApplication()->getRender(), color.r, color.g, color.b, color.a);
+     SDL_RenderDrawLine(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), p1.x, p1.y, p2.x, p2.y);
 }
 
 void DrawRect(const Rect &rect, const Color& color, Window *window){
- ///  SDL_SetRenderDrawColor(window->getRender(), color.r, color.g, color.b, color.a);
-   SDL_RenderDrawRect(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), &rect);
+ ///  SDL_SetRenderDrawColor(Application::getApplication()->getRender(), color.r, color.g, color.b, color.a);
+   SDL_RenderDrawRect(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), &rect);
 }
 void DrawFillRect(const Rect &rect, const Color& color, Window *window){
-  ///SDL_SetRenderDrawColor(window->getRender(), color.r, color.g, color.b, color.a);
-  SDL_RenderFillRect(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), &rect);
+  ///SDL_SetRenderDrawColor(Application::getApplication()->getRender(), color.r, color.g, color.b, color.a);
+  SDL_RenderFillRect(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), &rect);
 }
 
 
-void FillCircle(int x, int y, int radius, const Color& color, doengine::AbstractWindow *window)
+void FillCircle(int x, int y, int radius, const Color& color)
 	{
 		int x0 = 0;
 		int y0 = radius;
@@ -275,20 +275,20 @@ void DrawRect(SDL_Renderer *render, SDL_Rect rect){
 }
 
 void DrawRect(Window *window, SDL_Rect rect){
-    SDL_RenderDrawRect(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), &rect);
+    SDL_RenderDrawRect(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), &rect);
 }
 #endif
-void DrawSinglePoint(const Rect &rect, const Color& color, doengine::AbstractWindow *window){
-   SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a); 
-   SDL_RenderDrawPoint(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), rect.x, rect.y);
+void DrawSinglePoint(const Rect &rect, const Color& color){
+   SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a); 
+   SDL_RenderDrawPoint(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), rect.x, rect.y);
 }
-void DrawNotFillRect(const Rect &rect, const Color& color, doengine::AbstractWindow *window){
-   SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a);
-   SDL_RenderDrawRect(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), &rect);
+void DrawNotFillRect(const Rect &rect, const Color& color){
+   SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a);
+   SDL_RenderDrawRect(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), &rect);
 }
-void DrawFillRect(const Rect &rect, const Color& color, doengine::AbstractWindow *window){
-  SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a);
-  SDL_RenderFillRect(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), &rect);
+void DrawFillRect(const Rect &rect, const Color& color){
+  SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a);
+  SDL_RenderFillRect(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), &rect);
 }
 
 #if 0 
@@ -338,7 +338,7 @@ void DrawGradientCircle(SDL_Renderer* renderer, int centerX, int centerY, int ra
 }
 #endif
 
-void FillCircle(int x, int y, int radius, const Color& color, doengine::AbstractWindow *window)
+void FillCircle(int x, int y, int radius, const Color& color)
 	{
 		int x0 = 0;
 		int y0 = radius;
@@ -348,7 +348,7 @@ void FillCircle(int x, int y, int radius, const Color& color, doengine::Abstract
 		auto drawline = [&](int sx, int ex, int ny)
 		{
 			for (int i = sx; i <= ex; i++)
-				DrawSinglePoint({i, ny}, color, window);
+				DrawSinglePoint({i, ny}, color);
 		};
 
 		while (y0 >= x0)
@@ -364,35 +364,35 @@ void FillCircle(int x, int y, int radius, const Color& color, doengine::Abstract
 	}
 
 
-void CanvasCircleCommand::Draw(doengine::AbstractWindow *window)
+void CanvasCircleCommand::Draw()
 {
- FillCircle(where.x, where.y,  radius, color, window);
+ FillCircle(where.x, where.y,  radius, color);
 }
 
 
-void CanvasRectCommand::Draw(doengine::AbstractWindow *window)
+void CanvasRectCommand::Draw()
 {
   // SDL_Log("Render Rect [%ld, %ld, %ld %ld](%02x %02x %02x %02x)", offset.x, offset.y, offset.w, offset.h, color.r, color.g, color.b, color.a);
    ////  SDL_Log("Canvas Draw[%ld, %ld, %ld, %ld]",  offset.x, offset.y,  offset.w, offset.h);
  
    if(filled)
-       DrawFillRect(offset, color, window);
+       DrawFillRect(offset, color);
     else
-       DrawNotFillRect(offset, color, window);
+       DrawNotFillRect(offset, color );
 }
 
 
-void CanvasPointDrawCommand::Draw(doengine::AbstractWindow *window)
+void CanvasPointDrawCommand::Draw()
 {
-   DrawSinglePoint(offset, color, window);
+   DrawSinglePoint(offset, color);
 }
 
 
-void CanvasTextDrawerCommand::Draw(doengine::AbstractWindow *window){
+void CanvasTextDrawerCommand::Draw(){
  
-   ///SDL_SetRenderDrawColor(window->getRender(), color.r, color.g, color.b, color.a);
+   ///SDL_SetRenderDrawColor(Application::getApplication()->getRender(), color.r, color.g, color.b, color.a);
    TTFText::get()->setColor(color);
-   TTFText::get()->DrawText(this->text.c_str(), where.x, where.y, static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()));  
+   TTFText::get()->DrawText(this->text.c_str(), where.x, where.y, static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()));  
 }
 
 
@@ -407,12 +407,11 @@ Canvas* Canvas::setCanvasBackgroundColor(SDL_Color color)
 
 const SDL_Color Canvas::black={0,0,0,255};
 
-Canvas::Canvas(doengine::AbstractWindow* window)
+Canvas::Canvas()
 { 
-    this->window = window;
     setCanvasBackgroundColor({255,255,255,255});
     fillColor({0,0,0,255});
-    setRect({0,0,window->getW(), window->getH()});
+    setRect({0,0,Application::getApplication()->getW(), Application::getApplication()->getH()});
 }  
 
 Canvas* Canvas::fillColor(SDL_Color color)
@@ -501,11 +500,11 @@ Canvas* Canvas::FillText(const char *str, int x, int y)
  
     setCanvasBackgroundColor(_bg);
  
-    ::DrawFillRect(_offset, _bg,  window);
+    ::DrawFillRect(_offset, _bg);
    
     for(auto it : commands_to_draw)
     {  
-         it->Draw(window);
+         it->Draw();
     }
    return this;
  }
