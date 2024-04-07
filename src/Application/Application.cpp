@@ -82,12 +82,12 @@ void Application::Render()
 
 void Application::Quit()
 {
-    this->run = false;    
+   run = false;    
 }
 
 const bool Application::IsRunning() const
 {
-    return this->run;
+    return run;
 }
 
 void Application::SetWindowPencilColor(doengine::Color color)

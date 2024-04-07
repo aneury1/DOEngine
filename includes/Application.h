@@ -30,6 +30,7 @@ class Application
     ~Application();
  
    void _internalResize(){
+    
       SDL_SetWindowSize(window, window_rect.w, window_rect.h);
     }
 
@@ -77,11 +78,11 @@ class Application
     void SetWindowPencilColor(doengine::Color color);
 
     void addState(GameState *state, int id){
-        this->gsm->AddState(state, id);
+        gsm->AddState(id,state);
     }
 
-    bool setState(int id){
-        gsm->setState(id);
+    void setState(int id){
+        gsm->SetState(id);
     }
 
     private:
