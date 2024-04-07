@@ -36,11 +36,11 @@ void Texture::DrawImage(std::string id, int x, int y, int w, int h)
         SDL_RenderCopy(render, textures[id], NULL, &offset);
     }
 }
-bool saveScreenshotBMP(std::string filepath, Window* window)
+bool saveScreenshotBMP(std::string filepath)
 {
-    SDL_Window* SDLWindow = window->getWindow();
+    SDL_Window* SDLWindow = Application::getApplication()->getWindow();
     SDL_Renderer* SDLRenderer =
-        static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer());
+        static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer());
     SDL_Surface* saveSurface = NULL;
     SDL_Surface* infoSurface = NULL;
     infoSurface = SDL_GetWindowSurface(SDLWindow);

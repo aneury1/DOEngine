@@ -15,7 +15,7 @@
 
 
 #include "defines.h"
-#include "Window.h"
+#include "Application.h"
 #include "sort.h"
 #include "LinkList.h"
 #include "abstract/EventHandler.h"
@@ -32,7 +32,7 @@
 #include "TTFText.h"
 #include "UDPPacket.h"
 #include "Vector.h"
-
+#include "Application.h"
 
 
 #endif

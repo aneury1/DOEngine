@@ -2,21 +2,16 @@
 
 #include <map>
 #include <string>
-// #include "Window.h"
 #include "GameState.h"
-#include "abstract/AbstractWindow.h"
-
-using doengine::AbstractWindow;
-// class GameState;
 
 class GameStateManager
 {
-    AbstractWindow* window;
+ 
     std::map<int, GameState*> states;
     int current_state;
 
   public:
-    GameStateManager(AbstractWindow* window) : window(window)
+    GameStateManager()  
     {
     }
 

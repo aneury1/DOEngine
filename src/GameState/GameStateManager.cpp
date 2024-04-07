@@ -30,15 +30,6 @@ void GameStateManager::Update(float elapsed)
 }
 void GameStateManager::Render()
 {
-    /// TTFText::get()->DrawText("GameStateManager::Render",0,10,
-    /// this->window->getRender());
     if (states[current_state])
         states[current_state]->Render();
-    /*else
-    {
-        TTFText::get()->DrawText(
-            "State Invalid", 0, 80,
-            static_cast<SDL_Renderer*>(
-                this->window->getRender()->getNativeRenderer()));
-    }*/
 }

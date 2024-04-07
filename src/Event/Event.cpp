@@ -22,7 +22,7 @@ std::map<int, Joypad*> Event::joypadsConnected;
 
 float Event::timeElapsed = 0.0f;
 
-void Event::PollEvent(AbstractWindow* window)
+void Event::PollEvent()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -31,7 +31,7 @@ void Event::PollEvent(AbstractWindow* window)
         {
         case SDL_QUIT: {
             SDL_Log("Window quit");
-            window->Quit();
+            Application::getApplication()->Quit();
             break;
         }
         case SDL_KEYDOWN: {

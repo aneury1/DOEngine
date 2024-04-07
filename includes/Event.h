@@ -1,13 +1,11 @@
 #pragma once
 
-#include "abstract/AbstractWindow.h"
+// #include "DOEngine.h"
+#include "Application.h"
 #include "abstract/EventHandler.h"
 #include "abstract/devices/Joypad.h"
 #include <map>
 #include <vector>
-
-using doengine::AbstractWindow;
-using doengine::devices::Joypad;
 
 struct Event
 {
@@ -22,7 +20,7 @@ struct Event
 
     static int getMousePosition(int* x, int* y);
 
-    static void PollEvent(AbstractWindow* window);
+    static void PollEvent();
     static void AddKeyPressEventListener(KeyUpEvent* ev);
     static void AddKeyPressEventListener(KeyDownEvent* ev);
     static void RemoveKeyPressEventListener(KeyUpEvent* ev);

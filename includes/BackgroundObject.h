@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Window.h"
+#include "Application.h"
 
 class Background : public GameObject{
     protected:
