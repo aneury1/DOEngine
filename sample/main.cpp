@@ -4,14 +4,32 @@
 #include <memory>
 #include <string>
 #include "Application.h"
+#include <GameState.h>
+
+struct PongState : public GameState{
+    virtual void OnEnter(){}
+    virtual void OnExit(){}
+    virtual void Update(float elapsed){}
+    virtual void Render(){}
+};
+
+
+
+
+enum SampleStateId : int {
+    pongStateID = 1
+};
+
+
 
 int main(int argc, char* argv[])
 { 
-   auto app = Application::getApplication();
-   
-   app->setSize(800, 600);
-
-    while(app->isRunning()){
+    auto app = Application::getApplication();
+    app->setSize(800, 600);
+    auto pongState = new PongState();
+    app->addState(pongState , pongStateID);
+    app->setState(pongStateID);
+    while(app->IsRunning()){
         app->PollEvent();
 
         app->Render();

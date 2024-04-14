@@ -1,12 +1,6 @@
 #pragma once 
 
 #include <memory>
-extern "C" {
-#include<SDL.h>
-#include<SDL_image.h>
-#include<SDL_ttf.h>
-}
-
 #include "FPSManager.h"
 #include "GameStateManager.h"
 #include "Texture.h"
@@ -14,24 +8,31 @@ extern "C" {
 
 class GameStateManager;
 
+
+class WindowManager;
+
+
 class Application 
 {
-    SDL_Window   *window;
-    doengine::gfx::Renderer* render;
-    SDL_Rect      window_rect;
-    SDL_DisplayMode mode;
+    WindowManager  window;
+    std::shared_ptr<doengine::gfx::Renderer> render;
     std::shared_ptr<FpsManager> fps_handler;
     std::shared_ptr<GameStateManager> gsm;
+    
+    Rect      window_rect;
+
     bool run;
+    
     bool dirty;
 
    static Application *applicationObject;
-    Application();
-    ~Application();
+   
+   Application();
+   
+   ~Application();
  
    void _internalResize(){
-    
-      SDL_SetWindowSize(window, window_rect.w, window_rect.h);
+      //// @todo do it by WindowManager
     }
 
     public:
@@ -44,7 +45,7 @@ class Application
 
     const bool    IsRunning() const;
     doengine::gfx::Renderer* getRender() const  {return render;}
-    SDL_Window   *getWindow() {return window;}
+    std::shared_ptr<WindowManager> getWindow() {return window;}
    
     
     void setFullScreen();

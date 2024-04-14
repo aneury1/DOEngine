@@ -1,11 +1,8 @@
 #pragma once
-
+#include <vector>
 // #include "DOEngine.h"
 #include "Application.h"
-#include "abstract/EventHandler.h"
-#include "abstract/devices/Joypad.h"
-#include <map>
-#include <vector>
+#include "EventHandler.h"
 
 struct Event
 {

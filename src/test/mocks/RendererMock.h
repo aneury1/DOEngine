@@ -1,5 +1,5 @@
 #pragma once
-#include "abstract/Renderer.h"
+#include "Renderer.h"
 #include <gmock/gmock-function-mocker.h>
 
 namespace doengine::mocks

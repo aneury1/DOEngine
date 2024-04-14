@@ -1,11 +1,6 @@
 #ifndef DOENGINE_HPP_DEFINED
 #define DOENGINE_HPP_DEFINED
 
-#include<SDL_image.h>
-#include<SDL_ttf.h>
-#include<SDL.h>
-
-
 #include <vector>
 #include <string>
 #include <map>
@@ -18,7 +13,7 @@
 #include "Application.h"
 #include "sort.h"
 #include "LinkList.h"
-#include "abstract/EventHandler.h"
+#include "EventHandler.h"
 #include "Event.h"
 #include "FPSManager.h"
 #include "Geometric.h"

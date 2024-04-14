@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract/EventHandler.h"
+#include "EventHandler.h"
 #include <gmock/gmock-function-mocker.h>
 
 namespace doengine::mocks
