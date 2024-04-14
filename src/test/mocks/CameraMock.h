@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract/Camera.h"
+#include "Camera.h"
 #include <gmock/gmock-function-mocker.h>
 
 namespace doengine::mocks

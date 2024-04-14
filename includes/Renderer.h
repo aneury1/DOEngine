@@ -2,9 +2,6 @@
 
 #include "Color.h"
 
-namespace doengine::gfx
-{
-
 class Renderer
 {
   public:
@@ -15,5 +12,3 @@ class Renderer
     virtual void setDrawColor(doengine::Color) = 0;
     virtual void present() = 0;
 };
-
-} // namespace doengine::gfx

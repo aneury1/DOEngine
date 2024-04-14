@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Color.h"
-#include <SDL2/SDL.h>
 #include <string>
 #include <cmath>
 #include <vector>
+
+
+#include "Color.h"
 
 struct CanvasCommand
 {

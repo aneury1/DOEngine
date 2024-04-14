@@ -1,5 +1,5 @@
 #include "Event.h"
-#include "abstract/EventHandler.h"
+#include "EventHandler.h"
 #include "fixtures/DoEngineFixture.h"
 #include "mocks/EventHandlerMock.h"
 #include "mocks/SDLMock.h"

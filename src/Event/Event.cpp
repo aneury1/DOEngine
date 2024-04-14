@@ -1,7 +1,7 @@
 
 #include "Event.h"
 #include "DOEngine_SDL_includes.h"
-#include "abstract/EventHandler.h"
+#include "EventHandler.h"
 #include "v2d_vector.h"
 #include <vector>
 

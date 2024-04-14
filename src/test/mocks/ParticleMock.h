@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract/Particle.h"
+#include "Particle.h"
 #include <gmock/gmock-function-mocker.h>
 
 namespace doengine::mocks

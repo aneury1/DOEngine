@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "abstract/Camera.h"
+#include "Camera.h"
 
 namespace doengine
 {

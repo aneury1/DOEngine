@@ -6,13 +6,13 @@
 #else
 extern "C"
 {
-#include <SDL.h>
-#include <SDL_error.h>
-#include <SDL_events.h>
-#include <SDL_image.h>
-#include <SDL_joystick.h>
-#include <SDL_log.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_error.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_joystick.h>
+#include <SDL2/SDL_log.h>
+#include <SDL2/SDL_ttf.h>
 }
 #endif
 

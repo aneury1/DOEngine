@@ -2,7 +2,7 @@
 
 #include "DOEngine.h"
 #include "Geometric.h"
-#include "abstract/Font.h"
+#include "Font.h"
 #include <string>
 
 using doengine::Font;
@@ -32,7 +32,7 @@ class TTFText : public Font
 
     void setColor(doengine::Color color) override
     {
-        this->color = static_cast<SDL_Color>(color.rgba);
+       /// this->color = reinterpret_cast<SDL_Color>(color.rgba);
     }
 
     void init() override

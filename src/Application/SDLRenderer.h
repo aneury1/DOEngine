@@ -2,10 +2,10 @@
 
 extern "C"
 {
-#include <SDL.h>
+#include <SDL2/SDL.h>
 }
 
-#include "abstract/Renderer.h"
+#include "Renderer.h"
 
 using Renderer = doengine::gfx::Renderer;
 

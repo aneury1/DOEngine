@@ -2,16 +2,26 @@
 // #include "DOEngine.h"
 
 
-extern "C"
-{
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-}
-
-typedef SDL_Rect Rect;
-typedef SDL_Color Color;
-typedef SDL_Point Point;
+struct Point{
+    int x;
+    int y;
+};
+ 
+struct Rect{
+    int x;
+    int y;
+    int w;
+    int h;
+    inline int left(){ return x;}
+    inline int top(){ return  y;}
+    inline int bottom(){ return h+y;}
+    inline int right(){ return w+x;}
+    inline std::pair<int,int> center(){return {w/2,h/2};}
+    template<typename T>
+    T castTo(){
+        return reinterpret_cast<T>(*this);
+    }
+};
 
 void DrawPoint(const Point& point, const Color& color);
 void DrawLine(const Point& p1, const Point& p2, const Color& color);
