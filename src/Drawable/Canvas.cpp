@@ -220,7 +220,6 @@ void DrawPoint(const Point &point, const Color& color){
     SDL_RenderDrawPoint(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), point.x, point.y);
 }
 void DrawLine(const Point& p1, const Point& p2, const Color &color, Window *window){
-    /// SDL_SetRenderDrawColor(Application::getApplication()->getRender(), color.r, color.g, color.b, color.a);
      SDL_RenderDrawLine(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), p1.x, p1.y, p2.x, p2.y);
 }
 
