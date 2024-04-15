@@ -224,7 +224,6 @@ void DrawLine(const Point& p1, const Point& p2, const Color &color, Window *wind
 }
 
 void DrawRect(const Rect &rect, const Color& color, Window *window){
- ///  SDL_SetRenderDrawColor(Application::getApplication()->getRender(), color.r, color.g, color.b, color.a);
    SDL_RenderDrawRect(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), &rect);
 }
 void DrawFillRect(const Rect &rect, const Color& color, Window *window){
