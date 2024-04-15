@@ -1,6 +1,6 @@
 #pragma once
 // #include "DOEngine.h"
-
+#include "Color.h"
 
 struct Point{
     int x;

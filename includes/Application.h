@@ -5,6 +5,7 @@
 #include "GameStateManager.h"
 #include "Texture.h"
 #include "Canvas.h"
+#include "WindowManager.h"
 
 class GameStateManager;
 
@@ -14,7 +15,7 @@ class WindowManager;
 
 class Application 
 {
-    WindowManager  window;
+    WindowManager*  window;
     std::shared_ptr<doengine::gfx::Renderer> render;
     std::shared_ptr<FpsManager> fps_handler;
     std::shared_ptr<GameStateManager> gsm;

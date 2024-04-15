@@ -1,7 +1,7 @@
 #include "DOEngine.h"
 
-std::map<std::string, SDL_Texture*> Texture::textures;
-SDL_Renderer* Texture::render;
+std::map<std::string, SDL_Texture*>  textures;
+SDL_Renderer*  render;
 
 bool Texture::IsloadThisTexture(std::string id)
 {
@@ -31,8 +31,8 @@ void Texture::DrawImage(std::string id, int x, int y, int w, int h)
 {
     if (IsloadThisTexture(id))
     {
-        SDL_Rect offset = {x, y, w, h};
-        SDL_Rect clipset = {0, 0, 0, 0};
+        Rect  offset = {x, y, w, h};
+        Rect  clipset = {0, 0, 0, 0};
         SDL_RenderCopy(render, textures[id], NULL, &offset);
     }
 }
@@ -105,7 +105,7 @@ bool saveScreenshotBMP(std::string filepath)
     return true;
 }
 
-void Texture::setRender(SDL_Renderer* render)
+void Texture::setRender(Renderer* render)
 {
     if (render)
     {
@@ -114,12 +114,4 @@ void Texture::setRender(SDL_Renderer* render)
     SDL_Log("SetRender Called.");
 }
 
-void Texture::setRender(doengine::gfx::Renderer* render)
-{
-    if (render->isRenderOk())
-    {
-        Texture::render =
-            static_cast<SDL_Renderer*>(render->getNativeRenderer());
-    }
-    SDL_Log("SetRender Called.");
-}
+ 

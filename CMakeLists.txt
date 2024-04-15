@@ -31,7 +31,9 @@ add_library(${PROJECT_NAME}
     src/Font/TTFText.cpp
     src/Event/Event.cpp
     src/Drawable/Canvas.cpp
-    src/Drawable/SDLRenderer.cpp
+    src/Application/SDLRenderer.cpp
+    src/Application/SDLWindowManager.cpp
+    src/Application/SDLTexture.cpp
     src/Event/SDLMouse.cpp
     src/Event/SDLKeyboard.cpp
     src/Event/SDLJoypad.cpp

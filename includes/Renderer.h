@@ -9,6 +9,6 @@ class Renderer
     virtual void* getNativeRenderer() = 0;
     virtual void destroy() = 0;
     virtual void clear() = 0;
-    virtual void setDrawColor(doengine::Color) = 0;
+    virtual void setDrawColor(Color) = 0;
     virtual void present() = 0;
 };
