@@ -20,7 +20,6 @@ if(DOENGINE_TESTS)
     add_subdirectory(test)
 endif()
 
-# include(FetchContent)
 
 
 message("Fecthing SDL Source code")
