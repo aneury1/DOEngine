@@ -164,7 +164,7 @@ void drawOval(SDL_Renderer* renderer, int x, int y, int radiusX, int radiusY) {
 
 namespace {
     SDL_Color _color={0,0,0,255};
-    SDL_Rect  _offset={0,0,800,800};
+    Rect   _offset={0,0,800,800};
 }
 void begin(Window *window){
     
@@ -189,12 +189,12 @@ void fillStyle(SDL_Color color){
     _color.a = color.a;
 }
 void fillRect(Window *window, int x, int y, int w, int h){
-    SDL_Rect rect{_offset.x + x, _offset.y+ y,w,h};
+    Rect  rect{_offset.x + x, _offset.y+ y,w,h};
     DrawFillRect(rect,_color,window);
 }
 
 void DrawRect(Window *window, int x, int y, int w, int h){
-    SDL_Rect rect{_offset.x + x, _offset.y+ y,_offset.w,_offset.h};
+    Rect  rect{_offset.x + x, _offset.y+ y,_offset.w,_offset.h};
     DrawRect(rect,_color,window);
 }
 void arc(Window *window, int x, int y, int radius, double startAngle, double endAngle ) {
@@ -270,11 +270,11 @@ void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, const Color& p
  
 
 
-void DrawRect(SDL_Renderer *render, SDL_Rect rect){
+void DrawRect(SDL_Renderer *render, Rect  rect){
     SDL_RenderDrawRect(render, &rect);
 }
 
-void DrawRect(Window *window, SDL_Rect rect){
+void DrawRect(Window *window, Rect  rect){
     SDL_RenderDrawRect(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), &rect);
 }
 #endif
@@ -423,7 +423,7 @@ Canvas* Canvas::fillColor(SDL_Color color)
     return this;
 }
    
-Canvas* Canvas::setRect(SDL_Rect rect)
+Canvas* Canvas::setRect(Rect  rect)
 {
    _offset.x = rect.x;
    _offset.y = rect.y;

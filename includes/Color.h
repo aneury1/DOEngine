@@ -1,10 +1,6 @@
 #pragma once
 
-namespace doengine
-{
-
 typedef unsigned char ColorT;
-
 union Color {
     struct
     {
@@ -15,5 +11,3 @@ union Color {
     };
     unsigned int rgba;
 };
-
-} // namespace doengine

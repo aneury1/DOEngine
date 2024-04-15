@@ -7,9 +7,19 @@
 
 class Renderer;
 
+
+
+
+
+
+
 class WindowManager{
 
+
    public:
+
+   void setWindowData( void * window_casted) = 0;
+
 
    WindowManager(){
     

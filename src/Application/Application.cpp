@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string_view>
 
+#include "Application.h"
+
 Application *Application::applicationObject = nullptr;
 
 Application::Application()

@@ -5,14 +5,13 @@
 
 class Texture
 {
-   static std::map<std::string, SDL_Texture*>textures;
-   static SDL_Renderer* render;
+ 
 
    public:
-
+   static void setTextureFromText(void *nativeSurface);
    static bool IsloadThisTexture(std::string id);
    static int  LoadTexture(std::string path, std::string id);
    static void DrawImage(std::string id, int x, int y, int w, int h);
-   static void setRender(SDL_Renderer* render);
-   static void setRender(doengine::gfx::Renderer* render);
+   static void setRender(Renderer* render);
+ 
 };

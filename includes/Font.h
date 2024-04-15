@@ -4,8 +4,6 @@
 
 #include <string>
 
-namespace doengine
-{
 
 class Font
 {
@@ -16,5 +14,3 @@ class Font
     virtual void setFont(const std::string& path, int fntsize = 23) = 0;
     virtual void drawText(const std::string& text, int x, int y) = 0;
 };
-
-} // namespace doengine
