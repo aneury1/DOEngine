@@ -388,7 +388,6 @@ void CanvasPointDrawCommand::Draw()
 
 void CanvasTextDrawerCommand::Draw(){
  
-   ///SDL_SetRenderDrawColor(Application::getApplication()->getRender(), color.r, color.g, color.b, color.a);
    TTFText::get()->setColor(color);
    TTFText::get()->DrawText(this->text.c_str(), where.x, where.y, static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()));  
 }
