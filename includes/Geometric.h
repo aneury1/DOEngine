@@ -1,4 +1,6 @@
 #pragma once
+
+#include <map>
 // #include "DOEngine.h"
 #include "Color.h"
 
@@ -12,6 +14,8 @@ struct Rect{
     int y;
     int w;
     int h;
+    Rect(){x=y=w=y=10;}
+    Rect(int w, int h):x{0},y{0},w{w},h{h}{}
     inline int left(){ return x;}
     inline int top(){ return  y;}
     inline int bottom(){ return h+y;}

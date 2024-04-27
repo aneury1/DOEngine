@@ -98,7 +98,7 @@ void drawOval(SDL_Renderer* renderer, int x, int y, int radiusX, int radiusY) {
         SDL_RenderDrawPoint(renderer, x - x0, y - y0);
     }
   
-  #if 0 
+   
     int a = radiusX;
     int b = radiusY;
     int a2 = a * a;
@@ -158,7 +158,7 @@ void drawOval(SDL_Renderer* renderer, int x, int y, int radiusX, int radiusY) {
             changeY += twoA2;
         }
     }
-    #endif
+ 
 }
 
 
@@ -274,7 +274,7 @@ void DrawRect(SDL_Renderer *render, Rect  rect){
 void DrawRect(Window *window, Rect  rect){
     SDL_RenderDrawRect(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), &rect);
 }
-#endif
+
 void DrawSinglePoint(const Rect &rect, const Color& color){
    SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a); 
    SDL_RenderDrawPoint(static_cast<SDL_Renderer*>(Application::getApplication()->getRender()->getNativeRenderer()), rect.x, rect.y);
@@ -333,7 +333,7 @@ void DrawGradientCircle(SDL_Renderer* renderer, int centerX, int centerY, int ra
         }
     }
 }
-#endif
+ 
 
 void FillCircle(int x, int y, int radius, const Color& color)
 	{
@@ -511,3 +511,6 @@ Canvas* Canvas::clearCanvas(){
     commands_to_draw.clear();
     return this;
 }
+
+#endif
+#endif

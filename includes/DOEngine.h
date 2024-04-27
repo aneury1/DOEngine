@@ -8,6 +8,15 @@
 #include <sstream>
 #include <string>
 
+#ifdef NAMESPACE 
+#define DOENGINE_NAME_START namespace doengine{
+#define DOENGINE_NAME_END }
+#else
+#define DOENGINE_NAME_START namespace doengine
+#define DOENGINE_NAME_END 
+#endif
+
+#ifdef OFF
 
 #include "defines.h"
 #include "Application.h"
@@ -29,5 +38,7 @@
 #include "Vector.h"
 #include "Application.h"
 
+
+#endif
 
 #endif
