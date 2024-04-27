@@ -12,8 +12,8 @@ class Renderer;
 class TTFText : public Font
 {
 
-    TTFText();
-    static TTFText* singleton;
+  TTFText();
+  static TTFText* singleton;
 
   public:
     static TTFText* get();
@@ -21,7 +21,7 @@ class TTFText : public Font
     void init() override;
     void destroy() override;
     void setFont(const std::string& path, int fntsize = 23) override;
-    Texture* createText(const std::string& text, Renderer* render);
-    void DrawText(const char* text, int x, int y, Renderer* render);
+    Texture* createText(const std::string& text);
+    void DrawText(const char* text, int x, int y);
     void drawText(const std::string&, int, int) override;
 };

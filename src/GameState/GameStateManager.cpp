@@ -22,9 +22,10 @@ void GameStateManager::SetState(int state_id)
         states[current_state]->OnEnter();
     }
 }
-
+#include "Logger.h"
 void GameStateManager::Update(float elapsed)
 {
+    
     if (states[current_state])
         states[current_state]->Update(elapsed);
 }

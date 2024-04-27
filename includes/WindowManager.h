@@ -1,16 +1,7 @@
-
-
 #pragma once
 #include <memory>
-
 #include "Renderer.h"
-
-class Renderer;
-
-
-
-
-
+#include "Geometric.h"
 
 
 class WindowManager{
@@ -18,21 +9,32 @@ class WindowManager{
 
    public:
 
-   void setWindowData( void * window_casted) = 0;
+   WindowManager(){}
+   WindowManager(const WindowManager&) = default;
 
+   virtual ~WindowManager(){}
 
-   WindowManager(){
+   virtual bool createWindow(const Rect& rect)= 0;
     
-   }
+   virtual bool createWindow()= 0;
 
-   bool createWindow() = 0;
+   virtual  Renderer* getRenderer() = 0;
 
-   std::shared_ptr<Renderer> createRenderer() = 0;
+   virtual bool isValid() = 0;
 
-   bool isValid() = 0;
+   virtual void clearScreen(const Color& color) = 0;
 
-   void clearScreen(Color color) = 0;
+   virtual void setPincelColor(const Color& color) =0 ;
 
-   void updateScreen() = 0;
+   virtual void updateScreen() = 0;
 
+   virtual void setFullScreen() = 0;
+
+   virtual void setWindowMode() = 0; 
+
+   virtual void setSize(const Rect& rect) = 0;
+
+   virtual void *getNativeWindowFormatBuffer() = 0;
+
+   static WindowManager* getWindowManager();
 };

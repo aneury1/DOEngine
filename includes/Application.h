@@ -1,25 +1,25 @@
 #pragma once 
-
-#include <memory>
-#include "FPSManager.h"
-#include "GameStateManager.h"
-#include "Texture.h"
-#include "Canvas.h"
+#include <memory.h>
 #include "WindowManager.h"
 #include "GameState.h"
-#include "DOEngine.h"
+#include "GameStateManager.h"
+///#include "DOEngine.h"
+
+
 
 class GameStateManager;
-
-
 class WindowManager;
 
 
 class Application 
 {
-    WindowManager*  window;
+    WindowManager*  windowManager;
+
     Renderer* render;
+      
     GameStateManager* gsm;
+ 
+    //std::shared_ptr<FpsManager> fps_handler;
     
     Rect      window_rect;
 
@@ -34,8 +34,8 @@ class Application
    ~Application();
  
    void _internalResize(){
-     windowManager->setSize(Rect{window_rect.w, window_rect.h});
-   }
+      windowManager->setSize(Rect{window_rect.w, window_rect.h});
+    }
 
     public:
 
@@ -46,10 +46,18 @@ class Application
     }
 
     const bool    IsRunning() const;
-    doengine::Renderer* getRender() const  {return render;}
-    std::shared_ptr<WindowManager> getWindow() {return window;}
-   
     
+    Renderer* getRender() const  {
+        
+        return windowManager->getRenderer();
+    }
+    
+     WindowManager* getWindow() {
+        return windowManager;
+    }
+   
+    void createWindow(const Rect& rect);
+
     void setFullScreen();
     void setWindowMode();
    
@@ -78,10 +86,12 @@ class Application
         return window_rect.w;
     }
 
-    void SetWindowPencilColor(doengine::Color color);
+    void SetWindowPencilColor(const Color& color);
+
+    void clearScreen(const Color& color);
 
     void addState(GameState *state, int id){
-        gsm->AddState(id,state);
+         gsm->AddState(id,state);
     }
 
     void setState(int id){

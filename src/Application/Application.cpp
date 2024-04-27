@@ -5,27 +5,24 @@
 #include <string_view>
 
 #include "Application.h"
+#include "Event.h"
+
 
 Application *Application::applicationObject = nullptr;
 
+
 Application::Application()
 {
-    const int rc = SDL_Init(SDL_INIT_EVERYTHING);
-
-    if (rc != 0)
-    {
-        SDL_Log("SDL_Init Error: %s", SDL_GetError());
-        return;
-    }
-  
+  windowManager =  WindowManager::getWindowManager();
+  gsm = new GameStateManager();
 }
 
 void Application::destroy()
 {
-    render->destroy();
-    SDL_DestroyWindow(window);
-    render = nullptr;
-    window = nullptr;
+    //render->destroy();
+    //SDL_DestroyWindow(window);
+    //render = nullptr;
+    //window = nullptr;
 }
 
 Application::~Application()
@@ -35,32 +32,28 @@ Application::~Application()
 
 void Application::setFullScreen()
 {
-    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    windowManager->setFullScreen();
 }
 
 void Application::setWindowMode()
 {
-    SDL_SetWindowFullscreen(window, 0);
+   windowManager->setFullScreen();
 }
 void Application::PollEvent()
 {
-    fps_handler->Start();
+    //fps_handler->Start();
     Event::PollEvent();
 }
 
 void Application::Update()
 {
-    gsm.get()->Update(Event::timeElapsed);
+    gsm->Update(Event::timeElapsed);
 }
 
 void Application::Render()
 {
-    render->setDrawColor({0, 0, 0, 255});
-    render->clear();
-    gsm.get()->Render();
-    render->present();
-    fps_handler->Handle();
-  
+    gsm->Render();
+    windowManager->updateScreen();
 }
 
 void Application::Quit()
@@ -73,9 +66,14 @@ const bool Application::IsRunning() const
     return run;
 }
 
-void Application::SetWindowPencilColor(doengine::Color color)
+void Application::SetWindowPencilColor(const Color& color)
 {
-    SDL_SetRenderDrawColor(
-        static_cast<SDL_Renderer*>(render->getNativeRenderer()), color.r,
-        color.g, color.b, color.a);
+   windowManager->setPincelColor(color);
+}
+void Application::clearScreen(const Color& color){
+    windowManager->clearScreen(color);
+}
+
+void Application::createWindow(const Rect& rect){
+   run = windowManager->createWindow(rect);
 }

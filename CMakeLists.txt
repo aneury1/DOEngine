@@ -21,22 +21,24 @@ endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 
+# message("END Fecthing SDL Source code")
+
+
+
 add_library(${PROJECT_NAME}
     src/Application/Application.cpp
+    src/GameState/GameStateManager.cpp
     src/Timer/FPSManager.cpp
     src/Tilemap/Tilemap.cpp
     src/Texture/Texture.cpp
-    src/GameState/GameStateManager.cpp
+      
     src/GameObject/GameObject.cpp
     src/Font/TTFText.cpp
     src/Event/Event.cpp
     src/Drawable/Canvas.cpp
     src/Application/SDLRenderer.cpp
-    src/Application/SDLWindowManager.cpp
     src/Application/SDLTexture.cpp
-    src/Event/SDLMouse.cpp
-    src/Event/SDLKeyboard.cpp
-    src/Event/SDLJoypad.cpp
+
     includes/defines.h
     includes/Camera.h
     includes/Event.h
@@ -60,6 +62,11 @@ add_library(${PROJECT_NAME}
     includes/Application.h
 )
 
+
+# add_library(${PROJECT_NAME}
+#     ${DOENGINE_SRC}
+# )
+
 # target_link_options(${PROJECT_NAME} PRIVATE
 #     "LINKER:-static" -static-libgcc -static-libstdc++)
 # target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -69,9 +76,19 @@ add_library(${PROJECT_NAME}
 #     SDL2_mixer)
 
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    SDL2
-    SDL2main
-    SDL2_ttf 
-    SDL2_image
-    SDL2_mixer)
+# target_link_libraries(${PROJECT_NAME} PRIVATE
+#     SDL2
+#     SDL2main
+#     SDL2_ttf 
+#     SDL2_image
+#     SDL2_mixer)
+
+
+# this minimal test app would not be include in git repo.
+add_executable(my_executable ${DOENGINE_SRC} ignored_main.cpp)
+target_link_libraries(my_executable SDL2
+     SDL2main
+     SDL2_ttf 
+     SDL2_image
+     SDL2_mixer
+)

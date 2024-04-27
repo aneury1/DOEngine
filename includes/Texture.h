@@ -1,17 +1,33 @@
 #pragma once 
-
-#include "DOEngine.h"
+#include <string>
+#include "Geometric.h"
 #include "Renderer.h"
 
-class Texture
-{
- 
+struct NativeTexture{
+   virtual ~NativeTexture(){}
+   virtual NativeTexture* loadFromFile(const char *src) =0;
+   virtual bool validTexture()=0;
+   virtual void Draw(const Rect &offset) = 0;
+   virtual void Draw(const Rect &offset, const Rect& clipset) = 0;
+   virtual void ModulateColor(const Color& color) = 0;
+   virtual int getWidth() = 0;
+   virtual int getHeight() = 0;
+};
 
+
+class Texture 
+{
+   NativeTexture *realNativeTexture;
    public:
-   static void setTextureFromText(void *nativeSurface);
-   static bool IsloadThisTexture(std::string id);
-   static int  LoadTexture(std::string path, std::string id);
-   static void DrawImage(std::string id, int x, int y, int w, int h);
-   static void setRender(Renderer* render);
- 
+   Texture(std::string path); 
+   ~Texture();
+   void Draw(const Rect &offset) ;
+   void Draw(const Rect &offset, const Rect& clipset) ;
+   void ModulateColor(const Color& color) ;
+   int getWidth() ;
+   int getHeight() ;
+   bool validTexture(){
+      return realNativeTexture->validTexture();
+   }
+
 };
