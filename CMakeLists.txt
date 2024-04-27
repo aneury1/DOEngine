@@ -22,10 +22,14 @@ endif()
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 
 # message("END Fecthing SDL Source code")
-
-
-
-add_library(${PROJECT_NAME}
+set(DOENGINE_SRC
+    includes/WindowManager.h
+    includes/Renderer.h
+    src/Application/SDLWindowManager.cpp
+    src/Application/WindowManager.cpp
+    src/Application/SDLWindowManager.h
+    src/Application/SDLRenderer.cpp
+    src/Application/SDLRenderer.h
     src/Application/Application.cpp
     src/GameState/GameStateManager.cpp
     src/Timer/FPSManager.cpp
@@ -39,27 +43,27 @@ add_library(${PROJECT_NAME}
     src/Application/SDLRenderer.cpp
     src/Application/SDLTexture.cpp
 
-    includes/defines.h
-    includes/Camera.h
-    includes/Event.h
-    includes/DOEngine.h
-    includes/DOEngine_SDL_includes.h
-    includes/EventHandler.h
-    includes/FPSManager.h
-    includes/GameObject.h
-    includes/GameState.h
-    includes/GameStateManager.h
-    includes/Grids.h
-    includes/LinkList.h
-    includes/sort.h
-    includes/Sprite.h
-    includes/Utils.h
-    includes/Texture.h
-    includes/Tile.h
-    includes/Tilemap.h
-    includes/UDPPacket.h
-    includes/Vector.h
-    includes/Application.h
+      includes/defines.h
+      includes/Camera.h
+      includes/Event.h
+      includes/DOEngine.h
+      includes/DOEngine_SDL_includes.h
+      includes/EventHandler.h
+      includes/FPSManager.h
+      includes/GameObject.h
+      includes/GameState.h
+      includes/GameStateManager.h
+      includes/Grids.h
+      includes/LinkList.h
+      includes/sort.h
+      includes/Sprite.h
+      includes/Utils.h
+      includes/Texture.h
+      includes/Tile.h
+      includes/Tilemap.h
+      includes/UDPPacket.h
+      includes/Vector.h
+      includes/Application.h
 )
 
 
