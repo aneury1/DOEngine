@@ -37,6 +37,8 @@ set(DOENGINE_SRC
     src/Application/SDLWindowManager.h
     src/Application/SDLRenderer.cpp
     src/Application/SDLRenderer.h
+    src/Application/SDLTTFText.h
+    src/Application/SDLTTFText.cpp
     src/Application/Application.cpp
     src/GameState/GameStateManager.cpp
     src/Timer/FPSManager.cpp

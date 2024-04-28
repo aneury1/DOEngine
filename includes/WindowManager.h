@@ -4,6 +4,8 @@
 #include "Geometric.h"
 
 
+class Renderer;
+
 class WindowManager{
 
 

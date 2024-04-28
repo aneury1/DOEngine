@@ -3,8 +3,9 @@
 #include "Color.h"
 #include "Geometric.h"
 #include "Texture.h"
+#include "TTFText.h"
 
-
+class NativeTextRenderer;
 class NativeTexture;
 class Texture;
 class Renderer
@@ -26,4 +27,5 @@ class Renderer
 
 
     virtual NativeTexture *loadTextureFromImageFile(const char *src, Color color) = 0;
+     virtual NativeTextRenderer *getTextRenderer() =0;
 };

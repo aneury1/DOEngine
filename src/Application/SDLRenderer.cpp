@@ -1,5 +1,6 @@
 #include "SDLRenderer.h"
 #include "SDLTexture.h"
+#include "SDLTTFText.h"
 #include "Logger.h"
 
 SDLRenderer::SDLRenderer(SDL_Renderer* nativeRenderer)
@@ -106,4 +107,7 @@ NativeTexture *SDLRenderer::loadTextureFromImageFile(const char *src, Color colo
     return texture->loadFromFile(src);
 }
 
- 
+NativeTextRenderer *SDLRenderer::getTextRenderer(){
+   auto textRenderer = new SDLTTFText();
+   return textRenderer;
+}

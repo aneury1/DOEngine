@@ -28,6 +28,7 @@ class SDLRenderer : public Renderer
 
 
     virtual NativeTexture *loadTextureFromImageFile(const char *src, Color color)override;
+    virtual NativeTextRenderer *getTextRenderer() override;
 
   private:
     SDL_Renderer* renderer;

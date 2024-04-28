@@ -30,6 +30,10 @@ Application::~Application()
     destroy();
 }
 
+void Application::_internalResize(){
+      windowManager->setSize(Rect{window_rect.w, window_rect.h});
+}
+
 void Application::setFullScreen()
 {
     windowManager->setFullScreen();
@@ -59,6 +63,13 @@ void Application::Render()
 void Application::Quit()
 {
    run = false;    
+}
+WindowManager* Application::getWindow() {
+        return windowManager;
+}
+Renderer* Application::getRender() const 
+{
+        return windowManager->getRenderer();
 }
 
 const bool Application::IsRunning() const
