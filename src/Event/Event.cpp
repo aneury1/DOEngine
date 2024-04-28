@@ -64,8 +64,8 @@ void Event::PollEvent()
             doengine::devices::SDLMouse mouse(event.motion.which, mask,
                                               mousePos);
 
-            SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mousePos.x, mousePos.y);
-            SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+            ////SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mouse.x, mouse.y);
+            ///SDL_Log("Mouse Count = %ld", Event::mouseEvent.size());
 
             for (auto itMouse : Event::mouseEvent)
             {
