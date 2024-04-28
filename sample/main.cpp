@@ -13,14 +13,9 @@ struct PongState : public GameState{
     virtual void Render(){}
 };
 
-
-
-
 enum SampleStateId : int {
     pongStateID = 1
 };
-
-
 
 int main(int argc, char* argv[])
 { 

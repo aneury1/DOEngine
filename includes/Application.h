@@ -9,7 +9,7 @@
 
 class GameStateManager;
 class WindowManager;
-
+class Renderer;
 
 class Application 
 {
@@ -33,9 +33,7 @@ class Application
    
    ~Application();
  
-   void _internalResize(){
-      windowManager->setSize(Rect{window_rect.w, window_rect.h});
-    }
+   void _internalResize();
 
     public:
 
@@ -47,14 +45,8 @@ class Application
 
     const bool    IsRunning() const;
     
-    Renderer* getRender() const  {
-        
-        return windowManager->getRenderer();
-    }
-    
-     WindowManager* getWindow() {
-        return windowManager;
-    }
+    Renderer* getRender()const;
+    WindowManager* getWindow();
    
     void createWindow(const Rect& rect);
 

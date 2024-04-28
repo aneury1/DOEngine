@@ -1,27 +1,31 @@
 #pragma once
 #include <string>
-
+#include "Application.h"
 #include "DOEngine.h"
 #include "Geometric.h"
 #include "Font.h"
 
+class Application;
 class Texture;
-
 class Renderer;
 
-class TTFText : public Font
-{
+struct NativeTextRenderer{
+    virtual void setColor(Color color) = 0;
+    virtual void setFont(const std::string& path, int fntsize) = 0;
+    virtual void DrawText(const char* text, int x, int y)= 0;
+    virtual Texture* createText(const std::string& text)=0 ;
+};
 
-  TTFText();
-  static TTFText* singleton;
+
+class TTFText
+{
+  
+  NativeTextRenderer *nativeRenderer;
 
   public:
-    static TTFText* get();
-    void setColor(Color color) override;
-    void init() override;
-    void destroy() override;
-    void setFont(const std::string& path, int fntsize = 23) override;
-    Texture* createText(const std::string& text);
-    void DrawText(const char* text, int x, int y);
-    void drawText(const std::string&, int, int) override;
+  TTFText();
+  void setColor(Color color);
+  void setFont(const std::string& path, int fntsize);
+  void DrawText(const char* text, int x, int y);
+  Texture* createText(const std::string& text);
 };

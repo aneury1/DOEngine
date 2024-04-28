@@ -11,7 +11,7 @@ Texture::Texture(std::string path){
    color.b = 0;
    color.a = 0;
    this->realNativeTexture = render->loadTextureFromImageFile(path.c_str(), color); 
-   SDL_Log("is valid = %ld %s", this->realNativeTexture->validTexture(), SDL_GetError());
+  /// SDL_Log("is valid = %ld %s", this->realNativeTexture->validTexture(), SDL_GetError());
 }
 Texture::~Texture(){}
 void Texture::Draw(const Rect &offset){

@@ -1,25 +1,25 @@
 #include "TTFText.h"
 #include "Renderer.h"    
     
-TTFText::TTFText()  
-{ 
+
+ 
+TTFText::TTFText()
+{
+   nativeRenderer = Application::getApplication()->getRender()->getTextRenderer();  
 }
 
-TTFText* TTFText::get(){
-   static TTFText *singleton = new TTFText();
-   return singleton;
+void TTFText::setColor(Color color){
+   nativeRenderer->setColor(color);
 }
 
-void TTFText::setColor(Color color) {}
-    
-void TTFText::init() {}
-    
-void TTFText::destroy() {}
-    
-void TTFText::setFont(const std::string& path, int fntsize) {}
-    
-Texture* TTFText::createText(const std::string& text){}
-    
-void TTFText::DrawText(const char* text, int x, int y){}
-    
-void TTFText::drawText(const std::string&, int, int) {}
+void TTFText::setFont(const std::string& path, int fntsize){
+      nativeRenderer->setFont(path, fntsize);
+}
+
+void TTFText::DrawText(const char* text, int x, int y){
+      nativeRenderer->DrawText(text,x,y);
+}
+
+Texture* TTFText::createText(const std::string& text){
+        return nativeRenderer->createText(text);
+}
