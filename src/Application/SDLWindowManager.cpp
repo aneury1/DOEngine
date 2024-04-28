@@ -1,4 +1,7 @@
+#include <SDL2/SDL_ttf.h>
 #include "SDLWindowManager.h"
+
+
 
 bool SDLWindowManager::createWindow(){
     SDL_Init(SDL_INIT_EVERYTHING);     
@@ -29,6 +32,8 @@ bool SDLWindowManager::createWindow(const Rect& rect){
     window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, rect.w, rect.h, SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
        
     render= (new SDLRenderer(SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED)));
+
+    TTF_Init();
     
     run = render->isRenderOk();
     
