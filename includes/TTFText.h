@@ -10,10 +10,15 @@ class Texture;
 class Renderer;
 
 struct NativeTextRenderer{
-    virtual void setColor(Color color) = 0;
     virtual void setFont(const std::string& path, int fntsize) = 0;
     virtual void DrawText(const char* text, int x, int y)= 0;
     virtual Texture* createText(const std::string& text)=0 ;
+    virtual void setColor(Color fg, Color bg) = 0;
+    virtual void setForegroundColor(Color color) = 0;
+    virtual void setBackgroundColor(Color color) = 0;
+    virtual void setFontSize(int fntSize) =0;
+    virtual void getTextSize(std::string text, int *w, int *h) =0;
+
 };
 
 
@@ -28,4 +33,9 @@ class TTFText
   void setFont(const std::string& path, int fntsize);
   void DrawText(const char* text, int x, int y);
   Texture* createText(const std::string& text);
+  void setForegroundColor(Color color);
+  void setBackgroundColor(Color color);
+  void setFontSize(int fntSize);
+  void setColor(Color fg, Color bg);
+  void getTextSize(std::string text, int *w, int *h);
 };
