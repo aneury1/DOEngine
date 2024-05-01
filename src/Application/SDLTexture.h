@@ -15,4 +15,5 @@ struct SDLTexture : public NativeTexture {
    virtual void ModulateColor(const Color& color)override;
    virtual int getWidth()override;
    virtual int getHeight()override;
+   virtual NativeTexture *subTexture(Rect clipset)override;
 };

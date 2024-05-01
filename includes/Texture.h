@@ -12,12 +12,16 @@ struct NativeTexture{
    virtual void ModulateColor(const Color& color) = 0;
    virtual int getWidth() = 0;
    virtual int getHeight() = 0;
+   virtual NativeTexture *subTexture(Rect clipset) = 0;
 };
 
 
 class Texture 
 {
    NativeTexture *realNativeTexture;
+   Texture(){
+      realNativeTexture = nullptr;
+   }
    public:
    Texture(std::string path); 
    ~Texture();
@@ -30,4 +34,6 @@ class Texture
       return realNativeTexture->validTexture();
    }
 
+   Texture *subTexture(const Rect& clipset);
+  
 };

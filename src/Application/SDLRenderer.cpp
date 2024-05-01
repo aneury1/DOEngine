@@ -111,3 +111,64 @@ NativeTextRenderer *SDLRenderer::getTextRenderer(){
    auto textRenderer = new SDLTTFText();
    return textRenderer;
 }
+
+
+
+// Function to render a filled circle
+void renderFilledCircle(SDL_Renderer* renderer, int x, int y, int radius) {
+    for (int dy = -radius; dy <= radius; ++dy) {
+        for (int dx = -radius; dx <= radius; ++dx) {
+            if (dx*dx + dy*dy <= radius*radius) {
+                SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+            }
+        }
+    }
+}
+
+// Function to render a rounded rectangle
+void renderRoundedRect(SDL_Renderer *renderer, int x, int y, int w, int h, int cornerRadius, Color color) {
+    SDL_Rect rect = {x, y, w, h};
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+   /// SDL_RenderDrawRect(renderer, &rect);
+
+    // Render top-left corner
+    renderFilledCircle(renderer, x + cornerRadius, y + cornerRadius, cornerRadius);
+
+    // Render top-right corner
+    renderFilledCircle(renderer, x + w - cornerRadius, y + cornerRadius, cornerRadius);
+
+    // Render bottom-left corner
+    renderFilledCircle(renderer, x + cornerRadius, y + h - cornerRadius, cornerRadius);
+
+    // Render bottom-right corner
+    renderFilledCircle(renderer, x + w - cornerRadius, y + h - cornerRadius, cornerRadius);
+
+    // Render top and bottom rectangles
+    SDL_Rect topRect = {x + cornerRadius, y, w - 2 * cornerRadius, cornerRadius};
+    SDL_Rect bottomRect = {x + cornerRadius, y + h - cornerRadius, w - 2 * cornerRadius, cornerRadius};
+    SDL_RenderFillRect(renderer, &topRect);
+    SDL_RenderFillRect(renderer, &bottomRect);
+
+    // Render left and right rectangles
+    SDL_Rect leftRect = {x, y + cornerRadius, cornerRadius, h - 2 * cornerRadius};
+    SDL_Rect rightRect = {x + w - cornerRadius, y + cornerRadius, cornerRadius, h - 2 * cornerRadius};
+    SDL_RenderFillRect(renderer, &leftRect);
+    SDL_RenderFillRect(renderer, &rightRect);
+
+    SDL_Rect inRect;
+    int tenPercentH = w * 0.04; 
+    int tenPercentV = h * 0.04; 
+    inRect.x = x + tenPercentH;
+    inRect.y = y + tenPercentV;
+    inRect.w = w - tenPercentH - 5;
+    inRect.h = h - tenPercentV - 5;
+    SDL_RenderFillRect(renderer, &inRect);
+}
+
+
+
+
+void SDLRenderer::DrawRoundedRect(int x,int y, int w, int h, int cornerRadius, Color color){
+   SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+   renderRoundedRect(renderer,  x,  y,  w,  h,  cornerRadius, color);
+}

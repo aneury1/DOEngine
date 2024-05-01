@@ -29,4 +29,10 @@ int Texture::getWidth(){
 int Texture::getHeight(){
     return this->realNativeTexture->getHeight();
 }
- 
+
+
+ Texture *Texture::subTexture(const Rect& clipset){
+    Texture *ret = new Texture();
+    ret->realNativeTexture = this->realNativeTexture->subTexture(clipset);
+    return ret;
+ }
