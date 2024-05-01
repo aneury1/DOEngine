@@ -85,3 +85,30 @@ int SDLTexture::getWidth(){
 int SDLTexture::getHeight(){
   size.y;
 }
+
+NativeTexture *SDLTexture::subTexture(Rect clipset){
+    auto app = Application::getApplication();
+    auto wformat  = (SDL_Window*) app->getWindow()->getNativeWindowFormatBuffer();
+    auto nrederer = (SDL_Renderer*)app->getWindow()->getRenderer()->getNativeRenderer();
+    SDL_Texture* targetTexture = SDL_CreateTexture(nrederer, SDL_PIXELFORMAT_RGBA8888,
+                                               SDL_TEXTUREACCESS_TARGET, clipset.w, clipset.h);
+    if (!targetTexture) {
+        SDL_Log("Failed to create target texture: %s", SDL_GetError());
+        return this;
+    }
+    SDL_SetRenderTarget(nrederer, targetTexture); 
+    SDL_SetRenderDrawColor(nrederer, 0, 0, 0, SDL_ALPHA_TRANSPARENT); 
+    SDL_RenderClear(nrederer);  
+    SDL_Rect rect;
+    rect.x = clipset.x;
+    rect.y = clipset.y;
+    rect.w = clipset.w;
+    rect.h = clipset.h;
+    SDL_RenderCopy(nrederer, this_texture, &rect, NULL);   
+    SDL_SetRenderTarget(nrederer, NULL); 
+
+    SDLTexture *retTexture = new SDLTexture();
+    retTexture->this_texture = targetTexture;
+
+    return (NativeTexture *)retTexture;
+}

@@ -42,6 +42,7 @@ set(DOENGINE_SRC
     src/Font/TTFText.cpp
     src/Event/Event.cpp
     src/Drawable/Canvas.cpp
+    src/Drawable/Gui.cpp
     src/Application/SDLRenderer.cpp
     src/Application/SDLTexture.cpp
 

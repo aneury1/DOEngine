@@ -26,6 +26,9 @@ class Renderer
     virtual void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,const Color& p)= 0;
 
 
+    virtual void DrawRoundedRect(int x, int y, int w, int h, int cornerRadius, Color color) = 0;
+
+
     virtual NativeTexture *loadTextureFromImageFile(const char *src, Color color) = 0;
-     virtual NativeTextRenderer *getTextRenderer() =0;
+    virtual NativeTextRenderer *getTextRenderer() =0;
 };

@@ -26,6 +26,7 @@ class SDLRenderer : public Renderer
     virtual void FillCircle(int x, int y, int radius, const Color& color);
     virtual void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,const Color& p);
 
+    virtual void DrawRoundedRect(int x,int y, int w, int h, int roundedRadius, Color color)override;
 
     virtual NativeTexture *loadTextureFromImageFile(const char *src, Color color)override;
     virtual NativeTextRenderer *getTextRenderer() override;
