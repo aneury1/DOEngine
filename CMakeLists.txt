@@ -33,6 +33,7 @@ set(DOENGINE_SRC
     src/Application/SDLTTFText.h
     src/Application/SDLTTFText.cpp
     src/Application/Application.cpp
+    src/Application/StringUtils.cpp
     src/GameState/GameStateManager.cpp
     src/Timer/FPSManager.cpp
     src/Tilemap/Tilemap.cpp
