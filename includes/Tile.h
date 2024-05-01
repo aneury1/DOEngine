@@ -1,6 +1,7 @@
 #pragma once
 
 struct Tile{
-    int x, y;
+    int x;
+    int y;
     int type;
 };
