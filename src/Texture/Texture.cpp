@@ -36,3 +36,45 @@ int Texture::getHeight(){
     ret->realNativeTexture = this->realNativeTexture->subTexture(clipset);
     return ret;
  }
+
+
+
+TextureManager *TextureManager::instance;
+
+std::map<std::string, Texture*> textures;
+
+
+TextureManager *TextureManager::getTextureManager(){
+    if(instance == nullptr)
+       instance = new TextureManager();
+    return instance;
+}
+
+void TextureManager::loadTextureFromFile(std::string id, std::string src){
+    Texture *texture = new Texture(src);
+    addTexture(id, texture);
+}
+
+void TextureManager::loadTextureFromTexture(std::string id, Texture* texture, const Rect &clipset){
+    ///Todo, easy.
+}
+
+void TextureManager::addTexture(std::string id, Texture* texture){
+    auto it = textures.find(id);
+    if(texture->validTexture()){
+         if(it != textures.end()){
+            removeTexture(id);
+         }else{
+           textures[id] = texture;
+         }
+    }
+}
+
+void TextureManager::removeTexture(std::string id){
+ 
+}
+
+ Texture *TextureManager::getTexture(std::string id){
+    ///todo: add validation
+    return textures[id];
+ }

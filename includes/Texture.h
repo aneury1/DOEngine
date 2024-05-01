@@ -37,3 +37,29 @@ class Texture
    Texture *subTexture(const Rect& clipset);
   
 };
+
+class TextureManager {
+   
+   TextureManager(){}
+   
+   static TextureManager *instance;
+
+   std::map<std::string, Texture*> textures;
+
+   public:
+
+   static TextureManager *getTextureManager();
+
+   void loadTextureFromFile(std::string id, std::string src);
+
+   void loadTextureFromTexture(std::string id, Texture* texture, const Rect &clipset);
+
+   void addTexture(std::string id, Texture* texture);
+
+   void removeTexture(std::string id);
+
+   Texture *getTexture(std::string id);
+   
+};
+
+
