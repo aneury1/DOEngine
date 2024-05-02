@@ -14,6 +14,11 @@ endif()
 set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_STANDARD 14)
 
+# Add debug flags if the build type is Debug
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g") # Enable debug symbols
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0") # Turn off optimization
+endif()
 if(DOENGINE_TESTS)
     enable_testing()
     add_subdirectory(src/test)

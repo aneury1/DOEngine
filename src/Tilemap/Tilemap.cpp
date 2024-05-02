@@ -20,11 +20,9 @@ SimpleLayerTileMap::~SimpleLayerTileMap(){
 void SimpleLayerTileMap::setMapRenderer(MapRenderer *render){
    this->mapRenderer = render;
 }
-void SimpleLayerTileMap::loadTileMapFromFile(const char* file){
-    
+void SimpleLayerTileMap::loadTileMapFromFile(const char* file){    
     readMapFile("../sample/assets/maps/simple-map1.map", thisMap);
-    std::cout<<"\n\nDATASIZE:" << thisMap.size();
-    
+
 
 }
 void SimpleLayerTileMap::render(){
