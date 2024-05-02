@@ -10,7 +10,7 @@
 #define VALUE_IN_ARRAY(X, Y, W, A) A[Y * W + X]
 
 
-struct RenderMap{
+struct MapRenderer{
    virtual void RenderTile(Rect rect) = 0;
    virtual void RenderTile(int x, int y, int w, int h, Color color) = 0;
 };
@@ -18,10 +18,13 @@ struct RenderMap{
  struct TileMap{
     
     protected:
-     RenderMap *mapRenderer;
+     MapRenderer *mapRenderer;
     public:
-      virtual void setMapRenderer(RenderMap *render) = 0;
-      virtual bool loadTileMapFromFile(std::string file) = 0;
+
+      TileMap(): mapRenderer(nullptr){}
+      virtual ~TileMap(){}
+      virtual void setMapRenderer(MapRenderer *render) = 0;
+      virtual void loadTileMapFromFile(const char* file) = 0;
       virtual void render() = 0;
       virtual void update() = 0;
  };
@@ -59,15 +62,16 @@ struct RenderMap{
     1 1 1 1 1 1 1 1 1 1
 */
  struct SimpleLayerTileMap : public TileMap{
-   
-    
+
     protected:
     Texture *texture;
-    
-
+    std::vector<std::string> thisMap;
     public:
-    virtual bool loadTileMapFromFile(std::string file);
-    virtual void setMapRenderer(RenderMap *render);
+
+    SimpleLayerTileMap();
+    virtual ~SimpleLayerTileMap();
+    virtual void loadTileMapFromFile(const char* file);
+    virtual void setMapRenderer(MapRenderer *render);
     virtual void render();
     virtual void update();
  };

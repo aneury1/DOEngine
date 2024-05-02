@@ -1,11 +1,30 @@
+#include "StringUtils.h"
 #include "Tilemap.h"
 #include <fstream>
 #include <stdio.h>
 
-void SimpleLayerTileMap::setMapRenderer(RenderMap *render){
+SimpleLayerTileMap::SimpleLayerTileMap(): TileMap(){
+ 
+      std::cout <<"HERER";
+      texture = nullptr;
+      std::cout <<"HERER";
+      thisMap.clear();
+      std::cout <<"HERER";
 
+    }
+SimpleLayerTileMap::~SimpleLayerTileMap(){
+      std::cout <<"HERER";
 }
-bool SimpleLayerTileMap::loadTileMapFromFile(std::string file){
+
+
+void SimpleLayerTileMap::setMapRenderer(MapRenderer *render){
+   this->mapRenderer = render;
+}
+void SimpleLayerTileMap::loadTileMapFromFile(const char* file){
+    
+    readMapFile("../sample/assets/maps/simple-map1.map", thisMap);
+    std::cout<<"\n\nDATASIZE:" << thisMap.size();
+    
 
 }
 void SimpleLayerTileMap::render(){
