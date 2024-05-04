@@ -12,7 +12,7 @@ struct Tile : public GameObject{
     virtual void Update(float timer = 0){}
     virtual void Render(){}
     virtual bool collideWith(const Rect &rect){}
-    virtual bool collideWith(const Object &object){}
+    virtual bool collideWith(const GameObject &object){}
 
     int getTileType() const{
         return type;

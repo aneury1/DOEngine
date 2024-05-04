@@ -23,7 +23,7 @@ void SimpleLayerTileMap::setMapRenderer(MapRenderer *render){
 }
 #include <SDL2/SDL.h>
 void SimpleLayerTileMap::loadTileMapFromFile(const char* file){    
-    readMapFile("../sample/assets/maps/simple-map1.map", thisMapFile);
+    readMapFile(file, thisMapFile);
         tileset_asset = thisMapFile[0];
         rows= StringAsInt(thisMapFile[1]);
         cols= StringAsInt(thisMapFile[2]);
