@@ -1,26 +1,16 @@
 #pragma once
+#include "Application.h"
+#include "Geometric.h"
 
 #include <string>
 
 class GameObject
 {
-  protected:
- 
-    bool renderable;
-    bool solid;
-    int layer;
-
-    std::string sprite_id;
-    std::string texture_id;
-
   public:
-    GameObject()
-    {
-    }
-
-    virtual ~GameObject()
-    {
-    }
+    GameObject(){}
+    virtual ~GameObject(){}
     virtual void Update(float timer = 0) = 0;
     virtual void Render() = 0;
+    virtual bool collideWith(const Rect &rect) = 0;
+    virtual bool collideWith(const Object &object) = 0;
 };

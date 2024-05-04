@@ -87,4 +87,5 @@ void Application::clearScreen(const Color& color){
 
 void Application::createWindow(const Rect& rect){
    run = windowManager->createWindow(rect);
+   this->setSize(rect.w, rect.h);
 }

@@ -12,7 +12,10 @@ class WindowManager;
 class Renderer;
 
  
-
+class ClassIdentifier{
+   public:
+   virtual std::string getClassIdentifier() = 0;
+};
 
 
 class Application 
