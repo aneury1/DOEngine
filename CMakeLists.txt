@@ -43,7 +43,9 @@ include_directories(${CMAKE_SOURCE_DIR}/includes)
 # message("END Fecthing SDL Source code")
 set(DOENGINE_SRC
     includes/WindowManager.h
+   
     includes/Renderer.h
+    src/Application/Geometric.cpp
     src/Application/SDLWindowManager.cpp
     src/Application/WindowManager.cpp
     src/Application/SDLWindowManager.h

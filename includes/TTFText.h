@@ -10,6 +10,7 @@ class Texture;
 class Renderer;
 
 struct NativeTextRenderer{
+ 
     virtual void setFont(const std::string& path, int fntsize) = 0;
     virtual void DrawText(const char* text, int x, int y)= 0;
     virtual Texture* createText(const std::string& text)=0 ;
@@ -29,7 +30,6 @@ class TTFText
 
   public:
   TTFText();
-  void setColor(Color color);
   void setFont(const std::string& path, int fntsize);
   void DrawText(const char* text, int x, int y);
   Texture* createText(const std::string& text);

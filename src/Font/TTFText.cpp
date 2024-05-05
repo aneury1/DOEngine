@@ -8,6 +8,7 @@ TTFText::TTFText()
    nativeRenderer = Application::getApplication()->getRender()->getTextRenderer();  
 }
 
+
 void TTFText::setFont(const std::string& path, int fntsize){
       nativeRenderer->setFont(path, fntsize);
 }

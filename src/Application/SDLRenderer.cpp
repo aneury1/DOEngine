@@ -39,7 +39,7 @@ void SDLRenderer::setDrawColor(const Color& color)
 
 void SDLRenderer::updateScreen()
 {
-    SM_TRACE("SDLRenderer::updateScreen");
+    ///DO_TRACE("SDLRenderer::updateScreen");
     SDL_RenderPresent(renderer);
 }
 

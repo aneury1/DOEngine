@@ -35,6 +35,7 @@ struct MapRenderer{
       virtual ~TileMap(){}
       virtual void setMapRenderer(MapRenderer *render) = 0;
       virtual void loadTileMapFromFile(const char* file) = 0;
+      virtual void saveLoadedTileMap() = 0;
       virtual void render() = 0;
       virtual void update() = 0;
  };
@@ -97,6 +98,9 @@ struct MapRenderer{
     SimpleLayerTileMap();
     virtual ~SimpleLayerTileMap();
     virtual void loadTileMapFromFile(const char* file);
+    virtual void saveLoadedTileMap();
+    virtual void setTileType(int r, int c, char t);
+    virtual char getTileType(int r, int c);
     virtual void setMapRenderer(MapRenderer *render);
     virtual void render();
     virtual void update();
@@ -114,5 +118,11 @@ struct MapRenderer{
     int getMarginTop(int s){
       return (margin_top = s);
     }
-    int getTileType(int r, int c);
+    
+    int getRowCount(){
+      return rows;
+    }
+    int getColumnCount(){
+      return rows;
+    }
  };

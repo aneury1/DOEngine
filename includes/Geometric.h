@@ -16,10 +16,10 @@ struct Rect{
     int h;
     Rect(){x=y=w=y=10;}
     Rect(int w, int h):x{0},y{0},w{w},h{h}{}
-    inline int left(){ return x;}
-    inline int top(){ return  y;}
-    inline int bottom(){ return h+y;}
-    inline int right(){ return w+x;}
+    inline int left()const{ return x;}
+    inline int top()const { return  y;}
+    inline int bottom()const { return h+y;}
+    inline int right()const { return w+x;}
     inline std::pair<int,int> center(){return {w/2,h/2};}
     template<typename T>
     T castTo(){
@@ -34,3 +34,6 @@ void DrawFillRect(const Rect& rect, const Color& color );
 void FillCircle(int x, int y, int radius, const Color& color);
 void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
                   const Color& p);
+
+
+bool checkCollision(const Rect& rect1, const Rect& rect2);
