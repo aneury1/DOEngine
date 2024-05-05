@@ -29,7 +29,7 @@ bool SDLWindowManager::createWindow(const Rect& rect){
         
     SDL_GetCurrentDisplayMode(0, &mode);
     
-    window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, rect.w, rect.h, SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
+    window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, rect.w, rect.h, SDL_WINDOW_SHOWN /*| SDL_WINDOW_BORDERLESS*/);
        
     render= (new SDLRenderer(SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED)));
 

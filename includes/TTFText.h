@@ -24,7 +24,6 @@ class TTFText
 
   public:
   TTFText();
-  void setColor(Color color);
   void setFont(const std::string& path, int fntsize);
   void DrawText(const char* text, int x, int y);
   Texture* createText(const std::string& text);
