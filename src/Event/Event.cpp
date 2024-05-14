@@ -115,6 +115,7 @@ void Event::PollEvent()
            keyUp = false;
         }*/
     }
+    Event::timeElapsed = Application::getApplication()->getElapsedTime();
 }
 
 void Event::getMousePosition(int* x, int* y)

@@ -3,10 +3,11 @@
 #include "WindowManager.h"
 #include "GameState.h"
 #include "GameStateManager.h"
+#include "FPSManager.h"
 ///#include "DOEngine.h"
 
 
-
+class FpsManager;
 class GameStateManager;
 class WindowManager;
 class Renderer;
@@ -26,7 +27,7 @@ class Application
       
     GameStateManager* gsm;
  
-    //std::shared_ptr<FpsManager> fps_handler;
+    FpsManager* fps_handler;
     
     Rect      window_rect;
 
@@ -65,6 +66,10 @@ class Application
     void  Render();
     void  Quit();
   
+    long getElapsedTime(){
+        return fps_handler->getElapsedTime();
+    }
+
     void setW(int w){
        window_rect.w = w;
       _internalResize();

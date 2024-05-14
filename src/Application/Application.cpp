@@ -15,6 +15,8 @@ Application::Application()
 {
   windowManager =  WindowManager::getWindowManager();
   gsm = new GameStateManager();
+  fps_handler = new FpsManager();
+  fps_handler->setFPS(60);
 }
 
 void Application::destroy()
@@ -45,7 +47,7 @@ void Application::setWindowMode()
 }
 void Application::PollEvent()
 {
-    //fps_handler->Start();
+    fps_handler->Start();
     Event::PollEvent();
 }
 
@@ -58,6 +60,7 @@ void Application::Render()
 {
     gsm->Render();
     windowManager->updateScreen();
+    fps_handler->Handle();
 }
 
 void Application::Quit()
