@@ -24,8 +24,9 @@ void FpsManager::Handle()
     if (ticks > (elapsed - start))
     {
         wait = (long)ticks - (elapsed - start);
-        /// SDL_Log("FPS %ld", wait);
+        SDL_Log("FPS %ld", wait);
         if (wait > 0)
             SDL_Delay(wait);
     }
+   
 }

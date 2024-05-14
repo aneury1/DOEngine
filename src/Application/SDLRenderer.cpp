@@ -59,7 +59,15 @@ void SDLRenderer::DrawRect(const Rect& rect, const Color& color ){
     rect1.h = rect.h;
     rect1.x = rect.x;
     rect1.y = rect.y;
-    SDL_RenderDrawRect(renderer, &rect1);
+    int border=23;
+    for(auto i=0;i<border;i++)
+    {
+        rect1.x+=1;
+        rect1.y+=1;
+        rect1.w-=1;
+        rect1.h-=1;
+        SDL_RenderDrawRect(renderer, &rect1);
+    }
 }
 void SDLRenderer::DrawFillRect(const Rect& rect, const Color& color ){
     this->setDrawColor(color);

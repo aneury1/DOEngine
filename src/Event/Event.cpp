@@ -174,6 +174,7 @@ void Event::PollEvent()
             break;
         }
     }
+    Event::timeElapsed = Application::getApplication()->getElapsedTime();
 }
 
 int Event::getMousePosition(int* x, int* y)
