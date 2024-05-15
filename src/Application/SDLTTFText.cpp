@@ -63,7 +63,7 @@ void SDLTTFText::DrawText(const char* text, int x, int y){
     }
     
 }
-void SDLTTFText::getTextSize(std::string text, int *w, int *h){
+void SDLTTFText::getTextSize(const std::string& text, int *w, int *h){
   if(font)
     TTF_SizeText(font, text.c_str(), w, h);
 }

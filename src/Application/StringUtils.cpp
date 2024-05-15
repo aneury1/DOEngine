@@ -17,7 +17,7 @@ void readMapFile(const char *filename, std::vector<std::string>&ret){
   
 }
 
-std::vector<std::string> splitString(std::string original, char ch){
+std::vector<std::string> splitString(const std::string& original, char ch){
     std::vector<std::string>ret;
     std::string testEmplace;
     for(auto it : original){
@@ -35,7 +35,7 @@ std::vector<std::string> splitString(std::string original, char ch){
     }
     return ret;
 }
-std::vector<char> splitChar(std::string original, std::string ignoredChars){
+std::vector<char> splitChar(const std::string& original,const std::string& ignoredChars){
     std::vector<char> ret;
     for(auto it : original){
         if(ignoredChars.find(it)==std::string::npos){
@@ -46,7 +46,7 @@ std::vector<char> splitChar(std::string original, std::string ignoredChars){
 }
 
 
-std::string vectorOfCharToString(std::vector<char> chars){
+std::string vectorOfCharToString(const std::vector<char>& chars){
     std::string str;
     for(auto it : chars)
     { 
@@ -57,6 +57,6 @@ std::string vectorOfCharToString(std::vector<char> chars){
 }
 
 
-int StringAsInt(std::string str){
+int StringAsInt(const std::string& str){
     return std::stoi(str);
 }

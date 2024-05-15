@@ -86,7 +86,7 @@ int SDLTexture::getHeight(){
   size.y;
 }
 
-NativeTexture *SDLTexture::subTexture(Rect clipset){
+NativeTexture *SDLTexture::subTexture(const Rect& clipset){
     auto app = Application::getApplication();
     auto wformat  = (SDL_Window*) app->getWindow()->getNativeWindowFormatBuffer();
     auto nrederer = (SDL_Renderer*)app->getWindow()->getRenderer()->getNativeRenderer();

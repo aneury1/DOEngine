@@ -35,6 +35,6 @@ void TTFText::setColor(Color fg, Color bg){
    nativeRenderer->setColor(fg, bg);
 }
 
-void TTFText::getTextSize(std::string text, int *w, int *h){
+void TTFText::getTextSize(const std::string& text, int *w, int *h){
       nativeRenderer->getTextSize(text,w,h);
 }

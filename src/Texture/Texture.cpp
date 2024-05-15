@@ -50,7 +50,7 @@ TextureManager *TextureManager::getTextureManager(){
     return instance;
 }
 
-void TextureManager::loadTextureFromFile(std::string id, std::string src){
+void TextureManager::loadTextureFromFile(const std::string& id, std::string src){
     Texture *texture = new Texture(src);
     addTexture(id, texture);
 }
