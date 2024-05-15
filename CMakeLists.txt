@@ -29,12 +29,13 @@ endif()
 
 if(DOENGINE_TESTS)
     enable_testing()
-    add_subdirectory(test)
+    add_subdirectory(src/test)
 endif()
 
 
 
 message("Fecthing SDL Source code")
+
 # SDL2
 # SET(SDL_SHARED FALSE)
 
@@ -61,6 +62,11 @@ set(DOENGINE_SRC
     src/Tilemap/Tilemap.cpp
     src/Texture/Texture.cpp
       
+    src/Event/SDLJoypad.cpp
+    src/Event/SDLMouse.cpp
+    src/Event/SDLKeyboard.cpp
+
+
     src/GameObject/GameObject.cpp
     src/Font/TTFText.cpp
     src/Event/Event.cpp

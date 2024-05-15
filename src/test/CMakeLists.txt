@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 2.13)
 project(Doengine_tests)
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
-include_directories(${CMAKE_SOURCE_DIR}/test/)
+include_directories(${CMAKE_SOURCE_DIR}/src/test/)
+
+message("include dirs: ${CMAKE_SOURCE_DIR}")
 
 include(FetchContent)
 
@@ -26,6 +28,9 @@ add_executable(${PROJECT_NAME}
     units/utGameStateManager.cpp
     units/utFPSManager.cpp
     units/utEventHandler.cpp
+    units/utSDLKeyboard.cpp
+    units/utSDLMouse.cpp
+    units/utSDLJoypad.cpp
     mocks/GameStateMock.h
     mocks/FPSManagerMock.h
     mocks/CameraMock.h
@@ -38,6 +43,8 @@ add_executable(${PROJECT_NAME}
     mocks/AbstractWindowMock.h
     mocks/GameStateManagerMock.h
     mocks/UDPPacketMock.h
+    mocks/MouseMock.h
+    mocks/JoypadMock.h
     mocks/SDLMock.h
     mocks/SDLMock.cpp
     testmain.cpp
@@ -46,6 +53,9 @@ add_executable(${PROJECT_NAME}
     ../Network/UDPPacket.cpp
     ../Timer/FPSManager.cpp
     ../Event/Event.cpp
+    ../Event/SDLKeyboard.cpp
+    ../Event/SDLMouse.cpp
+    ../Event/SDLJoypad.cpp
 )
 
 add_compile_definitions(DOENGINE_TESTING)

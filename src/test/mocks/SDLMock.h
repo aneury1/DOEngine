@@ -14,6 +14,24 @@ typedef Uint32 SDL_JoystickID;
 #define SDL_RELEASED 0
 #define SDL_PRESSED 1
 
+#define SDL_BUTTON(X) (1 << ((X)-1))
+#define SDL_BUTTON_LEFT 1
+#define SDL_BUTTON_MIDDLE 2
+#define SDL_BUTTON_RIGHT 3
+#define SDL_BUTTON_X1 4
+#define SDL_BUTTON_X2 5
+#define SDL_BUTTON_LMASK SDL_BUTTON(SDL_BUTTON_LEFT)
+#define SDL_BUTTON_MMASK SDL_BUTTON(SDL_BUTTON_MIDDLE)
+#define SDL_BUTTON_RMASK SDL_BUTTON(SDL_BUTTON_RIGHT)
+#define SDL_BUTTON_X1MASK SDL_BUTTON(SDL_BUTTON_X1)
+#define SDL_BUTTON_X2MASK SDL_BUTTON(SDL_BUTTON_X2)
+
+typedef enum
+{
+    SDL_FALSE = 0u,
+    SDL_TRUE = 1U
+} SDL_bool;
+
 typedef enum
 {
     KMOD_NONE = 0x0000,
@@ -532,6 +550,11 @@ typedef union SDL_Event {
     // SDL_DropEvent drop;              /**< Drag and drop event data */
 };
 
+struct _SDL_Joystick
+{
+};
+typedef _SDL_Joystick SDL_Joystick;
+
 namespace doengine::mocks
 {
 
@@ -543,6 +566,27 @@ class SDLMock
     MOCK_METHOD(void, SDL_Log, (const char*));
     MOCK_METHOD(int, SDL_PollEvent, (SDL_Event*));
     MOCK_METHOD(Uint32, SDL_GetMouseState, (int*, int*));
+    MOCK_METHOD(const Uint8*, SDL_GetKeyboardState, (int*));
+    MOCK_METHOD(SDL_JoystickID, SDL_JoystickGetDeviceInstanceID, (int));
+    MOCK_METHOD(SDL_JoystickID, SDL_JoystickInstanceID, (SDL_Joystick*));
+    MOCK_METHOD(SDL_bool, SDL_JoystickHasLED, (SDL_Joystick*));
+    MOCK_METHOD(SDL_bool, SDL_JoystickHasRumble, (SDL_Joystick*));
+    MOCK_METHOD(int, SDL_JoystickGetPlayerIndex, (SDL_Joystick*));
+    MOCK_METHOD(Sint16, SDL_JoystickGetAxis, (SDL_Joystick*, int));
+    MOCK_METHOD(Uint8, SDL_JoystickGetButton, (SDL_Joystick*, int));
+    MOCK_METHOD(int, SDL_JoystickNumAxes, (SDL_Joystick*));
+    MOCK_METHOD(int, SDL_JoystickNumButtons, (SDL_Joystick*));
+    MOCK_METHOD(SDL_JoystickPowerLevel, SDL_JoystickCurrentPowerLevel,
+                (SDL_Joystick*));
+    MOCK_METHOD(int, SDL_JoystickRumble,
+                (SDL_Joystick*, Uint16, Uint16, Uint32));
+    MOCK_METHOD(void, SDL_JoystickSetPlayerIndex, (SDL_Joystick*, int));
+    MOCK_METHOD(int, SDL_JoystickSetLED, (SDL_Joystick*, Uint8, Uint8, Uint8));
+    MOCK_METHOD(const char*, SDL_JoystickNameForIndex, (int device_index));
+    MOCK_METHOD(const char*, SDL_JoystickName, (SDL_Joystick*));
+    MOCK_METHOD(SDL_Joystick*, SDL_JoystickOpen, (int device_index));
+    MOCK_METHOD(void, SDL_JoystickClose, (SDL_Joystick * joystick));
+    MOCK_METHOD(const char*, SDL_GetError, ());
 };
 
 } // namespace doengine::mocks
@@ -554,4 +598,24 @@ void SDL_Delay(Uint32);
 void SDL_Log(const char* fmt, ...);
 int SDL_PollEvent(SDL_Event* event);
 Uint32 SDL_GetMouseState(int* x, int* y);
+const Uint8* SDL_GetKeyboardState(int* numkeys);
 void SetSDLMock(doengine::mocks::SDLMock* newSdlMock);
+SDL_JoystickID SDL_JoystickGetDeviceInstanceID(int);
+SDL_JoystickID SDL_JoystickInstanceID(SDL_Joystick* joystick);
+SDL_bool SDL_JoystickHasLED(SDL_Joystick*);
+SDL_bool SDL_JoystickHasRumble(SDL_Joystick*);
+int SDL_JoystickGetPlayerIndex(SDL_Joystick* joystick);
+Sint16 SDL_JoystickGetAxis(SDL_Joystick* joystick, int axis);
+Uint8 SDL_JoystickGetButton(SDL_Joystick* joystick, int button);
+int SDL_JoystickNumAxes(SDL_Joystick* joystick);
+int SDL_JoystickNumButtons(SDL_Joystick* joystick);
+SDL_JoystickPowerLevel SDL_JoystickCurrentPowerLevel(SDL_Joystick* joystick);
+int SDL_JoystickRumble(SDL_Joystick*, Uint16, Uint16, Uint32);
+void SDL_JoystickSetPlayerIndex(SDL_Joystick* joystick, int player_index);
+int SDL_JoystickSetLED(SDL_Joystick* joystick, Uint8 red, Uint8 green,
+                       Uint8 blue);
+const char* SDL_JoystickNameForIndex(int device_index);
+const char* SDL_JoystickName(SDL_Joystick* joystick);
+SDL_Joystick* SDL_JoystickOpen(int device_index);
+void SDL_JoystickClose(SDL_Joystick* joystick);
+const char* SDL_GetError(void);

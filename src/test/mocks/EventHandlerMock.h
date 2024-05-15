@@ -8,59 +8,70 @@ namespace doengine::mocks
 
 class KeyDownEventMock : public KeyDownEvent
 {
-    MOCK_METHOD(void, OnKeydown, (int), (override));
+  public:
+    MOCK_METHOD(void, OnKeydown, (const Keyboard&), (override));
 };
 
 class KeyUpEventMock : public KeyUpEvent
 {
-    MOCK_METHOD(void, OnKeyup, (int), (override));
+  public:
+    MOCK_METHOD(void, OnKeyup, (const Keyboard&), (override));
 };
 
 class JoyButtonUpEventMock : public JoyButtonUpEvent
 {
-    MOCK_METHOD(void, OnButtonUp, (int), (override));
+  public:
+    MOCK_METHOD(void, OnButtonUp, (const Joypad&), (override));
 };
 
 class JoyButtonDownEventMock : public JoyButtonDownEvent
 {
-    MOCK_METHOD(void, OnButtonDown, (int), (override));
+  public:
+    MOCK_METHOD(void, OnButtonDown, (const Joypad&), (override));
 };
 
 class JoyButtonTriggerEventMock : public JoyButtonTriggerEvent
 {
-    MOCK_METHOD(void, OnButtonTriggered, (int, int), (override));
+  public:
+    MOCK_METHOD(void, OnButtonTriggered, (const Joypad&), (override));
 };
 
 class MouseMovementEventMock : public MouseMovementEvent
 {
+  public:
     MOCK_METHOD(void, OnMouseMovement, (int, int), (override));
 };
 
 class MouseStopEventMock : public MouseStopEvent
 {
+  public:
     MOCK_METHOD(void, OnMouseMovement, (int, int), (override));
 };
 
 class TouchEventDownMock : public TouchEventDown
 {
+  public:
     MOCK_METHOD(void, OnTouchDown, (int, int), (override));
 };
 
 class TouchUpDownMock : public TouchUpDown
 {
+  public:
     MOCK_METHOD(void, OnTouchUp, (int, int), (override));
 };
 
 class OnMessageQueueMock : public OnMessageQueue
 {
+  public:
     MOCK_METHOD(void, HandleByDescriptor, (int, void*), (override));
 };
 
 struct MouseEventMock : public MouseEvent
 {
-    MOCK_METHOD(void, MouseMove, (unsigned int, int, int), (override));
-    MOCK_METHOD(void, MouseButtonDown, (unsigned int, MouseButton), (override));
-    MOCK_METHOD(void, MouseButtonUp, (unsigned int, MouseButton), (override));
+  public:
+    MOCK_METHOD(void, MouseMove, (const Mouse&), (override));
+    MOCK_METHOD(void, MouseButtonDown, (const Mouse&), (override));
+    MOCK_METHOD(void, MouseButtonUp, (const Mouse&), (override));
 };
 
 } // namespace doengine::mocks
