@@ -50,7 +50,7 @@ class TextureManager {
 
    static TextureManager *getTextureManager();
 
-   void loadTextureFromFile(std::string id, std::string src);
+   void loadTextureFromFile(const std::string& id, std::string src);
 
    void loadTextureFromTexture(std::string id, Texture* texture, const Rect &clipset);
 
