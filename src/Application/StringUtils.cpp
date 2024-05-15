@@ -10,7 +10,6 @@ void readMapFile(const char *filename, std::vector<std::string>&ret){
     {
         std::string line;
         while (std::getline(file, line)) {
-            ///std::cout << line << std::endl;
             ret.emplace_back(line);
             line ="";
         }
