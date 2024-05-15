@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <limits>
 #include <random>
 
 template <typename V1, typename V2>
@@ -26,14 +27,21 @@ inline T getRandomReal(const T startRange, const T endRange)
     return dist(rd);
 }
 
-template <typename T = double>
-inline T getPercentageFrom(const T currentValue, const T maxValue)
+template <typename T>
+constexpr T getPercentageFrom(const T percentage, const T currentValue)
 {
-    return currentValue;
+    auto result = (percentage / 100.0) * currentValue;
+
+    if (percentage == std::numeric_limits<T>::max())
+        result = std::numeric_limits<T>::max();
+    else if (percentage == std::numeric_limits<T>::min())
+        result = std::numeric_limits<T>::min();
+
+    return result;
 }
 
 template <typename T>
-T clamp(const T v, const T min, const T max)
+constexpr T clamp(const T v, const T min, const T max)
 {
     return std::min(max, std::max(v, min));
 }
