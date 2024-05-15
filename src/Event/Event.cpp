@@ -68,7 +68,7 @@ void Event::PollEvent()
 
             for (auto itMouse : Event::mouseEvent)
             {
-               /// itMouse->MouseMove(mousePos.x, mousePos.y);
+                itMouse->MouseMove(event.button.which, mousePos.x, mousePos.y);
             }
         }
         break;
@@ -80,11 +80,11 @@ void Event::PollEvent()
                                               mousePos);
             mouse.getButtonStateBitset(buttonPressed);
 
-           SDL_Log("SDL_MOUSEBUTTONDOWN %d", buttonPressed.to_ulong());
-           SDL_Log("mousePos Count = %d", Event::mouseEvent.size());
+           SDL_Log("SDL_MOUSEBUTTONDOWN %ld", buttonPressed.to_ulong());
+           SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
 
-           // for (auto it : Event::mouseEvent)
-           //     it->MouseButtonDown(mousePos.x, mousePos.y);
+           for (auto it : Event::mouseEvent)
+               it->MouseButtonDown(event.button.which,MouseButton::Middle,mousePos.x, mousePos.y);
         }
         break;
         case SDL_MOUSEBUTTONUP: {
@@ -95,11 +95,11 @@ void Event::PollEvent()
                                               mousePos);
             mouse.getButtonStateBitset(buttonPressed);
 
-            SDL_Log("SDL_MOUSEBUTTONUP %d", buttonPressed.to_ulong());
-            SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+           // SDL_Log("SDL_MOUSEBUTTONUP %d", buttonPressed.to_ulong());
+           // SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
 
-           /// for (auto it : mouseEvent)
-           ///     it->MouseButtonUp(event.button.which);
+             for (auto it : mouseEvent)
+                it->MouseButtonUp(event.button.which,MouseButton::Middle,mousePos.x, mousePos.y);
         }
         break;
         case SDL_MOUSEWHEEL: {
