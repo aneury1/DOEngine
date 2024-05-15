@@ -93,26 +93,6 @@ set(DOENGINE_SRC
 )
 
 
-# add_library(${PROJECT_NAME}
-#     ${DOENGINE_SRC}
-# )
-
-# target_link_options(${PROJECT_NAME} PRIVATE
-#     "LINKER:-static" -static-libgcc -static-libstdc++)
-# target_link_libraries(${PROJECT_NAME} PRIVATE
-#     SDL2::SDL2
-#     SDL2::SDL2main
-#     SDL2_ttf SDL2_image
-#     SDL2_mixer)
-
-
-# target_link_libraries(${PROJECT_NAME} PRIVATE
-#     SDL2
-#     SDL2main
-#     SDL2_ttf 
-#     SDL2_image
-#     SDL2_mixer)
-
 
 # this minimal test app would not be include in git repo.
 add_executable(my_executable ${DOENGINE_SRC} ignored_main.cpp)
