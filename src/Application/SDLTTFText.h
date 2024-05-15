@@ -13,9 +13,6 @@ class SDLTTFText : public NativeTextRenderer {
     std::string path;
    
     public:
-
-
-
     virtual void getTextSize(std::string text, int *w, int *h)override;
     virtual void setColor(Color fg, Color bg)override;
     virtual void setFontSize(int fntSize)override;
