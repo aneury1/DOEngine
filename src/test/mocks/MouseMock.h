@@ -3,11 +3,6 @@
 #include "abstract/devices/Mouse.h"
 #include <gmock/gmock-function-mocker.h>
 
-using doengine::devices::Mouse;
-
-namespace doengine::mocks
-{
-
 class MouseMock : public Mouse
 {
   public:
@@ -19,4 +14,3 @@ class MouseMock : public Mouse
     MOCK_METHOD(void, getButtonStateBitset, (std::bitset<BUTTONS_COUNT>&),
                 (const, override));
 };
-} // namespace doengine::mocks

@@ -11,14 +11,8 @@ endif()
 
 # set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 14)
-
-
-# Set default build type to Release if not specified
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release")
-endif()
 
 # Add debug flags if the build type is Debug
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -98,26 +92,6 @@ set(DOENGINE_SRC
       includes/Application.h
 )
 
-
-# add_library(${PROJECT_NAME}
-#     ${DOENGINE_SRC}
-# )
-
-# target_link_options(${PROJECT_NAME} PRIVATE
-#     "LINKER:-static" -static-libgcc -static-libstdc++)
-# target_link_libraries(${PROJECT_NAME} PRIVATE
-#     SDL2::SDL2
-#     SDL2::SDL2main
-#     SDL2_ttf SDL2_image
-#     SDL2_mixer)
-
-
-# target_link_libraries(${PROJECT_NAME} PRIVATE
-#     SDL2
-#     SDL2main
-#     SDL2_ttf 
-#     SDL2_image
-#     SDL2_mixer)
 
 
 # this minimal test app would not be include in git repo.

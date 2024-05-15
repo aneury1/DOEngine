@@ -3,7 +3,7 @@
 #include <bitset>
 #include <cstddef>
 
-namespace doengine::devices
+namespace doengine
 {
 
 enum class Keymod : unsigned char
@@ -281,4 +281,4 @@ class Keyboard
     virtual const unsigned char* getKeysBitset() const = 0;
 };
 
-} // namespace doengine::devices
+}; // namespace doengine

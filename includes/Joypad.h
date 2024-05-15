@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace doengine::devices
+namespace doengine
 {
 
 enum class PowerLevel : char
@@ -40,4 +40,4 @@ class Joypad
     virtual void setPlayerIndex(int index) = 0;
 };
 
-} // namespace doengine::devices
+}; // namespace doengine

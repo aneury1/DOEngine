@@ -4,9 +4,6 @@
 #include "gmock/gmock.h"
 #include <gtest/gtest.h>
 
-namespace doengine::ut
-{
-
 using testing::_;
 using testing::Return;
 
@@ -80,5 +77,3 @@ TEST_F(utFPSManager, doengineHandleTest)
 
     EXPECT_FLOAT_EQ(_sut.getElapsedTime(), 9);
 }
-
-} // namespace doengine::ut

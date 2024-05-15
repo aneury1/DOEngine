@@ -2,6 +2,9 @@
 
 #include <cstddef>
 
+namespace doengine
+{
+
 template <class T>
 class LinkList
 {
@@ -102,3 +105,5 @@ class LinkList
     Node* head = {nullptr};
     std::size_t _len;
 };
+
+}; // namespace doengine

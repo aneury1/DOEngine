@@ -1,7 +1,9 @@
 
+#include "FPSManager.h"
 #include "DOEngine_SDL_includes.h"
 
-#include "FPSManager.h"
+namespace doengine
+{
 
 void FpsManager::setFPS(long fps)
 {
@@ -28,5 +30,6 @@ void FpsManager::Handle()
         if (wait > 0)
             SDL_Delay(wait);
     }
-   
 }
+
+}; // namespace doengine

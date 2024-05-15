@@ -1,6 +1,6 @@
-#include "Geometric.h"
-#include "Application.h"
 #include "Canvas.h"
+#include "Application.h"
+#include "Geometric.h"
 #include "TTFText.h"
 
 #if 0 

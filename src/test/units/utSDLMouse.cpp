@@ -12,14 +12,6 @@
 #include <gtest/gtest.h>
 #include <tuple>
 
-namespace doengine::ut
-{
-using doengine::devices::Mouse;
-using doengine::devices::MouseButton;
-using doengine::devices::SDLMouse;
-using doengine::fixture::DoEngineFixture;
-using namespace testing;
-
 static_assert(static_cast<int>(MouseButton::Left) == SDL_BUTTON_LEFT,
               "SDL_BUTTON_LEFT mismatch");
 static_assert(static_cast<int>(MouseButton::Right) == SDL_BUTTON_RIGHT,
@@ -73,21 +65,20 @@ TEST_F(utSDLMouse, isMiddleClickedTest)
 
 TEST_F(utSDLMouse, getMousePositionTest)
 {
-    Point p{0,0};
+    Point p{0, 0};
     const int expectedX = 25;
     const int expectedY = 52;
 
     ON_CALL(_sdlMock, SDL_GetMouseState(_, _))
-        .WillByDefault(
-                DoAll(SetArgPointee<0>(expectedX),
-                      SetArgPointee<1>(expectedY),
-                       Return(SDL_BUTTON_MMASK)));
-    
+        .WillByDefault(DoAll(SetArgPointee<0>(expectedX),
+                             SetArgPointee<1>(expectedY),
+                             Return(SDL_BUTTON_MMASK)));
+
     _sut.updateValues();
     _sut.getPosition(p);
 
-    EXPECT_EQ(p.x,expectedX);
-    EXPECT_EQ(p.y,expectedY);
+    EXPECT_EQ(p.x, expectedX);
+    EXPECT_EQ(p.y, expectedY);
 }
 
 class utSDLMouseBitmapTest
@@ -120,5 +111,3 @@ TEST_P(utSDLMouseBitmapTest, getMouseButtonsBitmapTest)
 // TEST_F(utSDLMouse, isRightClickedTest)
 // TEST_F(utSDLMouse, isRightClickedTest)
 // TEST_F(utSDLMouse, isRightClickedTest)
-
-} // namespace doengine::ut

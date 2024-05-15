@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "Camera.h"
 
 namespace doengine
@@ -27,4 +26,4 @@ class Camera
     virtual Camera* Update(CameraMovement where) = 0;
 };
 
-} // namespace doengine
+}; // namespace doengine

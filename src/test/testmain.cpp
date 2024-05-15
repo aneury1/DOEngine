@@ -17,9 +17,6 @@
 #include <gmock/gmock-spec-builders.h>
 #include <gtest/gtest.h>
 
-using namespace doengine::mocks;
-using namespace testing;
-
 TEST(mocks_test, DISABLED_getMusicFromMarsTest)
 {
     NiceMock<CameraMock> cameraMock;

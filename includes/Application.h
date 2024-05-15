@@ -1,92 +1,98 @@
-#pragma once 
-#include <memory.h>
-#include "WindowManager.h"
+#pragma once
+#include "FPSManager.h"
 #include "GameState.h"
 #include "GameStateManager.h"
-#include "FPSManager.h"
-///#include "DOEngine.h"
+#include "WindowManager.h"
+#include <memory.h>
 
+namespace doengine
+{
 
 class FpsManager;
 class GameStateManager;
 class WindowManager;
 class Renderer;
 
- 
-class ClassIdentifier{
-   public:
-   virtual std::string getClassIdentifier() = 0;
+class ClassIdentifier
+{
+  public:
+    virtual void getClassIdentifier(const std::string& classId) = 0;
 };
 
-
-class Application 
+class Application
 {
-    WindowManager*  windowManager;
+    WindowManager* windowManager;
 
     Renderer* render;
-      
+
     GameStateManager* gsm;
- 
+
     FpsManager* fps_handler;
-    
-    Rect      window_rect;
+
+    Rect window_rect;
 
     bool run;
-    
+
     bool dirty;
 
-   static Application *applicationObject;
-   
-   Application();
-   
-   ~Application();
- 
-   void _internalResize();
+    static Application* applicationObject;
 
-    public:
+    Application();
 
-    static Application* getApplication(){
-        if(applicationObject==nullptr)
+    ~Application();
+
+    void _internalResize();
+
+  public:
+    static Application* getApplication()
+    {
+        if (applicationObject == nullptr)
             applicationObject = new Application();
         return applicationObject;
     }
 
-    const bool    IsRunning() const;
-    
-    Renderer* getRender()const;
+    const bool IsRunning() const;
+
+    Renderer* getRender() const;
     WindowManager* getWindow();
-   
+
     void createWindow(const Rect& rect);
 
     void setFullScreen();
     void setWindowMode();
-   
+
     void PollEvent();
-    void  Update();
-    void  Render();
-    void  Quit();
-  
-    long getElapsedTime(){
+    void Update();
+    void Render();
+    void Quit();
+
+    long getElapsedTime()
+    {
         return fps_handler->getElapsedTime();
     }
 
-    void setW(int w){
-       window_rect.w = w;
-      _internalResize();
+    void setW(int w)
+    {
+        window_rect.w = w;
+        _internalResize();
     }
-    void setH(int h){
+    void setH(int h)
+    {
         window_rect.h = h;
         _internalResize();
     }
-    void setSize(int w, int h){
+    void setSize(int w, int h)
+    {
         window_rect.w = w;
         window_rect.h = h;
-       _internalResize();
+        _internalResize();
     }
-    int getH()  {
+    int getH()
+    {
         return window_rect.h;
     }
-    int getW()  {
+    int getW()
+    {
         return window_rect.w;
     }
 
@@ -94,14 +100,18 @@ class Application
 
     void clearScreen(const Color& color);
 
-    void addState(GameState *state, int id){
-         gsm->AddState(id,state);
+    void addState(GameState* state, int id)
+    {
+        gsm->AddState(id, state);
     }
 
-    void setState(int id){
+    void setState(int id)
+    {
         gsm->SetState(id);
     }
 
-    private:
+  private:
     void destroy();
 };
+
+}; // namespace doengine

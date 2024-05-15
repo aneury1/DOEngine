@@ -4,7 +4,7 @@
 
 #define NETWORK
 
-namespace doengine::net
+namespace doengine
 {
 
 class UDPPacket
@@ -23,4 +23,4 @@ class UDPPacket
     int socket_option;
 };
 
-} // namespace doengine::net
+} // namespace doengine

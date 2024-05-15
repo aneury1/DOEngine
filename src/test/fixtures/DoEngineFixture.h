@@ -9,8 +9,6 @@ using testing::_;
 using testing::NiceMock;
 using testing::Return;
 
-namespace doengine::fixture
-{
 class DoEngineFixture : public testing::Test
 {
   public:
@@ -26,4 +24,3 @@ class DoEngineFixture : public testing::Test
     NiceMock<mocks::SDLMock> _sdlMock;
     NiceMock<mocks::AbstractWindowMock> _windowMock;
 };
-} // namespace doengine::fixture

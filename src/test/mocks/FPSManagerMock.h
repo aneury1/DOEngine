@@ -3,9 +3,6 @@
 #include "FPSManager.h"
 #include <gmock/gmock.h>
 
-namespace doengine::mocks
-{
-
 class FpsManagerMock : public FpsManager
 {
   public:
@@ -22,5 +19,3 @@ class FpsManagerMock : public FpsManager
     MOCK_METHOD(void, Handle, (), (override));
     MOCK_METHOD(float, getElapsedTime, (), (override));
 };
-
-} // namespace doengine::mocks

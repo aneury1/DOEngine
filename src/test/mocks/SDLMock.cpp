@@ -1,8 +1,6 @@
 #include "SDLMock.h"
 #include <cstddef>
 
-using namespace doengine::mocks;
-
 SDLMock* sdlMock = nullptr;
 
 Uint32 SDL_GetTicks()
@@ -131,4 +129,3 @@ void SetSDLMock(SDLMock* newSdlMock)
 {
     sdlMock = newSdlMock;
 }
-

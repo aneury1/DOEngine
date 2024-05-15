@@ -3,9 +3,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-namespace doengine::ut
-{
-
 class utLinkedList : public ::testing::Test
 {
   public:
@@ -163,5 +160,3 @@ TEST_F(utLinkedList, DISABLED_FindTest)
     EXPECT_EQ(tempNode->data, int());
     EXPECT_EQ(tempNode->next(), nullptr);
 }
-
-} // namespace doengine::ut

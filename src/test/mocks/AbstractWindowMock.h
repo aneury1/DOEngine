@@ -3,9 +3,6 @@
 #include "Color.h"
 #include <gmock/gmock-function-mocker.h>
 
-namespace doengine::mocks
-{
-
 class AbstractWindowMock : public AbstractWindow
 {
   public:
@@ -21,5 +18,3 @@ class AbstractWindowMock : public AbstractWindow
     MOCK_METHOD(int, getW, (), (override));
     MOCK_METHOD(AbstractWindow*, SetWindowPencilColor, (Color), (override));
 };
-
-} // namespace doengine::mocks

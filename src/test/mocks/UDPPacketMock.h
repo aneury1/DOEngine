@@ -4,11 +4,6 @@
 #include "gmock/gmock.h"
 #include <cstddef>
 
-namespace doengine::mocks
-{
-
-using doengine::net::UDPPacket;
-
 class UDPPacketMock : public UDPPacket
 {
     MOCK_METHOD(int, ReceivedPacket, (const std::string&, short), (override));
@@ -16,4 +11,3 @@ class UDPPacketMock : public UDPPacket
                 (const unsigned char*, size_t, const std::string&, short),
                 (override));
 };
-} // namespace doengine::mocks

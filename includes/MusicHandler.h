@@ -7,12 +7,8 @@ namespace doengine
 
 class MusicHandler
 {
-
-    //   AbstractWindow *window;
-
   public:
     //   MusicHandler(AbstractWindow *window);
-
     virtual void addToList(std::string src) = 0;
     virtual void playFirst() = 0;
     virtual void playLast() = 0;
@@ -31,7 +27,6 @@ class MusicHandler
 
     virtual void setRepeat(Repeat repeat) = 0;
 };
-} // namespace doengine
 
 #if 0
 
@@ -77,3 +72,5 @@ int main(int argc, char* argv[]) {
 }
 
 #endif
+
+}; // namespace doengine

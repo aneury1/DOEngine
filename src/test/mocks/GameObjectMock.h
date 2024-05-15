@@ -2,9 +2,6 @@
 #include "GameObject.h"
 #include <gmock/gmock-function-mocker.h>
 
-namespace doengine::mocks
-{
-
 class GameObjectMock : public GameObject
 {
   public:
@@ -15,5 +12,3 @@ class GameObjectMock : public GameObject
     MOCK_METHOD(void, Update, (float timer), (override));
     MOCK_METHOD(void, Render, (), (override));
 };
-
-} // namespace doengine::mocks

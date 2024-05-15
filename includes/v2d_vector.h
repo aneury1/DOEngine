@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace doengine{
+
 template <class T>
 struct v2d_generic
 {
@@ -43,5 +45,6 @@ template<class T> inline v2d_generic<T> operator / (const int& lhs, const v2d_ge
 typedef v2d_generic<int> iVector2;
 typedef v2d_generic<float> fVector2;
 typedef v2d_generic<double> dVector2;
-//typedef iVector2 Point;
 // clang-format on
+
+}; // namespace doengine

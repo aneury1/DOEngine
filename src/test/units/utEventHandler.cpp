@@ -14,14 +14,6 @@
 #include <tuple>
 #include <vector>
 
-namespace doengine::ut
-{
-
-using doengine::devices::MouseButton;
-using doengine::fixture::DoEngineFixture;
-
-using namespace testing;
-
 class utEventHandler : public DoEngineFixture
 {
   public:
@@ -453,5 +445,3 @@ TEST_P(utEventHandlerKeyboard, onKeyboardPressShouldSendKeypressed)
 
     _sut.PollEvent(&_windowMock);
 }
-
-}; // namespace doengine::ut
