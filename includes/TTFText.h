@@ -37,5 +37,5 @@ class TTFText
   void setBackgroundColor(Color color);
   void setFontSize(int fntSize);
   void setColor(Color fg, Color bg);
-  void getTextSize(std::string text, int *w, int *h);
+  void getTextSize(const std::string& text, int *w, int *h);
 };
