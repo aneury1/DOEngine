@@ -1,8 +1,7 @@
 #include "SDLJoypad.h"
 #include <cstddef>
 
-namespace doengine::devices
-{
+
 SDLJoypad::SDLJoypad(SDL_Joystick* joystick) : joystick(joystick), index(255)
 {
 }
@@ -99,5 +98,3 @@ SDL_Joystick* SDLJoypad::getNativeJoystick() const
 {
     return joystick;
 }
-
-} // namespace doengine::devices

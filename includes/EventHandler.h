@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Mouse.h"
 // #include "DOEngine.h"
 
 class KeyDownEvent
@@ -108,14 +108,14 @@ class OnMessageQueue
     virtual void HandleByDescriptor(int fd, void* buffer) = 0;
 };
 
-enum class MouseButton : unsigned char
-{
-    Left = 1,
-    Middle,
-    Right,
-    X1,
-    X2
-};
+// enum class MouseButton : unsigned char
+// {
+//     Left = 1,
+//     Middle,
+//     Right,
+//     X1,
+//     X2
+// };
 
 struct MouseEvent
 {

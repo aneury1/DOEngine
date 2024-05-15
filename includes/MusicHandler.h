@@ -2,9 +2,6 @@
 
 #include <string>
 
-namespace doengine
-{
-
 class MusicHandler
 {
 
@@ -31,7 +28,6 @@ class MusicHandler
 
     virtual void setRepeat(Repeat repeat) = 0;
 };
-} // namespace doengine
 
 #if 0
 

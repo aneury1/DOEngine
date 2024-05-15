@@ -5,8 +5,6 @@
 #include <cstddef>
 #include "Geometric.h"
 
-namespace doengine::devices
-{
 
 enum class MouseButton : unsigned char
 {
@@ -28,5 +26,3 @@ class Mouse
     virtual void getPosition(Point&) = 0;
     virtual void getButtonStateBitset(std::bitset<BUTTONS_COUNT>&) const = 0;
 };
-
-} // namespace doengine::devices

@@ -2,9 +2,6 @@
 #include "Utils.h"
 #include <gtest/gtest.h>
 
-namespace doengine::ut
-{
-
 TEST(UtilsTests, DISABLED_GetPorcentageTestsInteger)
 {
     int expected = 782U;
@@ -118,5 +115,3 @@ TEST(UtilsTests, ClampTests)
 
     EXPECT_DOUBLE_EQ(max, result);
 }
-
-} // namespace doengine::ut

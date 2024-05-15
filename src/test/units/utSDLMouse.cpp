@@ -12,13 +12,7 @@
 #include <gtest/gtest.h>
 #include <tuple>
 
-namespace doengine::ut
-{
-using doengine::devices::Mouse;
-using doengine::devices::MouseButton;
-using doengine::devices::SDLMouse;
-using doengine::fixture::DoEngineFixture;
-using namespace testing;
+
 
 static_assert(static_cast<int>(MouseButton::Left) == SDL_BUTTON_LEFT,
               "SDL_BUTTON_LEFT mismatch");
@@ -121,4 +115,3 @@ TEST_P(utSDLMouseBitmapTest, getMouseButtonsBitmapTest)
 // TEST_F(utSDLMouse, isRightClickedTest)
 // TEST_F(utSDLMouse, isRightClickedTest)
 
-} // namespace doengine::ut

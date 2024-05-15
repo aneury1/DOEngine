@@ -555,8 +555,6 @@ struct _SDL_Joystick
 };
 typedef _SDL_Joystick SDL_Joystick;
 
-namespace doengine::mocks
-{
 
 class SDLMock
 {
@@ -588,8 +586,6 @@ class SDLMock
     MOCK_METHOD(void, SDL_JoystickClose, (SDL_Joystick * joystick));
     MOCK_METHOD(const char*, SDL_GetError, ());
 };
-
-} // namespace doengine::mocks
 
 extern doengine::mocks::SDLMock* sdlMock;
 

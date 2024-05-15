@@ -3,11 +3,6 @@
 #include "DOEngine_SDL_includes.h"
 #include "Joypad.h"
 
-using doengine::devices::Joypad;
-using doengine::devices::PowerLevel;
-
-namespace doengine::devices
-{
   
 const std::string DEFAULT_JOYPAD_NAME = "NOT_FOUND";
 
@@ -41,5 +36,3 @@ class SDLJoypad : public Joypad
     SDL_Joystick* joystick;
     unsigned char index;
 };
-
-} // namespace doengine::devices

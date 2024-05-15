@@ -3,8 +3,6 @@
 
 #include "Camera.h"
 
-namespace doengine
-{
 
 class Camera
 {
@@ -27,4 +25,3 @@ class Camera
     virtual Camera* Update(CameraMovement where) = 0;
 };
 
-} // namespace doengine

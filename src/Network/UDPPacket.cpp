@@ -1,7 +1,5 @@
 #include "UDPPacket.h"
 
-namespace doengine::net
-{
 
 #ifdef __WIN32__
 #include <windows.h>
@@ -28,5 +26,3 @@ int UDPPacket::SendPacket(const unsigned char* buffer, size_t max_len,
 {
     return 0;
 }
-
-} // namespace doengine::net

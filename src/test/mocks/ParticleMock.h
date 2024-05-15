@@ -3,8 +3,7 @@
 #include "Particle.h"
 #include <gmock/gmock-function-mocker.h>
 
-namespace doengine::mocks
-{
+
 
 class ParticleMock : public Particle
 {
@@ -12,5 +11,3 @@ class ParticleMock : public Particle
     MOCK_METHOD(void, Update, (), (override));
     MOCK_METHOD(void, Draw, (), (override));
 };
-
-} // namespace doengine::mocks

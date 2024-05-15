@@ -4,8 +4,6 @@
 #include <gmock/gmock-function-mocker.h>
 #include <string>
 
-namespace doengine::mocks
-{
 
 class MusicHandlerMock : public MusicHandler
 {
@@ -20,4 +18,3 @@ class MusicHandlerMock : public MusicHandler
     MOCK_METHOD(void, stop, (), (override));
     MOCK_METHOD(void, setRepeat, (Repeat), (override));
 };
-} // namespace doengine::mocks

@@ -3,9 +3,6 @@
 #include "GameStateManager.h"
 #include <gmock/gmock-function-mocker.h>
 
-namespace doengine::mocks
-{
-
 class GameStateManagerMock : public GameStateManager
 {
   public:
@@ -24,5 +21,3 @@ class GameStateManagerMock : public GameStateManager
     MOCK_METHOD(void, Update, (float), (override));
     MOCK_METHOD(void, Render, (), (override));
 };
-
-} // namespace doengine::mocks

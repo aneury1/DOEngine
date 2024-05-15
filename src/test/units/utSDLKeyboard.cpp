@@ -9,14 +9,6 @@
 #include <gtest/gtest.h>
 #include <tuple>
 
-namespace doengine::ut
-{
-using doengine::devices::Keyboard;
-using doengine::devices::Keycode;
-using doengine::devices::SDLKeyboard;
-using doengine::fixture::DoEngineFixture;
-using namespace testing;
-
 class utSDLKeyboard : public DoEngineFixture
 {
   public:
@@ -46,5 +38,3 @@ TEST_F(utSDLKeyboard, getKeyboardBitmapTest)
     ASSERT_TRUE(result[static_cast<std::size_t>(Keycode::Key0)]);
     ASSERT_TRUE(result[static_cast<std::size_t>(Keycode::KeyKp1)]);
 }
-
-} // namespace doengine::ut

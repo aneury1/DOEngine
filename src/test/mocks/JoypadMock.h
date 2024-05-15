@@ -3,11 +3,7 @@
 #include "abstract/devices/Joypad.h"
 #include <gmock/gmock-function-mocker.h>
 
-using doengine::devices::Joypad;
-using doengine::devices::PowerLevel;
-
-namespace doengine::mocks
-{
+ 
 
 class JoypadMock : public Joypad
 {
@@ -30,5 +26,3 @@ class JoypadMock : public Joypad
     MOCK_METHOD(void, setLEDColor, (const Color&), (override));
     MOCK_METHOD(void, setPlayerIndex, (int), (override));
 };
-
-} // namespace doengine::mocks

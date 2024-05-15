@@ -8,13 +8,6 @@
 #include <tuple>
 #include <vector>
 
-namespace doengine::ut
-{
-
-using doengine::devices::PowerLevel;
-using doengine::devices::SDLJoypad;
-using doengine::fixture::DoEngineFixture;
-using namespace testing;
 
 static_assert(static_cast<int>(PowerLevel::Unknown) ==
                   SDL_JOYSTICK_POWER_UNKNOWN,
@@ -206,4 +199,3 @@ TEST_P(utSDLJoypadPowerLevel, joystickGetCurrentPowerLevel)
     EXPECT_EQ(_sut.getPowerLevel(), std::get<0>(param));
 }
 
-} // namespace doengine::ut

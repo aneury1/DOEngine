@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 
-using doengine::devices::Joypad;
 
 struct Event
 {

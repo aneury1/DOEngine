@@ -3,8 +3,6 @@
 #include "EventHandler.h"
 #include <gmock/gmock-function-mocker.h>
 
-namespace doengine::mocks
-{
 
 class KeyDownEventMock : public KeyDownEvent
 {
@@ -73,5 +71,3 @@ struct MouseEventMock : public MouseEvent
     MOCK_METHOD(void, MouseButtonDown, (const Mouse&), (override));
     MOCK_METHOD(void, MouseButtonUp, (const Mouse&), (override));
 };
-
-} // namespace doengine::mocks

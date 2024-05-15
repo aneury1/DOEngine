@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-namespace doengine::devices
-{
 
 enum class PowerLevel : char
 {
@@ -39,5 +37,3 @@ class Joypad
     virtual void setLEDColor(const Color&) = 0;
     virtual void setPlayerIndex(int index) = 0;
 };
-
-} // namespace doengine::devices

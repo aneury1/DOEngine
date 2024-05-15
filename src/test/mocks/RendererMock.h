@@ -2,8 +2,6 @@
 #include "Renderer.h"
 #include <gmock/gmock-function-mocker.h>
 
-namespace doengine::mocks
-{
 
 class RendererMock : public gfx::Renderer
 {
@@ -15,5 +13,3 @@ class RendererMock : public gfx::Renderer
     MOCK_METHOD(void, setDrawColor, (doengine::Color), (override));
     MOCK_METHOD(void, present, (), (override));
 };
-
-} // namespace doengine::mocks

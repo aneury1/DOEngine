@@ -4,10 +4,7 @@
 #include "mocks/GameStateMock.h"
 #include <cstddef>
 
-namespace doengine::ut
-{
-
-using doengine::mocks::GameStateMock;
+ 
 
 class utGameStateManager : public ::testing::Test
 {
@@ -92,4 +89,3 @@ TEST_F(utGameStateManager, doengineRender)
     _sut.Render();
 }
 
-} // namespace doengine::ut
