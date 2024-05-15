@@ -11,6 +11,6 @@ std::vector<char> splitChar(const std::string& original, const std::string& igno
 
 std::string makeString(const std::vector<char>& chars);
 
-int StringAsInt(std::string str);
+int StringAsInt(const std::string& str);
 
 #endif
