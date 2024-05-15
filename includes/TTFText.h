@@ -18,7 +18,7 @@ struct NativeTextRenderer{
     virtual void setForegroundColor(Color color) = 0;
     virtual void setBackgroundColor(Color color) = 0;
     virtual void setFontSize(int fntSize) =0;
-    virtual void getTextSize(std::string text, int *w, int *h) =0;
+    virtual void getTextSize(const std::string& text, int *w, int *h) =0;
 
 };
 
