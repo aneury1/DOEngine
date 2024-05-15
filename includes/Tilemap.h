@@ -20,7 +20,7 @@ struct MapRenderer{
       this->tilemap= tilemap;
    }
    virtual void RenderTileMap(const std::vector<std::vector<char>>& tilemap) = 0;
-   virtual void RenderTile(Rect rect) = 0;
+   virtual void RenderTile(const Rect& rect) = 0;
    virtual void RenderTile(int x, int y, int w, int h, Color color) = 0;
    virtual void RenderTile(const Tile& tile) = 0 ;
 };
