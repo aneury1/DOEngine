@@ -17,8 +17,6 @@
 #include <gmock/gmock-spec-builders.h>
 #include <gtest/gtest.h>
 
-
-
 TEST(mocks_test, DISABLED_getMusicFromMarsTest)
 {
     NiceMock<CameraMock> cameraMock;

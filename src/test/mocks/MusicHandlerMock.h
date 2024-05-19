@@ -4,7 +4,6 @@
 #include <gmock/gmock-function-mocker.h>
 #include <string>
 
-
 class MusicHandlerMock : public MusicHandler
 {
   public:

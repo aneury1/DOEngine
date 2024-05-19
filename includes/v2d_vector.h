@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace doengine{
+
 template <class T>
 struct v2d_generic
 {
@@ -44,3 +46,5 @@ typedef v2d_generic<int> iVector2;
 typedef v2d_generic<float> fVector2;
 typedef v2d_generic<double> dVector2;
 // clang-format on
+
+}; // namespace doengine

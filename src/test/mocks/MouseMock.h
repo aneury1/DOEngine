@@ -3,8 +3,6 @@
 #include "abstract/devices/Mouse.h"
 #include <gmock/gmock-function-mocker.h>
 
- 
-
 class MouseMock : public Mouse
 {
   public:

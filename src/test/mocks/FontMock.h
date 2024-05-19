@@ -4,8 +4,6 @@
 #include "gmock/gmock.h"
 #include <gmock/gmock-function-mocker.h>
 
-
-
 class FontMock : public Font
 {
   public:

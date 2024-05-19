@@ -14,8 +14,6 @@
 #include <tuple>
 #include <vector>
 
-
-
 class utEventHandler : public DoEngineFixture
 {
   public:
@@ -447,4 +445,3 @@ TEST_P(utEventHandlerKeyboard, onKeyboardPressShouldSendKeypressed)
 
     _sut.PollEvent(&_windowMock);
 }
-

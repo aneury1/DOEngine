@@ -8,7 +8,6 @@
 #include <tuple>
 #include <vector>
 
-
 static_assert(static_cast<int>(PowerLevel::Unknown) ==
                   SDL_JOYSTICK_POWER_UNKNOWN,
               "SDL_JOYSTICK_POWER_UNKNOWN mismatch");
@@ -198,4 +197,3 @@ TEST_P(utSDLJoypadPowerLevel, joystickGetCurrentPowerLevel)
         .WillByDefault(Return(std::get<1>(param)));
     EXPECT_EQ(_sut.getPowerLevel(), std::get<0>(param));
 }
-

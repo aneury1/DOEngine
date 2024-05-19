@@ -2,6 +2,8 @@
 
 #include "Keyboard.h"
 
+namespace doengine
+{
 
 class SDLKeyboard : public Keyboard
 {
@@ -10,3 +12,5 @@ class SDLKeyboard : public Keyboard
 
     const unsigned char* getKeysBitset() const override;
 };
+
+}; // namespace doengine

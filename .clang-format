@@ -10,3 +10,6 @@ PointerAlignment: Left
 AlwaysBreakTemplateDeclarations: Yes
 #BinPackParameters: false
 ColumnLimit: 80
+AlignOperands: true
+AlignTrailingComments: true
+AllowShortBlocksOnASingleLine: false

@@ -3,7 +3,6 @@
 #include "GameState.h"
 #include <gmock/gmock.h>
 
-
 class GameStateMock : public GameState
 {
   public:

@@ -1,27 +1,27 @@
 #pragma once
-
-template<class T>
+namespace doengine
+{
+template <class T>
 class Vector
 {
-	T x;
-	T y;
+    T x;
+    T y;
 };
 
-template< >
+template <>
 class Vector<float>
 {
-public:
-	float x;
-	float y;
+  public:
+    float x;
+    float y;
 };
 
-template< >
+template <>
 class Vector<int>
 {
-public:
-	int x;
-	int y;
+  public:
+    int x;
+    int y;
 };
 
-
-
+}; // namespace doengine

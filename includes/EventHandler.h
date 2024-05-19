@@ -2,6 +2,9 @@
 #include "Mouse.h"
 // #include "DOEngine.h"
 
+namespace doengine
+{
+
 class KeyDownEvent
 {
 
@@ -126,7 +129,11 @@ struct MouseEvent
 
     virtual void MouseMove(unsigned int which, int x, int y) = 0;
 
-    virtual void MouseButtonDown(unsigned int which, MouseButton button, int x, int y) = 0;
+    virtual void MouseButtonDown(unsigned int which, MouseButton button, int x,
+                                 int y) = 0;
 
-    virtual void MouseButtonUp(unsigned int which, MouseButton button, int x, int y) = 0;
+    virtual void MouseButtonUp(unsigned int which, MouseButton button, int x,
+                               int y) = 0;
 };
+
+}; // namespace doengine

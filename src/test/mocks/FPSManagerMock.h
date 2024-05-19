@@ -3,7 +3,6 @@
 #include "FPSManager.h"
 #include <gmock/gmock.h>
 
-
 class FpsManagerMock : public FpsManager
 {
   public:

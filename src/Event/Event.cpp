@@ -1,15 +1,17 @@
 
 #include "Event.h"
+#include "Application.h"
 #include "DOEngine_SDL_includes.h"
+#include "EventHandler.h"
 #include "SDLJoypad.h"
 #include "SDLKeyboard.h"
 #include "SDLMouse.h"
-#include "EventHandler.h"
 #include "v2d_vector.h"
-#include "Application.h"
 #include <vector>
 
- 
+namespace doengine
+{
+
 std::vector<KeyDownEvent*> Event::keydown;
 std::vector<KeyUpEvent*> Event::keyup;
 std::vector<MouseEvent*> Event::mouseEvent;
@@ -35,7 +37,7 @@ void Event::PollEvent()
         }
         case SDL_KEYDOWN: {
             SDL_Log("SDL_KEYDOWN");
-            ///SDLKeyboard keyboard;
+            /// SDLKeyboard keyboard;
 
             for (auto itKeyboard : Event::keydown)
                 itKeyboard->OnKeydown(event.key.keysym.sym);
@@ -43,7 +45,7 @@ void Event::PollEvent()
         break;
         case SDL_KEYUP: {
             SDL_Log("SDL_KEYUP");
-          //  SDLKeyboard keyboard;
+            //  SDLKeyboard keyboard;
 
             for (auto itKeyboard : Event::keyup)
                 itKeyboard->OnKeyup(event.key.keysym.sym);
@@ -60,8 +62,7 @@ void Event::PollEvent()
         case SDL_MOUSEMOTION: {
             Point mousePos;
             auto mask = getMousePosition(&mousePos.x, &mousePos.y);
-            SDLMouse mouse(event.motion.which, mask,
-                                              mousePos);
+            SDLMouse mouse(event.motion.which, mask, mousePos);
 
             SDL_Log("SDL_MOUSEMOTION x: %d,  y:%d", mousePos.x, mousePos.y);
             SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
@@ -76,30 +77,30 @@ void Event::PollEvent()
             Point mousePos;
             std::bitset<Mouse::BUTTONS_COUNT> buttonPressed;
             auto mask = getMousePosition(&mousePos.x, &mousePos.y);
-            SDLMouse mouse(event.button.which, mask,
-                                              mousePos);
+            SDLMouse mouse(event.button.which, mask, mousePos);
             mouse.getButtonStateBitset(buttonPressed);
 
-           SDL_Log("SDL_MOUSEBUTTONDOWN %ld", buttonPressed.to_ulong());
-           SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+            SDL_Log("SDL_MOUSEBUTTONDOWN %ld", buttonPressed.to_ulong());
+            SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
 
-           for (auto it : Event::mouseEvent)
-               it->MouseButtonDown(event.button.which,MouseButton::Middle,mousePos.x, mousePos.y);
+            for (auto it : Event::mouseEvent)
+                it->MouseButtonDown(event.button.which, MouseButton::Middle,
+                                    mousePos.x, mousePos.y);
         }
         break;
         case SDL_MOUSEBUTTONUP: {
             Point mousePos;
             std::bitset<Mouse::BUTTONS_COUNT> buttonPressed;
             auto mask = getMousePosition(&mousePos.x, &mousePos.y);
-            SDLMouse mouse(event.motion.which, mask,
-                                              mousePos);
+            SDLMouse mouse(event.motion.which, mask, mousePos);
             mouse.getButtonStateBitset(buttonPressed);
 
-           // SDL_Log("SDL_MOUSEBUTTONUP %d", buttonPressed.to_ulong());
-           // SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+            // SDL_Log("SDL_MOUSEBUTTONUP %d", buttonPressed.to_ulong());
+            // SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
 
-             for (auto it : mouseEvent)
-                it->MouseButtonUp(event.button.which,MouseButton::Middle,mousePos.x, mousePos.y);
+            for (auto it : mouseEvent)
+                it->MouseButtonUp(event.button.which, MouseButton::Middle,
+                                  mousePos.x, mousePos.y);
         }
         break;
         case SDL_MOUSEWHEEL: {
@@ -114,8 +115,8 @@ void Event::PollEvent()
             for (auto it : joyButtonTriggerList)
             {
                 //@todo fix this?
-                //auto joypad = joypadsConnected[event.jaxis.which];
-                //if (joypad != nullptr)
+                // auto joypad = joypadsConnected[event.jaxis.which];
+                // if (joypad != nullptr)
                 //    it->OnButtonTriggered(event.jaxis.which, *joypad);
             }
             break;
@@ -124,40 +125,40 @@ void Event::PollEvent()
 
             for (auto it : joyButtonUpList)
             {
-               //@todo fix this?
-               // auto joypad = joypadsConnected[event.jbutton.which];
-               // if (joypad != nullptr)
-               //     it->OnButtonUp(*joypad);
+                //@todo fix this?
+                // auto joypad = joypadsConnected[event.jbutton.which];
+                // if (joypad != nullptr)
+                //     it->OnButtonUp(*joypad);
             }
             break;
         case SDL_JOYBUTTONDOWN:
-          ////  SDL_Log("SDL_JOYBUTTONDOWN %d", event.jbutton.button);
+            ////  SDL_Log("SDL_JOYBUTTONDOWN %d", event.jbutton.button);
 
             for (auto it : joyButtonDownList)
             {
-               //@todo fix this?
-               // auto joypad = joypadsConnected[event.jbutton.which];
-               // if (joypad != nullptr)
-               //     it->OnButtonDown(*joypad);
+                //@todo fix this?
+                // auto joypad = joypadsConnected[event.jbutton.which];
+                // if (joypad != nullptr)
+                //     it->OnButtonDown(*joypad);
             }
             break;
         case SDL_JOYDEVICEREMOVED: {
             SDL_Log("SDL_JOYDEVICEREMOVED  %d", event.jbutton.which);
             //@todo fix this?
-           /* auto joypad = joypadsConnected[event.jdevice.which];
+            /* auto joypad = joypadsConnected[event.jdevice.which];
 
-            if (joypad != nullptr)
-            {
-                auto sdlJoypad = dynamic_cast<SDLJoypad*>(
-                    joypadsConnected[event.jdevice.which]);
+             if (joypad != nullptr)
+             {
+                 auto sdlJoypad = dynamic_cast<SDLJoypad*>(
+                     joypadsConnected[event.jdevice.which]);
 
-                SDL_Joystick* nativeJoystick = sdlJoypad->getNativeJoystick();
-                if (nativeJoystick != nullptr)
-                {
-                    SDL_JoystickClose(sdlJoypad->getNativeJoystick());
-                    delete sdlJoypad;
-                    joypadsConnected[event.jdevice.which] = nullptr;
-                }*/
+                 SDL_Joystick* nativeJoystick = sdlJoypad->getNativeJoystick();
+                 if (nativeJoystick != nullptr)
+                 {
+                     SDL_JoystickClose(sdlJoypad->getNativeJoystick());
+                     delete sdlJoypad;
+                     joypadsConnected[event.jdevice.which] = nullptr;
+                 }*/
         }
         break;
         case SDL_JOYDEVICEADDED: {
@@ -285,3 +286,4 @@ void Event::RemoveJoypadEventListener(JoyButtonTriggerEvent* ev)
     }
 }
 
+}; // namespace doengine

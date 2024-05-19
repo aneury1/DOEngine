@@ -1,10 +1,13 @@
 #pragma once
 
-#include <string>
-#include <cmath>
-#include <vector>
-#include "Renderer.h"
 #include "Color.h"
+#include "Renderer.h"
+#include <cmath>
+#include <string>
+#include <vector>
+
+namespace doengine
+{
 
 #ifdef TODO
 
@@ -15,16 +18,16 @@ struct CanvasCommand
 
 struct CanvasRectCommand : public CanvasCommand
 {
-    Rect  offset;
-    Color  color;
+    Rect offset;
+    Color color;
     bool filled;
     virtual void Draw() override;
 };
 
 struct CanvasPointDrawCommand : public CanvasCommand
 {
-    Rect  offset;
-    Color  color;
+    Rect offset;
+    Color color;
     virtual void Draw() override;
 };
 
@@ -32,8 +35,8 @@ struct CanvasCircleCommand : public CanvasCommand
 {
 
     double radius;
-    Point  where;
-    Color  color;
+    Point where;
+    Color color;
 
     virtual void Draw() override;
 };
@@ -41,7 +44,7 @@ struct CanvasCircleCommand : public CanvasCommand
 struct CanvasTextDrawerCommand : public CanvasCommand
 {
 
-    Point  where;
+    Point where;
     Color color;
     std::string text;
     virtual void Draw() override;
@@ -49,47 +52,45 @@ struct CanvasTextDrawerCommand : public CanvasCommand
 
 class Canvas
 {
-    Color  _bg;
-    Color  _filler;
-    Rect  _offset;
+    Color _bg;
+    Color _filler;
+    Rect _offset;
     bool clear = false;
 
     std::vector<CanvasCommand*> commands_to_draw;
 
   public:
-    const static Color  black;
+    const static Color black;
 
     Canvas();
 
-    Canvas* fillColor(Color  color);
-    Canvas* setRect(Rect  rect);
+    Canvas* fillColor(Color color);
+    Canvas* setRect(Rect rect);
 
     Canvas* DrawRect(int x, int y, int w, int h, bool filled);
     Canvas* DrawPoint(int x, int y);
     Canvas* FillCircle(int x, int y, double rsize = 50);
     Canvas* FillText(const char* str, int x, int y);
 
-    Canvas* setCanvasBackgroundColor(Color  color);
+    Canvas* setCanvasBackgroundColor(Color color);
     Canvas* update();
     Canvas* clearCanvas();
 
-    void getColor(Color * color)
+    void getColor(Color* color)
     {
         color = &_filler;
     }
 
-    const Rect  getCanvasSize() const
+    const Rect getCanvasSize() const
     {
         return _offset;
     }
 };
 
-
 // Create a gradient color between two colors at a specific position
-Color  GradientColor(Color  startColor, Color  endColor,
-                        float position)
+Color GradientColor(Color startColor, Color endColor, float position)
 {
-    Color  result;
+    Color result;
     result.r = startColor.r + (endColor.r - startColor.r) * position;
     result.g = startColor.g + (endColor.g - startColor.g) * position;
     result.b = startColor.b + (endColor.b - startColor.b) * position;
@@ -98,38 +99,38 @@ Color  GradientColor(Color  startColor, Color  endColor,
 }
 
 // Draw a horizontal line on the renderer with a gradient
-void DrawGradientHorizontalLine(Renderer * renderer, int x, int y, int width,
-                                Color  startColor, Color  endColor)
+void DrawGradientHorizontalLine(Renderer* renderer, int x, int y, int width,
+                                Color startColor, Color endColor)
 {
     for (int i = 0; i < width; i++)
     {
         float position =
             (float)i /
             (float)(width - 1); // Normalized position for the gradient
-        Color  color = GradientColor(startColor, endColor, position);
+        Color color = GradientColor(startColor, endColor, position);
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_RenderDrawPoint(renderer, x + i, y);
     }
 }
 
 // Draw a gradient-filled rectangle on the renderer
-void DrawGradientRect(Renderer * renderer, int x, int y, int width,
-                      int height, Color  startColor, Color  endColor)
+void DrawGradientRect(Renderer* renderer, int x, int y, int width, int height,
+                      Color startColor, Color endColor)
 {
     for (int i = 0; i < height; i++)
     {
         float position =
             (float)i /
             (float)(height - 1); // Normalized position for the gradient
-        Color  color = GradientColor(startColor, endColor, position);
+        Color color = GradientColor(startColor, endColor, position);
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
         SDL_RenderDrawLine(renderer, x, y + i, x + width - 1, y + i);
     }
 }
 
 // Draw a gradient-filled circle on the renderer
-void DrawGradientCircle(Renderer * renderer, int centerX, int centerY,
-                        int radius, Color  startColor, Color  endColor)
+void DrawGradientCircle(Renderer* renderer, int centerX, int centerY,
+                        int radius, Color startColor, Color endColor)
 {
     for (int y = centerY - radius; y <= centerY + radius; y++)
     {
@@ -141,7 +142,7 @@ void DrawGradientCircle(Renderer * renderer, int centerX, int centerY,
             {
                 float position =
                     distance / radius; // Normalized position for the gradient
-                Color  color = GradientColor(startColor, endColor, position);
+                Color color = GradientColor(startColor, endColor, position);
                 SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b,
                                        color.a);
                 SDL_RenderDrawPoint(renderer, x, y);
@@ -150,5 +151,5 @@ void DrawGradientCircle(Renderer * renderer, int centerX, int centerY,
     }
 }
 
-
 #endif
+}; // namespace doengine

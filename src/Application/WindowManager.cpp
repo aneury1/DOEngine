@@ -1,8 +1,14 @@
-#include <memory.h>
 #include "WindowManager.h"
 #include "SDLWindowManager.h"
+#include <memory.h>
 
-WindowManager* WindowManager::getWindowManager(){
-   SDLWindowManager* manager = new SDLWindowManager();
-   return manager;
+namespace doengine
+{
+
+WindowManager* WindowManager::getWindowManager()
+{
+    SDLWindowManager* manager = new SDLWindowManager();
+    return manager;
 }
+
+}; // namespace doengine

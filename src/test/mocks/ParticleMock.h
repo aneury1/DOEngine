@@ -3,8 +3,6 @@
 #include "Particle.h"
 #include <gmock/gmock-function-mocker.h>
 
-
-
 class ParticleMock : public Particle
 {
   public:

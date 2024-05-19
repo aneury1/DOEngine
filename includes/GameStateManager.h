@@ -1,17 +1,20 @@
 #pragma once
 
+#include "GameState.h"
 #include <map>
 #include <string>
-#include "GameState.h"
+
+namespace doengine
+{
 
 class GameStateManager
 {
- 
+
     std::map<int, GameState*> states;
     int current_state;
 
   public:
-    GameStateManager()  
+    GameStateManager()
     {
     }
 
@@ -26,3 +29,4 @@ class GameStateManager
     virtual void Update(float elapsed);
     virtual void Render();
 };
+}; // namespace doengine

@@ -129,4 +129,3 @@ void SetSDLMock(SDLMock* newSdlMock)
 {
     sdlMock = newSdlMock;
 }
-

@@ -555,7 +555,6 @@ struct _SDL_Joystick
 };
 typedef _SDL_Joystick SDL_Joystick;
 
-
 class SDLMock
 {
   public:

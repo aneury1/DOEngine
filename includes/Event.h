@@ -1,9 +1,11 @@
 #pragma once
-#include "Joypad.h"
 #include "EventHandler.h"
+#include "Joypad.h"
 #include <map>
 #include <vector>
 
+namespace doengine
+{
 
 struct Event
 {
@@ -33,3 +35,5 @@ struct Event
     static void RemoveJoypadEventListener(JoyButtonDownEvent* ev);
     static void RemoveJoypadEventListener(JoyButtonTriggerEvent* ev);
 };
+
+}; // namespace doengine

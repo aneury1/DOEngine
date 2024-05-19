@@ -3,8 +3,6 @@
 #include "abstract/devices/Joypad.h"
 #include <gmock/gmock-function-mocker.h>
 
- 
-
 class JoypadMock : public Joypad
 {
   public:

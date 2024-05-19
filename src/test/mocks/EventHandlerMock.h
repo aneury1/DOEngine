@@ -3,7 +3,6 @@
 #include "EventHandler.h"
 #include <gmock/gmock-function-mocker.h>
 
-
 class KeyDownEventMock : public KeyDownEvent
 {
   public:

@@ -3,8 +3,6 @@
 #include "Camera.h"
 #include <gmock/gmock-function-mocker.h>
 
- 
-
 class CameraMock : public Camera
 {
   public:

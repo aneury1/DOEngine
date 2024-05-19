@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include <gmock/gmock-function-mocker.h>
 
-
 class GameObjectMock : public GameObject
 {
   public:

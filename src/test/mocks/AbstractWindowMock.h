@@ -3,8 +3,6 @@
 #include "Color.h"
 #include <gmock/gmock-function-mocker.h>
 
-
-
 class AbstractWindowMock : public AbstractWindow
 {
   public:

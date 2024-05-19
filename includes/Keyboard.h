@@ -3,6 +3,8 @@
 #include <bitset>
 #include <cstddef>
 
+namespace doengine
+{
 
 enum class Keymod : unsigned char
 {
@@ -278,3 +280,5 @@ class Keyboard
     static const size_t BUTTONS_COUNT = 246u;
     virtual const unsigned char* getKeysBitset() const = 0;
 };
+
+}; // namespace doengine

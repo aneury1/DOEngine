@@ -4,8 +4,6 @@
 #include "mocks/GameStateMock.h"
 #include <cstddef>
 
- 
-
 class utGameStateManager : public ::testing::Test
 {
   public:
@@ -88,4 +86,3 @@ TEST_F(utGameStateManager, doengineRender)
     _sut.SetState(_gsId);
     _sut.Render();
 }
-

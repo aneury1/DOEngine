@@ -2,7 +2,6 @@
 #include "Renderer.h"
 #include <gmock/gmock-function-mocker.h>
 
-
 class RendererMock : public gfx::Renderer
 {
   public:

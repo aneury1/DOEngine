@@ -3,14 +3,14 @@
 #include "DOEngine_SDL_includes.h"
 #include "Joypad.h"
 
-  
+namespace doengine
+{
+
 const std::string DEFAULT_JOYPAD_NAME = "NOT_FOUND";
 
 class SDLJoypad : public Joypad
 {
   public:
-
-
     SDLJoypad(SDL_Joystick* joystick);
 
     virtual int getId() const override;
@@ -36,3 +36,5 @@ class SDLJoypad : public Joypad
     SDL_Joystick* joystick;
     unsigned char index;
 };
+
+}; // namespace doengine

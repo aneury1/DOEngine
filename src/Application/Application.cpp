@@ -1,30 +1,31 @@
 
-#include <sstream>
-#include <vector>
 #include <iostream>
+#include <sstream>
 #include <string_view>
+#include <vector>
 
 #include "Application.h"
 #include "Event.h"
 
+namespace doengine
+{
 
-Application *Application::applicationObject = nullptr;
-
+Application* Application::applicationObject = nullptr;
 
 Application::Application()
 {
-  windowManager =  WindowManager::getWindowManager();
-  gsm = new GameStateManager();
-  fps_handler = new FpsManager();
-  fps_handler->setFPS(60);
+    windowManager = WindowManager::getWindowManager();
+    gsm = new GameStateManager();
+    fps_handler = new FpsManager();
+    fps_handler->setFPS(60);
 }
 
 void Application::destroy()
 {
-    //render->destroy();
-    //SDL_DestroyWindow(window);
-    //render = nullptr;
-    //window = nullptr;
+    // render->destroy();
+    // SDL_DestroyWindow(window);
+    // render = nullptr;
+    // window = nullptr;
 }
 
 Application::~Application()
@@ -32,8 +33,9 @@ Application::~Application()
     destroy();
 }
 
-void Application::_internalResize(){
-      windowManager->setSize(Rect{window_rect.w, window_rect.h});
+void Application::_internalResize()
+{
+    windowManager->setSize(Rect{window_rect.w, window_rect.h});
 }
 
 void Application::setFullScreen()
@@ -43,7 +45,7 @@ void Application::setFullScreen()
 
 void Application::setWindowMode()
 {
-   windowManager->setFullScreen();
+    windowManager->setFullScreen();
 }
 void Application::PollEvent()
 {
@@ -65,14 +67,15 @@ void Application::Render()
 
 void Application::Quit()
 {
-   run = false;    
+    run = false;
 }
-WindowManager* Application::getWindow() {
-        return windowManager;
-}
-Renderer* Application::getRender() const 
+WindowManager* Application::getWindow()
 {
-        return windowManager->getRenderer();
+    return windowManager;
+}
+Renderer* Application::getRender() const
+{
+    return windowManager->getRenderer();
 }
 
 const bool Application::IsRunning() const
@@ -82,13 +85,17 @@ const bool Application::IsRunning() const
 
 void Application::SetWindowPencilColor(const Color& color)
 {
-   windowManager->setPincelColor(color);
+    windowManager->setPincelColor(color);
 }
-void Application::clearScreen(const Color& color){
+void Application::clearScreen(const Color& color)
+{
     windowManager->clearScreen(color);
 }
 
-void Application::createWindow(const Rect& rect){
-   run = windowManager->createWindow(rect);
-   this->setSize(rect.w, rect.h);
+void Application::createWindow(const Rect& rect)
+{
+    run = windowManager->createWindow(rect);
+    this->setSize(rect.w, rect.h);
 }
+
+}; // namespace doengine

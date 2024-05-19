@@ -2,14 +2,13 @@
 
 #include <string>
 
-class MusicHandler
+namespace doengine
 {
 
-    //   AbstractWindow *window;
-
+class MusicHandler
+{
   public:
     //   MusicHandler(AbstractWindow *window);
-
     virtual void addToList(std::string src) = 0;
     virtual void playFirst() = 0;
     virtual void playLast() = 0;
@@ -73,3 +72,5 @@ int main(int argc, char* argv[]) {
 }
 
 #endif
+
+}; // namespace doengine
