@@ -1,0 +1,3 @@
+- Removing SDl2 references.
+- adding Native And Abstract.
+- add methods for Rect left,right, bottom, top, center.
