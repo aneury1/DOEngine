@@ -6,6 +6,8 @@
 #include "Texture.h"
 #include "Canvas.h"
 #include "WindowManager.h"
+#include "GameState.h"
+#include "DOEngine.h"
 
 class GameStateManager;
 
@@ -16,9 +18,8 @@ class WindowManager;
 class Application 
 {
     WindowManager*  window;
-    std::shared_ptr<doengine::gfx::Renderer> render;
-    std::shared_ptr<FpsManager> fps_handler;
-    std::shared_ptr<GameStateManager> gsm;
+    Renderer* render;
+    GameStateManager* gsm;
     
     Rect      window_rect;
 
@@ -33,8 +34,8 @@ class Application
    ~Application();
  
    void _internalResize(){
-      //// @todo do it by WindowManager
-    }
+     windowManager->setSize(Rect{window_rect.w, window_rect.h});
+   }
 
     public:
 
@@ -45,7 +46,7 @@ class Application
     }
 
     const bool    IsRunning() const;
-    doengine::gfx::Renderer* getRender() const  {return render;}
+    doengine::Renderer* getRender() const  {return render;}
     std::shared_ptr<WindowManager> getWindow() {return window;}
    
     
