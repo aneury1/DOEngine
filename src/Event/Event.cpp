@@ -1,17 +1,18 @@
 
 #include "Event.h"
 #include "DOEngine_SDL_includes.h"
+#include "EventHandler.h"
 #include "SDLJoypad.h"
 #include "SDLKeyboard.h"
 #include "SDLMouse.h"
-#include "abstract/EventHandler.h"
 #include "v2d_vector.h"
 #include <vector>
 
 using doengine::devices::SDLJoypad;
 using doengine::devices::SDLKeyboard;
 using doengine::devices::SDLMouse;
-
+namespace doengine
+{
 std::vector<KeyDownEvent*> Event::keydown;
 std::vector<KeyUpEvent*> Event::keyup;
 std::vector<MouseEvent*> Event::mouseEvent;
@@ -22,7 +23,7 @@ std::map<int, Joypad*> Event::joypadsConnected;
 
 float Event::timeElapsed = 0.0f;
 
-void Event::PollEvent(AbstractWindow* window)
+void Event::PollEvent()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -31,7 +32,7 @@ void Event::PollEvent(AbstractWindow* window)
         {
         case SDL_QUIT: {
             SDL_Log("Window quit");
-            window->Quit();
+            Application::getApplication()->Quit();
             break;
         }
         case SDL_KEYDOWN: {
@@ -64,8 +65,8 @@ void Event::PollEvent(AbstractWindow* window)
             doengine::devices::SDLMouse mouse(event.motion.which, mask,
                                               mousePos);
 
-            SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mousePos.x, mousePos.y);
-            SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+            ////SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mouse.x, mouse.y);
+            /// SDL_Log("Mouse Count = %ld", Event::mouseEvent.size());
 
             for (auto itMouse : Event::mouseEvent)
             {
@@ -174,6 +175,7 @@ void Event::PollEvent(AbstractWindow* window)
             break;
         }
     }
+    Event::timeElapsed = Application::getApplication()->getElapsedTime();
 }
 
 int Event::getMousePosition(int* x, int* y)
@@ -283,3 +285,4 @@ void Event::RemoveJoypadEventListener(JoyButtonTriggerEvent* ev)
     }
 }
 
+} // namespace doengine

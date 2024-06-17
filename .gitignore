@@ -380,3 +380,6 @@ _deps
 
 #clangd
 .cache/
+
+workstate.txt
+ignored_main.cpp

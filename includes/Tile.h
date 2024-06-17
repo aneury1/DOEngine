@@ -1,6 +1,11 @@
 #pragma once
-
-struct Tile{
-    int x, y;
+namespace doengine
+{
+struct Tile
+{
+    int x;
+    int y;
     int type;
 };
+
+} // namespace doengine

@@ -34,43 +34,71 @@ endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 
-add_library(${PROJECT_NAME}
+
+
+# message("END Fecthing SDL Source code")
+set(DOENGINE_SRC
+    includes/WindowManager.h
+     includes/Renderer.h
+     src/Application/Geometric.cpp
+    src/Application/SDLWindowManager.cpp
+    src/Application/WindowManager.cpp
+   src/Application/SDLWindowManager.h
+       src/Application/SDLRenderer.cpp
+       src/Application/SDLRenderer.h
+       src/Application/SDLTTFText.h
+     src/Application/SDLTTFText.cpp
+   src/Application/Application.cpp
+     src/Application/StringUtils.cpp
+     src/Timer/FPSManager.cpp
+     src/GameState/GameStateManager.cpp
     src/Timer/FPSManager.cpp
     src/Tilemap/Tilemap.cpp
-    src/Texture/Texture.cpp
-    src/GameState/GameStateManager.cpp
-    src/GameObject/GameObject.cpp
-    src/Font/TTFText.cpp
-    src/Event/Event.cpp
-    src/Drawable/Canvas.cpp
-    src/Drawable/SDLRenderer.cpp
-    src/Event/SDLMouse.cpp
-    src/Event/SDLKeyboard.cpp
-    src/Event/SDLJoypad.cpp
+     src/Texture/Texture.cpp
+     src/Event/SDLMouse.cpp
+     src/Event/SDLKeyboard.cpp
+     src/Event/SDLJoypad.cpp      
 
-    includes/defines.h
-    includes/abstract/Camera.h
-    includes/Event.h
-    includes/DOEngine.h
-    includes/DOEngine_SDL_includes.h
-    includes/abstract/EventHandler.h
-    includes/FPSManager.h
-    includes/GameObject.h
-    includes/GameState.h
-    includes/GameStateManager.h
-    includes/Grids.h
-    includes/LinkList.h
-    includes/sort.h
-    includes/Sprite.h
-    includes/Utils.h
-    includes/Texture.h
-    includes/Tile.h
-    includes/Tilemap.h
-    includes/UDPPacket.h
-    includes/Vector.h
-    includes/abstract/devices/Mouse.h
-    includes/abstract/devices/Keyboard.h
-    includes/abstract/devices/Joypad.h
+     src/GameObject/GameObject.cpp
+      src/Font/TTFText.cpp
+     src/Event/Event.cpp
+      src/Drawable/Gui.cpp
+      src/Application/SDLTexture.cpp
+     src/Application/SDLTexture.h
+    includes/NativeStructs.h
+    includes/Geometric.h
+    includes/Color.h
+       includes/defines.h
+        includes/TTFText.h
+        includes/Camera.h
+        includes/Event.h
+       includes/DOEngine.h
+       includes/DOEngine_SDL_includes.h
+       includes/EventHandler.h
+      includes/FPSManager.h
+      includes/GameObject.h
+       includes/GameState.h
+        includes/GameStateManager.h
+        includes/Grids.h
+       includes/LinkList.h
+        includes/sort.h
+       includes/Sprite.h
+        includes/Utils.h
+        includes/Texture.h
+        includes/Tile.h
+        includes/Tilemap.h
+        includes/UDPPacket.h
+        includes/Vector.h
+        includes/Application.h
+      includes/Mouse.h
+      includes/Keyboard.h
+      includes/Joypad.h
+
+
+)
+
+add_library(${PROJECT_NAME}
+  ${DOENGINE_SRC}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -78,8 +106,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     SDL2::SDL2main
     SDL2_ttf SDL2_image
     SDL2_mixer)
-
-
 
 set(DOENGINE_LIBRARIES )
 if(FETCH_SDL_FROM_GIT)

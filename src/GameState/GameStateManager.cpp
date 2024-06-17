@@ -1,6 +1,7 @@
 #include "GameStateManager.h"
 // #include "TTFText.h"
-
+namespace doengine
+{
 void GameStateManager::AddState(int state_id, GameState* object)
 {
     if (object)
@@ -22,23 +23,16 @@ void GameStateManager::SetState(int state_id)
         states[current_state]->OnEnter();
     }
 }
-
+#include "Logger.h"
 void GameStateManager::Update(float elapsed)
 {
+
     if (states[current_state])
         states[current_state]->Update(elapsed);
 }
 void GameStateManager::Render()
 {
-    /// TTFText::get()->DrawText("GameStateManager::Render",0,10,
-    /// this->window->getRender());
     if (states[current_state])
         states[current_state]->Render();
-    /*else
-    {
-        TTFText::get()->DrawText(
-            "State Invalid", 0, 80,
-            static_cast<SDL_Renderer*>(
-                this->window->getRender()->getNativeRenderer()));
-    }*/
 }
+} // namespace doengine

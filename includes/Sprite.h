@@ -1,9 +1,11 @@
 #pragma once
-#include <vector>
 #include <map>
+#include <vector>
+namespace doengine
+{
+class Sprite
+{
 
-class Sprite{
-  
-   protected:
-   
+  protected:
 };
+} // namespace doengine

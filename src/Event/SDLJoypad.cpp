@@ -6,7 +6,6 @@ namespace doengine::devices
 
 const std::string SDLJoypad::DEFAULT_JOYPAD_NAME = "NOT_FOUND";
 
-
 SDLJoypad::SDLJoypad(SDL_Joystick* joystick) : joystick(joystick), index(255)
 {
 }
@@ -104,4 +103,4 @@ SDL_Joystick* SDLJoypad::getNativeJoystick() const
     return joystick;
 }
 
-} // namespace doengine::devices
+} // namespace doengine

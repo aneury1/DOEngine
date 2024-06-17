@@ -114,4 +114,3 @@ void CanvasTestState::Render()
     pencil1->update();
     pencil1->clearCanvas();
 }
- 

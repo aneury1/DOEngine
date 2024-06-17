@@ -1,125 +1,101 @@
-#include "DOEngine.h"
+#include "Texture.h"
+#include "Application.h"
 
-std::map<std::string, SDL_Texture*> Texture::textures;
-SDL_Renderer* Texture::render;
-
-bool Texture::IsloadThisTexture(std::string id)
+namespace doengine
 {
-    if (id.length() > 0)
-        return textures[id] != NULL;
-    return false;
+
+Texture::Texture(std::string path)
+{
+    auto render = Application::getApplication()->getRender();
+    Color color;
+    color.r = 0;
+    color.g = 0;
+    color.b = 0;
+    color.a = 0;
+    this->realNativeTexture =
+        render->loadTextureFromImageFile(path.c_str(), color);
+}
+Texture::~Texture()
+{
+}
+void Texture::Draw(const Rect& offset)
+{
+    this->realNativeTexture->Draw(offset);
+}
+void Texture::Draw(const Rect& offset, const Rect& clipset)
+{
+    this->realNativeTexture->Draw(offset, clipset);
+}
+void Texture::ModulateColor(const Color& color)
+{
+    this->realNativeTexture->ModulateColor(color);
+}
+int Texture::getWidth()
+{
+    return this->realNativeTexture->getWidth();
+}
+int Texture::getHeight()
+{
+    return this->realNativeTexture->getHeight();
+}
+bool Texture::validTexture()
+{
+    return realNativeTexture->validTexture();
 }
 
-int Texture::LoadTexture(std::string path, std::string id)
+Texture* Texture::subTexture(const Rect& clipset)
 {
-    if (path.length() > 0 && id.length() > 0)
+    Texture* ret = new Texture();
+    ret->realNativeTexture = this->realNativeTexture->subTexture(clipset);
+    return ret;
+}
+
+TextureManager* TextureManager::instance;
+
+std::map<std::string, Texture*> textures;
+
+TextureManager* TextureManager::getTextureManager()
+{
+    if (instance == nullptr)
+        instance = new TextureManager();
+    return instance;
+}
+
+void TextureManager::loadTextureFromFile(std::string id, std::string src)
+{
+    Texture* texture = new Texture(src);
+    addTexture(id, texture);
+}
+
+void TextureManager::loadTextureFromTexture(std::string id, Texture* texture,
+                                            const Rect& clipset)
+{
+    /// Todo, easy.
+}
+
+void TextureManager::addTexture(std::string id, Texture* texture)
+{
+    auto it = textures.find(id);
+    if (texture->validTexture())
     {
-        if (IsloadThisTexture(id) == true)
-            return 2;
-
-        SDL_Surface* surface = IMG_Load(path.c_str());
-
-        if (surface != NULL)
+        if (it != textures.end())
         {
-            textures[id] = SDL_CreateTextureFromSurface(render, surface);
-        }
-    }
-    return -1;
-}
-
-void Texture::DrawImage(std::string id, int x, int y, int w, int h)
-{
-    if (IsloadThisTexture(id))
-    {
-        SDL_Rect offset = {x, y, w, h};
-        SDL_Rect clipset = {0, 0, 0, 0};
-        SDL_RenderCopy(render, textures[id], NULL, &offset);
-    }
-}
-bool saveScreenshotBMP(std::string filepath, Window* window)
-{
-    SDL_Window* SDLWindow = window->getWindow();
-    SDL_Renderer* SDLRenderer =
-        static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer());
-    SDL_Surface* saveSurface = NULL;
-    SDL_Surface* infoSurface = NULL;
-    infoSurface = SDL_GetWindowSurface(SDLWindow);
-    if (infoSurface == NULL)
-    {
-        std::cerr << "Failed to create info surface from window in "
-                     "saveScreenshotBMP(string), SDL_GetError() - "
-                  << SDL_GetError() << "\n";
-    }
-    else
-    {
-        unsigned char* pixels = new (
-            std::nothrow) unsigned char[infoSurface->w * infoSurface->h *
-                                        infoSurface->format->BytesPerPixel];
-        if (pixels == 0)
-        {
-            std::cerr << "Unable to allocate memory for screenshot pixel data "
-                         "buffer!\n";
-            return false;
+            removeTexture(id);
         }
         else
         {
-            if (SDL_RenderReadPixels(
-                    SDLRenderer, &infoSurface->clip_rect,
-                    infoSurface->format->format, pixels,
-                    infoSurface->w * infoSurface->format->BytesPerPixel) != 0)
-            {
-                std::cerr << "Failed to read pixel data from SDL_Renderer "
-                             "object. SDL_GetError() - "
-                          << SDL_GetError() << "\n";
-                delete[] pixels;
-                return false;
-            }
-            else
-            {
-                saveSurface = SDL_CreateRGBSurfaceFrom(
-                    pixels, infoSurface->w, infoSurface->h,
-                    infoSurface->format->BitsPerPixel,
-                    infoSurface->w * infoSurface->format->BytesPerPixel,
-                    infoSurface->format->Rmask, infoSurface->format->Gmask,
-                    infoSurface->format->Bmask, infoSurface->format->Amask);
-                if (saveSurface == NULL)
-                {
-                    std::cerr << "Couldn't create SDL_Surface from renderer "
-                                 "pixel data. SDL_GetError() - "
-                              << SDL_GetError() << "\n";
-                    delete[] pixels;
-                    return false;
-                }
-                std::stringstream ss;
-                ss << filepath << "-" << SDL_GetTicks() << ".bmp";
-                /// SDL_Log("%s", saveSurface, ss.str().c_str());
-                SDL_SaveBMP(saveSurface, ss.str().c_str());
-                SDL_FreeSurface(saveSurface);
-                saveSurface = NULL;
-            }
-            delete[] pixels;
+            textures[id] = texture;
         }
-        SDL_FreeSurface(infoSurface);
-        infoSurface = NULL;
     }
-    return true;
 }
 
-void Texture::setRender(SDL_Renderer* render)
+void TextureManager::removeTexture(std::string id)
 {
-    if (render)
-    {
-        Texture::render = render;
-    }
-    SDL_Log("SetRender Called.");
 }
 
-void Texture::setRender(doengine::gfx::Renderer* render)
+Texture* TextureManager::getTexture(std::string id)
 {
-    if (render->isRenderOk())
-    {
-        Texture::render =
-            static_cast<SDL_Renderer*>(render->getNativeRenderer());
-    }
-    SDL_Log("SetRender Called.");
+    return textures[id];
 }
+
+} // namespace doengine

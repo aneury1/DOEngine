@@ -1,11 +1,11 @@
 #pragma once
-#include "abstract/Renderer.h"
+#include "Renderer.h"
 #include <gmock/gmock-function-mocker.h>
 
 namespace doengine::mocks
 {
 
-class RendererMock : public gfx::Renderer
+class RendererMock : public Renderer
 {
   public:
     MOCK_METHOD(bool, isRenderOk, (), (override));

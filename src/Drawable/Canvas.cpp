@@ -1,8 +1,9 @@
-#include "Geometric.h"
-#include "Window.h"
 #include "Canvas.h"
+#include "Geometric.h"
 #include "TTFText.h"
-
+#include "Window.h"
+namespace doengine
+{
 #if 0 
 
 void log(const std::string_view message,
@@ -97,8 +98,8 @@ void drawOval(SDL_Renderer* renderer, int x, int y, int radiusX, int radiusY) {
         SDL_RenderDrawPoint(renderer, x + x0, y - y0);
         SDL_RenderDrawPoint(renderer, x - x0, y - y0);
     }
-  
-  #if 0 
+
+#if 0 
     int a = radiusX;
     int b = radiusY;
     int a2 = a * a;
@@ -158,7 +159,7 @@ void drawOval(SDL_Renderer* renderer, int x, int y, int radiusX, int radiusY) {
             changeY += twoA2;
         }
     }
-    #endif
+#endif
 }
 
 
@@ -215,7 +216,7 @@ void arc(Window *window, int x, int y, int radius, double startAngle, double end
  
 }
 
-void DrawPoint(const Point &point, const Color& color, doengine::AbstractWindow *window){
+void DrawPoint(const Point &point, const Color& color, doengine::WindowManager *window){
    /// SDL_SetRenderDrawColor(window->getRender(), color.r, color.g, color.b, color.a);
     SDL_RenderDrawPoint(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), point.x, point.y);
 }
@@ -234,7 +235,7 @@ void DrawFillRect(const Rect &rect, const Color& color, Window *window){
 }
 
 
-void FillCircle(int x, int y, int radius, const Color& color, doengine::AbstractWindow *window)
+void FillCircle(int x, int y, int radius, const Color& color, doengine::WindowManager *window)
 	{
 		int x0 = 0;
 		int y0 = radius;
@@ -278,17 +279,35 @@ void DrawRect(Window *window, SDL_Rect rect){
     SDL_RenderDrawRect(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), &rect);
 }
 #endif
-void DrawSinglePoint(const Rect &rect, const Color& color, doengine::AbstractWindow *window){
-   SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a); 
-   SDL_RenderDrawPoint(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), rect.x, rect.y);
+void DrawSinglePoint(const Rect& rect, const Color& color,
+                     doengine::WindowManager* window)
+{
+    SDL_SetRenderDrawColor(
+        static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()),
+        color.r, color.g, color.b, color.a);
+    SDL_RenderDrawPoint(
+        static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()),
+        rect.x, rect.y);
 }
-void DrawNotFillRect(const Rect &rect, const Color& color, doengine::AbstractWindow *window){
-   SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a);
-   SDL_RenderDrawRect(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), &rect);
+void DrawNotFillRect(const Rect& rect, const Color& color,
+                     doengine::WindowManager* window)
+{
+    SDL_SetRenderDrawColor(
+        static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()),
+        color.r, color.g, color.b, color.a);
+    SDL_RenderDrawRect(
+        static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()),
+        &rect);
 }
-void DrawFillRect(const Rect &rect, const Color& color, doengine::AbstractWindow *window){
-  SDL_SetRenderDrawColor(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), color.r, color.g, color.b, color.a);
-  SDL_RenderFillRect(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), &rect);
+void DrawFillRect(const Rect& rect, const Color& color,
+                  doengine::WindowManager* window)
+{
+    SDL_SetRenderDrawColor(
+        static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()),
+        color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(
+        static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()),
+        &rect);
 }
 
 #if 0 
@@ -338,66 +357,70 @@ void DrawGradientCircle(SDL_Renderer* renderer, int centerX, int centerY, int ra
 }
 #endif
 
-void FillCircle(int x, int y, int radius, const Color& color, doengine::AbstractWindow *window)
-	{
-		int x0 = 0;
-		int y0 = radius;
-		int d = 3 - 2 * radius;
-		if (!radius) return;
-
-		auto drawline = [&](int sx, int ex, int ny)
-		{
-			for (int i = sx; i <= ex; i++)
-				DrawSinglePoint({i, ny}, color, window);
-		};
-
-		while (y0 >= x0)
-		{
-			// Modified to draw scan-lines instead of edges
-			drawline(x - x0, x + x0, y - y0);
-			drawline(x - y0, x + y0, y - x0);
-			drawline(x - x0, x + x0, y + y0);
-			drawline(x - y0, x + y0, y + x0);
-			if (d < 0) d += 4 * x0++ + 6;
-			else d += 4 * (x0++ - y0--) + 10;
-		}
-	}
-
-
-void CanvasCircleCommand::Draw(doengine::AbstractWindow *window)
+void FillCircle(int x, int y, int radius, const Color& color,
+                doengine::WindowManager* window)
 {
- FillCircle(where.x, where.y,  radius, color, window);
+    int x0 = 0;
+    int y0 = radius;
+    int d = 3 - 2 * radius;
+    if (!radius)
+        return;
+
+    auto drawline = [&](int sx, int ex, int ny) {
+        for (int i = sx; i <= ex; i++)
+            DrawSinglePoint({i, ny}, color, window);
+    };
+
+    while (y0 >= x0)
+    {
+        // Modified to draw scan-lines instead of edges
+        drawline(x - x0, x + x0, y - y0);
+        drawline(x - y0, x + y0, y - x0);
+        drawline(x - x0, x + x0, y + y0);
+        drawline(x - y0, x + y0, y + x0);
+        if (d < 0)
+            d += 4 * x0++ + 6;
+        else
+            d += 4 * (x0++ - y0--) + 10;
+    }
 }
 
-
-void CanvasRectCommand::Draw(doengine::AbstractWindow *window)
+void CanvasCircleCommand::Draw(doengine::WindowManager* window)
 {
-  // SDL_Log("Render Rect [%ld, %ld, %ld %ld](%02x %02x %02x %02x)", offset.x, offset.y, offset.w, offset.h, color.r, color.g, color.b, color.a);
-   ////  SDL_Log("Canvas Draw[%ld, %ld, %ld, %ld]",  offset.x, offset.y,  offset.w, offset.h);
- 
-   if(filled)
-       DrawFillRect(offset, color, window);
+    FillCircle(where.x, where.y, radius, color, window);
+}
+
+void CanvasRectCommand::Draw(doengine::WindowManager* window)
+{
+    // SDL_Log("Render Rect [%ld, %ld, %ld %ld](%02x %02x %02x %02x)", offset.x,
+    // offset.y, offset.w, offset.h, color.r, color.g, color.b, color.a);
+    ////  SDL_Log("Canvas Draw[%ld, %ld, %ld, %ld]",  offset.x, offset.y,
+    /// offset.w, offset.h);
+
+    if (filled)
+        DrawFillRect(offset, color, window);
     else
-       DrawNotFillRect(offset, color, window);
+        DrawNotFillRect(offset, color, window);
 }
 
-
-void CanvasPointDrawCommand::Draw(doengine::AbstractWindow *window)
+void CanvasPointDrawCommand::Draw(doengine::WindowManager* window)
 {
-   DrawSinglePoint(offset, color, window);
+    DrawSinglePoint(offset, color, window);
 }
 
+void CanvasTextDrawerCommand::Draw(doengine::WindowManager* window)
+{
 
-void CanvasTextDrawerCommand::Draw(doengine::AbstractWindow *window){
- 
-   ///SDL_SetRenderDrawColor(window->getRender(), color.r, color.g, color.b, color.a);
-   TTFText::get()->setColor(color);
-   TTFText::get()->DrawText(this->text.c_str(), where.x, where.y, static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()));  
+    /// SDL_SetRenderDrawColor(window->getRender(), color.r, color.g, color.b,
+    /// color.a);
+    TTFText::get()->setColor(color);
+    TTFText::get()->DrawText(
+        this->text.c_str(), where.x, where.y,
+        static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()));
 }
-
 
 Canvas* Canvas::setCanvasBackgroundColor(SDL_Color color)
-{ 
+{
     _bg.r = color.r;
     _bg.g = color.g;
     _bg.b = color.b;
@@ -405,15 +428,15 @@ Canvas* Canvas::setCanvasBackgroundColor(SDL_Color color)
     return this;
 }
 
-const SDL_Color Canvas::black={0,0,0,255};
+const SDL_Color Canvas::black = {0, 0, 0, 255};
 
-Canvas::Canvas(doengine::AbstractWindow* window)
-{ 
+Canvas::Canvas(doengine::WindowManager* window)
+{
     this->window = window;
-    setCanvasBackgroundColor({255,255,255,255});
-    fillColor({0,0,0,255});
-    setRect({0,0,window->getW(), window->getH()});
-}  
+    setCanvasBackgroundColor({255, 255, 255, 255});
+    fillColor({0, 0, 0, 255});
+    setRect({0, 0, window->getW(), window->getH()});
+}
 
 Canvas* Canvas::fillColor(SDL_Color color)
 {
@@ -423,53 +446,53 @@ Canvas* Canvas::fillColor(SDL_Color color)
     _filler.a = color.a;
     return this;
 }
-   
+
 Canvas* Canvas::setRect(SDL_Rect rect)
 {
-   _offset.x = rect.x;
-   _offset.y = rect.y;
-   _offset.w = rect.w;
-   _offset.h = rect.h;
-   return this;
+    _offset.x = rect.x;
+    _offset.y = rect.y;
+    _offset.w = rect.w;
+    _offset.h = rect.h;
+    return this;
 }
 Canvas* Canvas::DrawPoint(int x, int y)
 {
     CanvasPointDrawCommand* rect = new CanvasPointDrawCommand();
-    rect->offset.x =  this->_offset.x + x;
-    rect->offset.y =  this->_offset.y + y;
-    rect->offset.w =  1;
-    rect->offset.h =  1; 
-    rect->color.r =   _filler.r;
-    rect->color.g =   _filler.g;
-    rect->color.b =  _filler.b;
-    rect->color.a =  _filler.a;
+    rect->offset.x = this->_offset.x + x;
+    rect->offset.y = this->_offset.y + y;
+    rect->offset.w = 1;
+    rect->offset.h = 1;
+    rect->color.r = _filler.r;
+    rect->color.g = _filler.g;
+    rect->color.b = _filler.b;
+    rect->color.a = _filler.a;
 
     this->commands_to_draw.push_back(rect);
     return this;
 }
 
- Canvas* Canvas::FillCircle(int x, int y, double rsize)
- {
-    CanvasCircleCommand *cmd = new CanvasCircleCommand();
+Canvas* Canvas::FillCircle(int x, int y, double rsize)
+{
+    CanvasCircleCommand* cmd = new CanvasCircleCommand();
     cmd->color = _filler;
     cmd->radius = rsize;
     cmd->where.x = x;
     cmd->where.y = y;
-        this->commands_to_draw.push_back(cmd);
+    this->commands_to_draw.push_back(cmd);
     return this;
- }
+}
 
 Canvas* Canvas::DrawRect(int x, int y, int w, int h, bool filled)
 {
     CanvasRectCommand* rect = new CanvasRectCommand();
-    rect->offset.x =  this->_offset.x + x;
-    rect->offset.y =  this->_offset.y + y;
-    rect->offset.w =  w;
-    rect->offset.h =  h;
-    rect->color.r =   _filler.r;
-    rect->color.g =   _filler.g;
-    rect->color.b =  _filler.b;
-    rect->color.a =  _filler.a;
+    rect->offset.x = this->_offset.x + x;
+    rect->offset.y = this->_offset.y + y;
+    rect->offset.w = w;
+    rect->offset.h = h;
+    rect->color.r = _filler.r;
+    rect->color.g = _filler.g;
+    rect->color.b = _filler.b;
+    rect->color.a = _filler.a;
     rect->filled = filled;
 
     this->commands_to_draw.push_back(rect);
@@ -477,10 +500,9 @@ Canvas* Canvas::DrawRect(int x, int y, int w, int h, bool filled)
     return this;
 }
 
-
-Canvas* Canvas::FillText(const char *str, int x, int y)
+Canvas* Canvas::FillText(const char* str, int x, int y)
 {
-    CanvasTextDrawerCommand *scanvas = new CanvasTextDrawerCommand();
+    CanvasTextDrawerCommand* scanvas = new CanvasTextDrawerCommand();
     scanvas->where.x = x;
     scanvas->where.y = y;
     scanvas->color.r = _filler.r;
@@ -489,30 +511,30 @@ Canvas* Canvas::FillText(const char *str, int x, int y)
     scanvas->color.a = _filler.a;
     scanvas->text = str;
     this->commands_to_draw.push_back(scanvas);
-    
+
     return this;
 }
 
+Canvas* Canvas::update()
+{
 
-
-
- Canvas* Canvas::update()
- {
- 
     setCanvasBackgroundColor(_bg);
- 
-    ::DrawFillRect(_offset, _bg,  window);
-   
-    for(auto it : commands_to_draw)
-    {  
-         it->Draw(window);
-    }
-   return this;
- }
 
-Canvas* Canvas::clearCanvas(){
-    ///for(auto it : commands_to_draw)
+    ::DrawFillRect(_offset, _bg, window);
+
+    for (auto it : commands_to_draw)
+    {
+        it->Draw(window);
+    }
+    return this;
+}
+
+Canvas* Canvas::clearCanvas()
+{
+    /// for(auto it : commands_to_draw)
     commands_to_draw.erase(commands_to_draw.begin(), commands_to_draw.end());
     commands_to_draw.clear();
     return this;
 }
+
+} // namespace doengine

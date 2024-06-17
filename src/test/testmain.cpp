@@ -1,10 +1,10 @@
 #include "FPSManager.h"
 #include "GameStateManager.h"
-#include "mocks/AbstractWindowMock.h"
+///#include "mocks/WindowManagerMock.h"
 #include "mocks/CameraMock.h"
 #include "mocks/EventHandlerMock.h"
 #include "mocks/FPSManagerMock.h"
-#include "mocks/FontMock.h"
+
 #include "mocks/GameObjectMock.h"
 #include "mocks/GameStateManagerMock.h"
 #include "mocks/MusicHandlerMock.h"
@@ -26,10 +26,10 @@ TEST(mocks_test, DISABLED_getMusicFromMarsTest)
     NiceMock<MusicHandlerMock> musicHandlerMock;
     NiceMock<ParticleMock> particleMock;
     NiceMock<RendererMock> rendererMock;
-    NiceMock<FontMock> fontMock;
+    ////NiceMock<FontMock> fontMock;
     NiceMock<KeyDownEventMock> keyDownEventMock;
     NiceMock<KeyUpEventMock> keyUpEventMock;
-    NiceMock<AbstractWindowMock> abstractWindowMock;
+    /// NiceMock<WindowManagerMock> WindowManagerMock;
     NiceMock<GameObjectMock> gameObjectMock;
     NiceMock<UDPPacketMock> udpPacketMock;
 

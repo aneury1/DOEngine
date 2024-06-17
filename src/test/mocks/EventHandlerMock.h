@@ -1,7 +1,12 @@
 #pragma once
 
-#include "abstract/EventHandler.h"
+#include "EventHandler.h"
+#include "Mouse.h"
 #include <gmock/gmock-function-mocker.h>
+
+using doengine::devices::Joypad;
+using doengine::devices::Keyboard;
+using doengine::devices::Mouse;
 
 namespace doengine::mocks
 {

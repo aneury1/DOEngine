@@ -1,5 +1,5 @@
+#include "Mouse.h"
 #include "SDLMouse.h"
-#include "abstract/devices/Mouse.h"
 #include "fixtures/DoEngineFixture.h"
 #include "mocks/SDLMock.h"
 #include "v2d_vector.h"
@@ -73,21 +73,20 @@ TEST_F(utSDLMouse, isMiddleClickedTest)
 
 TEST_F(utSDLMouse, getMousePositionTest)
 {
-    Point p{0,0};
+    Point p{0, 0};
     const int expectedX = 25;
     const int expectedY = 52;
 
     ON_CALL(_sdlMock, SDL_GetMouseState(_, _))
-        .WillByDefault(
-                DoAll(SetArgPointee<0>(expectedX),
-                      SetArgPointee<1>(expectedY),
-                       Return(SDL_BUTTON_MMASK)));
-    
+        .WillByDefault(DoAll(SetArgPointee<0>(expectedX),
+                             SetArgPointee<1>(expectedY),
+                             Return(SDL_BUTTON_MMASK)));
+
     _sut.updateValues();
     _sut.getPosition(p);
 
-    EXPECT_EQ(p.x,expectedX);
-    EXPECT_EQ(p.y,expectedY);
+    EXPECT_EQ(p.x, expectedX);
+    EXPECT_EQ(p.y, expectedY);
 }
 
 class utSDLMouseBitmapTest

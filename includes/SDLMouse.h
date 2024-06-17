@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract/devices/Mouse.h"
+#include "Mouse.h"
 
 namespace doengine::devices
 {

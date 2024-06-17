@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract/devices/Keyboard.h"
+#include "Keyboard.h"
 
 namespace doengine::devices
 {

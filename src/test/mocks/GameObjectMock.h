@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "abstract/AbstractWindow.h"
+#include <WindowManager.h>
 #include <gmock/gmock-function-mocker.h>
 
 namespace doengine::mocks
@@ -9,7 +9,7 @@ namespace doengine::mocks
 class GameObjectMock : public GameObject
 {
   public:
-    GameObjectMock(AbstractWindow* window = nullptr) : GameObject(window)
+    GameObjectMock(WindowManager* window = nullptr) : GameObject(window)
     {
     }
 

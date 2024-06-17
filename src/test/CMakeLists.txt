@@ -37,10 +37,10 @@ add_executable(${PROJECT_NAME}
     mocks/MusicHandlerMock.h
     mocks/ParticleMock.h
     mocks/RendererMock.h
-    mocks/FontMock.h
+    # mocks/FontMock.h
     mocks/EventHandlerMock.h
     mocks/GameObjectMock.h
-    mocks/AbstractWindowMock.h
+    # mocks/WindowManagerMock.h
     mocks/GameStateManagerMock.h
     mocks/UDPPacketMock.h
     mocks/MouseMock.h

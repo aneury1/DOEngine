@@ -1,5 +1,6 @@
 #pragma once
-
+namespace doengine
+{
 template <const unsigned int R, const unsigned int C, typename T>
 struct Grid2D
 {
@@ -34,3 +35,5 @@ struct Grid2D
         return C;
     }
 };
+
+} // namespace doengine

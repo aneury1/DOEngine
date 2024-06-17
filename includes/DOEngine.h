@@ -1,38 +1,42 @@
 #ifndef DOENGINE_HPP_DEFINED
 #define DOENGINE_HPP_DEFINED
 
-#include<SDL_image.h>
-#include<SDL_ttf.h>
-#include<SDL.h>
-
-
-#include <vector>
-#include <string>
-#include <map>
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <string>
+#include <vector>
 
+#ifdef NAMESPACE
+#define DOENGINE_NAME_START                                                    \
+    namespace doengine                                                         \
+    {
+#define DOENGINE_NAME_END }
+#else
+#define DOENGINE_NAME_START namespace doengine
+#define DOENGINE_NAME_END
+#endif
 
-#include "defines.h"
-#include "Window.h"
-#include "sort.h"
-#include "LinkList.h"
-#include "abstract/EventHandler.h"
+#ifdef OFF
+
+#include "Application.h"
 #include "Event.h"
+#include "EventHandler.h"
 #include "FPSManager.h"
-#include "Geometric.h"
 #include "GameObject.h"
 #include "GameStateManager.h"
+#include "Geometric.h"
 #include "Grids.h"
-#include "Sprite.h"
 #include "LinkList.h"
+#include "Sprite.h"
+#include "TTFText.h"
 #include "Tile.h"
 #include "Tilemap.h"
-#include "TTFText.h"
 #include "UDPPacket.h"
 #include "Vector.h"
+#include "defines.h"
+#include "sort.h"
 
-
+#endif
 
 #endif
