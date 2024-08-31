@@ -1,5 +1,6 @@
 #pragma once
-
+namespace doengine
+{
 class GameState
 {
   public:
@@ -8,3 +9,5 @@ class GameState
     virtual void Update(float elapsed) = 0;
     virtual void Render() = 0;
 };
+
+} // namespace doengine

@@ -36,6 +36,11 @@ void SDLMouse::getPosition(Point& point)
     point.y = position.y;
 }
 
+const Point& SDLMouse::getPosition() const
+{
+    return position;
+}
+
 void SDLMouse::getButtonStateBitset(
     std::bitset<Mouse::BUTTONS_COUNT>& buttonsState) const
 {

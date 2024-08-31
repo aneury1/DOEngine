@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract/devices/Mouse.h"
+#include "Mouse.h"
 #include <gmock/gmock-function-mocker.h>
 
 using doengine::devices::Mouse;

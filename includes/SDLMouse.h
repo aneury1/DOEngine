@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract/devices/Mouse.h"
+#include "Mouse.h"
 
 namespace doengine::devices
 {
@@ -13,6 +13,7 @@ class SDLMouse : public Mouse
     bool isLeftClick() const override;
     bool isMiddleClick() const override;
     void getPosition(Point&) override;
+    const Point& getPosition() const override;
     void getButtonStateBitset(
         std::bitset<Mouse::BUTTONS_COUNT>&) const override;
 

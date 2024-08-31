@@ -1,17 +1,18 @@
 
 #include "Event.h"
 #include "DOEngine_SDL_includes.h"
+#include "EventHandler.h"
 #include "SDLJoypad.h"
 #include "SDLKeyboard.h"
 #include "SDLMouse.h"
-#include "abstract/EventHandler.h"
 #include "v2d_vector.h"
 #include <vector>
 
 using doengine::devices::SDLJoypad;
 using doengine::devices::SDLKeyboard;
 using doengine::devices::SDLMouse;
-
+namespace doengine
+{
 std::vector<KeyDownEvent*> Event::keydown;
 std::vector<KeyUpEvent*> Event::keyup;
 std::vector<MouseEvent*> Event::mouseEvent;
@@ -22,7 +23,7 @@ std::map<int, Joypad*> Event::joypadsConnected;
 
 float Event::timeElapsed = 0.0f;
 
-void Event::PollEvent(AbstractWindow* window)
+void Event::PollEvent()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
@@ -30,20 +31,19 @@ void Event::PollEvent(AbstractWindow* window)
         switch (event.type)
         {
         case SDL_QUIT: {
-            SDL_Log("Window quit");
-            window->Quit();
+            //// SDL_Log("Window quit");
+            Application::getApplication()->Quit();
             break;
         }
         case SDL_KEYDOWN: {
-            SDL_Log("SDL_KEYDOWN");
-            SDLKeyboard keyboard;
-
+            //// SDL_Log("SDL_KEYDOWN");
+            SDLKeyboard keyboard(event.key.keysym.scancode);
             for (auto itKeyboard : Event::keydown)
                 itKeyboard->OnKeydown(keyboard);
         }
         break;
         case SDL_KEYUP: {
-            SDL_Log("SDL_KEYUP");
+            ///// SDL_Log("SDL_KEYUP");
             SDLKeyboard keyboard;
 
             for (auto itKeyboard : Event::keyup)
@@ -64,8 +64,8 @@ void Event::PollEvent(AbstractWindow* window)
             doengine::devices::SDLMouse mouse(event.motion.which, mask,
                                               mousePos);
 
-            SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mousePos.x, mousePos.y);
-            SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+            ////SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mouse.x, mouse.y);
+            /// SDL_Log("Mouse Count = %ld", Event::mouseEvent.size());
 
             for (auto itMouse : Event::mouseEvent)
             {
@@ -81,8 +81,8 @@ void Event::PollEvent(AbstractWindow* window)
                                               mousePos);
             mouse.getButtonStateBitset(buttonPressed);
 
-            SDL_Log("SDL_MOUSEBUTTONDOWN %X", buttonPressed.to_ulong());
-            SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+            /// SDL_Log("SDL_MOUSEBUTTONDOWN %X", buttonPressed.to_ulong());
+            ////SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
 
             for (auto it : Event::mouseEvent)
                 it->MouseButtonDown(mouse);
@@ -96,21 +96,21 @@ void Event::PollEvent(AbstractWindow* window)
                                               mousePos);
             mouse.getButtonStateBitset(buttonPressed);
 
-            SDL_Log("SDL_MOUSEBUTTONUP %X", buttonPressed.to_ulong());
-            SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+            ///  SDL_Log("SDL_MOUSEBUTTONUP %X", buttonPressed.to_ulong());
+            ////  SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
 
             for (auto it : mouseEvent)
                 it->MouseButtonUp(mouse);
         }
         break;
         case SDL_MOUSEWHEEL: {
-            SDL_Log("SDL_MOUSEWHEEL");
+            /// SDL_Log("SDL_MOUSEWHEEL");
         }
         break;
         case SDL_JOYAXISMOTION:
         case SDL_CONTROLLERAXISMOTION:
-            SDL_Log("SDL_CONTROLLERAXISMOTION Axis %d, Value %d",
-                    event.jaxis.axis, event.jaxis.value);
+            /// SDL_Log("SDL_CONTROLLERAXISMOTION Axis %d, Value %d",
+            ///        event.jaxis.axis, event.jaxis.value);
 
             for (auto it : joyButtonTriggerList)
             {
@@ -120,7 +120,7 @@ void Event::PollEvent(AbstractWindow* window)
             }
             break;
         case SDL_JOYBUTTONUP:
-            SDL_Log("SDL_JOYBUTTONUP  %d", event.jbutton.button);
+            /////// SDL_Log("SDL_JOYBUTTONUP  %d", event.jbutton.button);
 
             for (auto it : joyButtonUpList)
             {
@@ -130,7 +130,7 @@ void Event::PollEvent(AbstractWindow* window)
             }
             break;
         case SDL_JOYBUTTONDOWN:
-            SDL_Log("SDL_JOYBUTTONDOWN %d", event.jbutton.button);
+            ////// SDL_Log("SDL_JOYBUTTONDOWN %d", event.jbutton.button);
 
             for (auto it : joyButtonDownList)
             {
@@ -140,7 +140,7 @@ void Event::PollEvent(AbstractWindow* window)
             }
             break;
         case SDL_JOYDEVICEREMOVED: {
-            SDL_Log("SDL_JOYDEVICEREMOVED  %d", event.jbutton.which);
+            ///// SDL_Log("SDL_JOYDEVICEREMOVED  %d", event.jbutton.which);
 
             auto joypad = joypadsConnected[event.jdevice.which];
 
@@ -174,6 +174,7 @@ void Event::PollEvent(AbstractWindow* window)
             break;
         }
     }
+    Event::timeElapsed = Application::getApplication()->getElapsedTime();
 }
 
 int Event::getMousePosition(int* x, int* y)
@@ -283,3 +284,4 @@ void Event::RemoveJoypadEventListener(JoyButtonTriggerEvent* ev)
     }
 }
 
+} // namespace doengine

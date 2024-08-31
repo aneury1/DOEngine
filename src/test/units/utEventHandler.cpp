@@ -1,6 +1,5 @@
 #include "Event.h"
-#include "abstract/EventHandler.h"
-#include "abstract/devices/Mouse.h"
+#include "EventHandler.h"
 #include "fixtures/DoEngineFixture.h"
 #include "mocks/EventHandlerMock.h"
 #include "mocks/JoypadMock.h"
@@ -166,7 +165,7 @@ TEST_F(utEventHandler, onMouseMoveShouldSendEventData)
             DoAll(SetArgPointee<0>(x), SetArgPointee<1>(y), Return(0)));
     EXPECT_CALL(_mouseEventMock, MouseMove(_));
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 }
 
 TEST_F(utEventHandler, onJoystickAddedFailedOpenTest)
@@ -180,7 +179,7 @@ TEST_F(utEventHandler, onJoystickAddedFailedOpenTest)
         .WillOnce(DoAll(SetArgPointee<0>(event), Return(1)))
         .WillOnce(Return(0));
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 
     event.type = SDL_JOYDEVICEREMOVED;
 
@@ -188,7 +187,7 @@ TEST_F(utEventHandler, onJoystickAddedFailedOpenTest)
         .WillOnce(DoAll(SetArgPointee<0>(event), Return(1)))
         .WillOnce(Return(0));
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 }
 
 TEST_F(utEventHandler, onJoystickAddedSuccessOpenTest)
@@ -205,7 +204,7 @@ TEST_F(utEventHandler, onJoystickAddedSuccessOpenTest)
         .WillOnce(DoAll(SetArgPointee<0>(event), Return(1)))
         .WillOnce(Return(0));
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 
     event.type = SDL_JOYDEVICEREMOVED;
 
@@ -213,7 +212,7 @@ TEST_F(utEventHandler, onJoystickAddedSuccessOpenTest)
         .WillOnce(DoAll(SetArgPointee<0>(event), Return(1)))
         .WillOnce(Return(0));
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 }
 
 TEST_F(utEventHandler, onJoystickButtonPressedTest)
@@ -230,7 +229,7 @@ TEST_F(utEventHandler, onJoystickButtonPressedTest)
 
     EXPECT_CALL(_joyButtonDownMock, OnButtonDown(_)).Times(0);
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 
     event.type = SDL_JOYBUTTONUP;
 
@@ -240,7 +239,7 @@ TEST_F(utEventHandler, onJoystickButtonPressedTest)
 
     EXPECT_CALL(_joyButtonUpMock, OnButtonUp(_)).Times(0);
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 
     _sut.joypadsConnected[event.jbutton.which] = &joypadMock;
 
@@ -252,7 +251,7 @@ TEST_F(utEventHandler, onJoystickButtonPressedTest)
 
     EXPECT_CALL(_joyButtonDownMock, OnButtonDown(_));
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 
     event.type = SDL_JOYBUTTONUP;
 
@@ -262,7 +261,7 @@ TEST_F(utEventHandler, onJoystickButtonPressedTest)
 
     EXPECT_CALL(_joyButtonUpMock, OnButtonUp(_));
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 
     _sut.joypadsConnected.clear();
 }
@@ -282,7 +281,7 @@ TEST_F(utEventHandler, onJoystickTriggerTest)
 
     EXPECT_CALL(_joyButtonTriggerMock, OnButtonTriggered(_)).Times(0);
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 
     _sut.joypadsConnected[event.jaxis.which] = &joypadMock;
 
@@ -292,7 +291,7 @@ TEST_F(utEventHandler, onJoystickTriggerTest)
 
     EXPECT_CALL(_joyButtonTriggerMock, OnButtonTriggered(_));
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 
     _sut.joypadsConnected.clear();
 }
@@ -376,7 +375,7 @@ TEST_P(utEventHandlerMouseClick, onMouseClickShouldSendEventData)
             }));
     }
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 }
 
 class utEventHandlerKeyboard
@@ -451,7 +450,7 @@ TEST_P(utEventHandlerKeyboard, onKeyboardPressShouldSendKeypressed)
     else
         EXPECT_CALL(_keyUpEventMock, OnKeyup(_));
 
-    _sut.PollEvent(&_windowMock);
+    _sut.PollEvent();
 }
 
 }; // namespace doengine::ut

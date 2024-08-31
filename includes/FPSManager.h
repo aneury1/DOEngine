@@ -1,5 +1,6 @@
 #pragma once
-
+namespace doengine
+{
 class FpsManager
 {
     long start, elapsed, wait, fps;
@@ -18,3 +19,5 @@ class FpsManager
     virtual void Handle();
     virtual float getElapsedTime();
 };
+
+} // namespace doengine

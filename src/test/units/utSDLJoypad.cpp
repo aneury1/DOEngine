@@ -1,5 +1,5 @@
+#include "Joypad.h"
 #include "SDLJoypad.h"
-#include "abstract/devices/Joypad.h"
 #include "fixtures/DoEngineFixture.h"
 #include "mocks/SDLMock.h"
 #include "gtest/gtest.h"

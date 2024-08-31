@@ -1,14 +1,11 @@
 #pragma once
 
-#include "abstract/AbstractWindow.h"
 #include <string>
-
-using doengine::AbstractWindow;
-
+namespace doengine
+{
 class GameObject
 {
   protected:
-    AbstractWindow* window;
     bool renderable;
     bool solid;
     int layer;
@@ -17,7 +14,7 @@ class GameObject
     std::string texture_id;
 
   public:
-    GameObject(AbstractWindow* window) : window(window)
+    GameObject()
     {
     }
 
@@ -26,4 +23,7 @@ class GameObject
     }
     virtual void Update(float timer = 0) = 0;
     virtual void Render() = 0;
+    virtual bool isColliding(GameObject* other);
 };
+
+} // namespace doengine

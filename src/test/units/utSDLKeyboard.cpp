@@ -1,5 +1,5 @@
+#include "Keyboard.h"
 #include "SDLKeyboard.h"
-#include "abstract/devices/Keyboard.h"
 #include "fixtures/DoEngineFixture.h"
 #include "mocks/SDLMock.h"
 #include <bitset>

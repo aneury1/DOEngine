@@ -3,7 +3,8 @@
 #include <algorithm>
 #include <limits>
 #include <random>
-
+namespace doengine
+{
 template <typename V1, typename V2>
 struct Optional
 {
@@ -45,3 +46,4 @@ constexpr T clamp(const T v, const T min, const T max)
 {
     return std::min(max, std::max(v, min));
 }
+} // namespace doengine

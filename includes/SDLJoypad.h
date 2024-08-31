@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DOEngine_SDL_includes.h"
-#include "abstract/devices/Joypad.h"
+#include "Joypad.h"
 
 using doengine::devices::Joypad;
 using doengine::devices::PowerLevel;
@@ -12,7 +12,6 @@ namespace doengine::devices
 class SDLJoypad : public Joypad
 {
   public:
-
     static const std::string DEFAULT_JOYPAD_NAME;
 
     SDLJoypad(SDL_Joystick* joystick);

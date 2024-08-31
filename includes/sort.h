@@ -1,4 +1,5 @@
 #pragma once
-
-
-void quicksort(int *array, int low, int high);
+namespace doengine
+{
+void quicksort(int* array, int low, int high);
+}

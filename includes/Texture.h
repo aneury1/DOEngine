@@ -1,18 +1,64 @@
-#pragma once 
+#pragma once
+#include <map>
+#include <string>
 
-#include "DOEngine.h"
-#include "abstract/Renderer.h"
+using std::map;
+using std::string;
+
+#include "Geometric.h"
+#include "NativeStructs.h"
+#include <Color.h>
+
+namespace doengine
+{
+
+class NativeTexture;
 
 class Texture
 {
-   static std::map<std::string, SDL_Texture*>textures;
-   static SDL_Renderer* render;
+    NativeTexture* realNativeTexture;
+    Texture()
+    {
+        realNativeTexture = nullptr;
+    }
 
-   public:
+  public:
+    Texture(std::string path);
+    ~Texture();
+    void Draw(const Rect& offset);
+    void Draw(const Rect& offset, const Rect& clipset);
+    void ModulateColor(const Color& color);
+    int getWidth();
+    int getHeight();
+    bool validTexture();
 
-   static bool IsloadThisTexture(std::string id);
-   static int  LoadTexture(std::string path, std::string id);
-   static void DrawImage(std::string id, int x, int y, int w, int h);
-   static void setRender(SDL_Renderer* render);
-   static void setRender(doengine::gfx::Renderer* render);
+    Texture* subTexture(const Rect& clipset);
 };
+
+class TextureManager
+{
+
+    TextureManager()
+    {
+    }
+
+    static TextureManager* instance;
+
+    std::map<string, Texture*> textures;
+
+  public:
+    static TextureManager* getTextureManager();
+
+    void loadTextureFromFile(string id, string src);
+
+    void loadTextureFromTexture(string id, Texture* texture,
+                                const Rect& clipset);
+
+    void addTexture(string id, Texture* texture);
+
+    void removeTexture(string id);
+
+    Texture* getTexture(string id);
+};
+
+} // namespace doengine

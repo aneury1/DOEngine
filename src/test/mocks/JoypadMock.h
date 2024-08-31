@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract/devices/Joypad.h"
+#include "Joypad.h"
 #include <gmock/gmock-function-mocker.h>
 
 using doengine::devices::Joypad;

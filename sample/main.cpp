@@ -1,18 +1,44 @@
 
-#include "Window.h"
-// #include "Texture.h"
-// #include "Grids.h"
+#include "Application.h"
+#include <GameState.h>
 #include <iostream>
 #include <map>
 #include <memory>
 #include <string>
+struct PongState : public GameState
+{
+    virtual void OnEnter()
+    {
+    }
+    virtual void OnExit()
+    {
+    }
+    virtual void Update(float elapsed)
+    {
+    }
+    virtual void Render()
+    {
+    }
+};
+
+enum SampleStateId : int
+{
+    pongStateID = 1
+};
 
 int main(int argc, char* argv[])
 {
-    std::unique_ptr<Window> window(new Window(1200, 900));
-    while (window->IsRunning() == true)
+    auto app = Application::getApplication();
+    app->setSize(800, 600);
+    auto pongState = new PongState();
+    app->addState(pongState, pongStateID);
+    app->setState(pongStateID);
+    while (app->IsRunning())
     {
-        window->PollEvent()->Update()->Render();
+        app->PollEvent();
+
+        app->Render();
     }
+    app->Quit();
     return 0;
 }

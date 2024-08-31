@@ -1,14 +1,10 @@
 #pragma once
-
-#include "abstract/AbstractWindow.h"
-#include "abstract/EventHandler.h"
-#include "abstract/devices/Joypad.h"
-#include <map>
 #include <vector>
-
-using doengine::AbstractWindow;
-using doengine::devices::Joypad;
-
+// #include "DOEngine.h"
+#include "Application.h"
+#include "EventHandler.h"
+namespace doengine
+{
 struct Event
 {
     static float timeElapsed;
@@ -22,7 +18,7 @@ struct Event
 
     static int getMousePosition(int* x, int* y);
 
-    static void PollEvent(AbstractWindow* window);
+    static void PollEvent();
     static void AddKeyPressEventListener(KeyUpEvent* ev);
     static void AddKeyPressEventListener(KeyDownEvent* ev);
     static void RemoveKeyPressEventListener(KeyUpEvent* ev);
@@ -36,3 +32,4 @@ struct Event
     static void RemoveJoypadEventListener(JoyButtonDownEvent* ev);
     static void RemoveJoypadEventListener(JoyButtonTriggerEvent* ev);
 };
+} // namespace doengine
