@@ -31,7 +31,6 @@ void Event::PollEvent()
         switch (event.type)
         {
         case SDL_QUIT: {
-            //// SDL_Log("Window quit");
             Application::getApplication()->Quit();
             break;
         }

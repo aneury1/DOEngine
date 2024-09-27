@@ -1,3 +1,4 @@
+#include "Application.h"
 
 #include "Application.h"
 #include <GameState.h>
@@ -21,6 +22,7 @@ struct PongState : public doengine::GameState
     {
     }
 };
+
 
 enum SampleStateId : int
 {

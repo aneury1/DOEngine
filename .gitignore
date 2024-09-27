@@ -380,5 +380,3 @@ _deps
 
 #clangd
 .cache/
-
-workstate.txt

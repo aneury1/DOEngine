@@ -103,4 +103,4 @@ SDL_Joystick* SDLJoypad::getNativeJoystick() const
     return joystick;
 }
 
-} // namespace doengine::devices
+} // namespace doengine

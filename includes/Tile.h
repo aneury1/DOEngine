@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Geometric.h"
 namespace doengine
 {

@@ -39,7 +39,6 @@ include_directories(${CMAKE_SOURCE_DIR}/includes)
 # message("END Fecthing SDL Source code")
 set(DOENGINE_SRC
 includes/DS.h
-
     includes/WindowManager.h
      includes/Renderer.h
      src/Application/Geometric.cpp
@@ -95,15 +94,11 @@ includes/DS.h
       includes/Mouse.h
       includes/Keyboard.h
       includes/Joypad.h
-
-
 )
 
 add_library(${PROJECT_NAME}
   ${DOENGINE_SRC}
 )
-
-
 
 set(DOENGINE_LIBRARIES )
 if(FETCH_SDL_FROM_GIT)

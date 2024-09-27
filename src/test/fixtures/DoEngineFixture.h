@@ -16,11 +16,13 @@ class DoEngineFixture : public testing::Test
   public:
     DoEngineFixture() : _sdlMock() ///, _windowMock()
     {
+        SetSDLMock(&_sdlMock);
+
+        ON_CALL(_sdlMock, SDL_GetMouseState(_, _)).WillByDefault(Return(0u));
     }
     void SetUp() override
     {
         Test::SetUp();
-        SetSDLMock(&_sdlMock);
     }
 
     NiceMock<mocks::SDLMock> _sdlMock;

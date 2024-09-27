@@ -3,6 +3,7 @@
 #include "fixtures/DoEngineFixture.h"
 #include "mocks/GameStateMock.h"
 #include <cstddef>
+#include <cstdlib>
 
 namespace doengine::ut
 {
@@ -20,7 +21,6 @@ class utGameStateManager : public ::testing::Test
     {
         ::testing::Test::SetUp();
 
-        const int gsId = 0xCAFEBABE;
         _sut.AddState(_gsId, &_gsMock);
     }
 
@@ -72,20 +72,24 @@ TEST_F(utGameStateManager, doengineUpdateStateShouldCallUpdate)
     _sut.Update(elapsed);
 }
 
-TEST_F(utGameStateManager, DISABLED_doengineRemoveState)
+TEST_F(utGameStateManager, doengineRemoveState)
 {
     const int gsId = 0xDEADBEEF;
+    testing::NiceMock<GameStateMock> anotherGsMock;
 
-    // EXCEPT_EQ(_sut.GetStateId(), gsId);
-    _sut.AddState(gsId, &_gsMock);
+    _sut.SetState(_gsId);
 
-    // EXCEPT_NE(_sut.GetStateId(), gsId);
+    EXPECT_CALL(_gsMock, OnExit());
+    EXPECT_CALL(anotherGsMock, OnEnter());
+    _sut.AddState(gsId, &anotherGsMock);
+    _sut.SetState(gsId);
+
+    EXPECT_CALL(anotherGsMock, OnExit());
     _sut.RemoveState(gsId);
 }
 
 TEST_F(utGameStateManager, doengineRender)
 {
-    float elapsed = 10234.0f;
     EXPECT_CALL(_gsMock, Render());
 
     _sut.SetState(_gsId);

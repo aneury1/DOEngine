@@ -11,7 +11,11 @@ void GameStateManager::AddState(int state_id, GameState* object)
 }
 void GameStateManager::RemoveState(int state_id)
 {
-    /// todo
+    if (states[state_id])
+    {
+        states[state_id]->OnExit();
+        states.erase(state_id);
+    }
 }
 void GameStateManager::SetState(int state_id)
 {

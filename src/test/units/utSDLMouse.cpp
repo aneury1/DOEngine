@@ -41,7 +41,6 @@ class utSDLMouse : public DoEngineFixture
     void SetUp() override
     {
         DoEngineFixture::SetUp();
-        ON_CALL(_sdlMock, SDL_GetMouseState(_, _)).WillByDefault(Return(0u));
     }
 
     SDLMouse _sut;
