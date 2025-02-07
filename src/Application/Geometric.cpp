@@ -26,4 +26,10 @@ bool checkCollision(const Rect& rect1, const Rect& rect2)
     return col;
 }
 
+bool checkCollisionPointVsRect(const Rect& rect, const Point& pt)
+{
+    return (pt.x >= rect.x && pt.x <= rect.x + rect.width() && pt.y >= rect.y &&
+            pt.y <= rect.y + rect.height());
+}
+
 }; // namespace doengine

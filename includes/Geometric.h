@@ -19,6 +19,13 @@ struct Rect
     int y;
     int w;
     int h;
+
+    const int width()const {
+        return w;
+    }
+    const int height()const {
+        return h;
+    }
     Rect()
     {
         x = y = w = y = 10;
@@ -26,6 +33,10 @@ struct Rect
     Rect(int w, int h) : x{0}, y{0}, w{w}, h{h}
     {
     }
+    Rect(int x,int y,int w, int h) : x{x}, y{y}, w{w}, h{h}
+    {
+    }
+
     inline int left() const
     {
         return x;
@@ -62,5 +73,5 @@ void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
                   const Color& p);
 
 bool checkCollision(const Rect& rect1, const Rect& rect2);
-
+bool checkCollisionPointVsRect(const Rect& rect1, const Point& pt);
 }; // namespace doengine

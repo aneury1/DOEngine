@@ -122,18 +122,18 @@ struct PongState : public doengine::GameState
     virtual void Update(float elapsed)
     {
              
-         if(doengine::Event::getLastKeyPressed(SDL_SCANCODE_A)){
+         if(doengine::Event::isKeyPressed(SDL_SCANCODE_A)){
             map->setTileSize(map->getTileSize()+1);
          }
 
-         if(doengine::Event::getLastKeyPressed(SDL_SCANCODE_B)){
+         if(doengine::Event::isKeyPressed(SDL_SCANCODE_B)){
             map->setTileSize(map->getTileSize()-1);
          }
 
-         if(doengine::Event::getLastKeyPressed(SDL_SCANCODE_S)){
+         if(doengine::Event::isKeyPressed(SDL_SCANCODE_S)){
             map->setPaddingLeft(map->getPaddingLeft()+1);
          }
-         if(doengine::Event::getLastKeyPressed(SDL_SCANCODE_D)){
+         if(doengine::Event::isKeyPressed(SDL_SCANCODE_D)){
             map->setPaddingTop(map->getPaddingTop()+1);
          }
     }

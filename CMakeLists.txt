@@ -95,7 +95,7 @@ set(DOENGINE_SRC
 
 
 # this minimal test app would not be include in git repo.
-add_executable(my_executable ${DOENGINE_SRC} ignored_main.cpp)
+add_executable(my_executable ${DOENGINE_SRC} sample/ignored_main.cpp)
 target_link_libraries(my_executable SDL2
      SDL2main
      SDL2_ttf 

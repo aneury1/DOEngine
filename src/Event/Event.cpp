@@ -19,6 +19,7 @@ std::vector<JoyButtonUpEvent*> Event::joyButtonUpList;
 std::vector<JoyButtonDownEvent*> Event::joyButtonDownList;
 std::vector<JoyButtonTriggerEvent*> Event::joyButtonTriggerList;
 std::map<int, Joypad*> Event::joypadsConnected;
+std::map<int, bool> Event::keys;
 
 float Event::timeElapsed = 0.0f;
 
@@ -38,7 +39,7 @@ void Event::PollEvent()
         case SDL_KEYDOWN: {
             SDL_Log("SDL_KEYDOWN");
             /// SDLKeyboard keyboard;
-
+            keys[event.key.keysym.sym] = true;
             for (auto itKeyboard : Event::keydown)
                 itKeyboard->OnKeydown(event.key.keysym.sym);
         }
@@ -46,7 +47,7 @@ void Event::PollEvent()
         case SDL_KEYUP: {
             SDL_Log("SDL_KEYUP");
             //  SDLKeyboard keyboard;
-
+            keys[event.key.keysym.sym] = false;
             for (auto itKeyboard : Event::keyup)
                 itKeyboard->OnKeyup(event.key.keysym.sym);
         }
@@ -182,6 +183,15 @@ void Event::PollEvent()
 int Event::getMousePosition(int* x, int* y)
 {
     return SDL_GetMouseState(x, y);
+}
+
+int Event::getMousePosition(Point *p)
+{
+    return getMousePosition(&p->x, &p->y);
+}
+
+bool Event::isKeyPressed(int key){
+    return keys[key];
 }
 
 void Event::AddKeyPressEventListener(KeyUpEvent* ev)
