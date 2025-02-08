@@ -1,0 +1,34 @@
+#pragma once
+
+#include "DOEngine_SDL_includes.h"
+#include "MusicHandler.h"
+#include <vector>
+
+namespace doengine::devices
+{
+class SDLMusicHandler : public doengine::MusicHandler
+{
+  public:
+    SDLMusicHandler();
+    ~SDLMusicHandler();
+    virtual int addToList(const std::string& src) override;
+    virtual void playFirst() override;
+    virtual void playLast() override;
+    virtual void PlayIndex(const int index) override;
+    virtual void removeIndex(const int index) override;
+    virtual void pause(const int) override;
+    virtual void stop(const int) override;
+    virtual void setRepeat(Repeat repeat) override;
+    virtual bool isPlaying(const int) const override;
+
+  private:
+
+    virtual void setChannel(const int) override {};
+    std::vector<Mix_Music*> musics;
+
+    Repeat repeatTimes;
+
+    bool isPlayingSound;
+    bool isOk;
+};
+} // namespace doengine::devices

@@ -20,7 +20,7 @@ class FpsManagerMock : public FpsManager
     MOCK_METHOD(void, setFPS, (long fps), (override));
     MOCK_METHOD(void, Start, (), (override));
     MOCK_METHOD(void, Handle, (), (override));
-    MOCK_METHOD(float, getElapsedTime, (), (override));
+    MOCK_METHOD(unsigned long, getElapsedTime, (), (override));
 };
 
 } // namespace doengine::mocks
