@@ -37,9 +37,9 @@ void Event::PollEvent()
             break;
         }
         case SDL_KEYDOWN: {
-            SDL_Log("SDL_KEYDOWN");
+            SDL_Log("SDL_KEYDOWN %ld", event.key.keysym.scancode);
             /// SDLKeyboard keyboard;
-            keys[event.key.keysym.sym] = true;
+            keys[event.key.keysym.scancode] = true;
             for (auto itKeyboard : Event::keydown)
                 itKeyboard->OnKeydown(event.key.keysym.sym);
         }
@@ -47,7 +47,7 @@ void Event::PollEvent()
         case SDL_KEYUP: {
             SDL_Log("SDL_KEYUP");
             //  SDLKeyboard keyboard;
-            keys[event.key.keysym.sym] = false;
+            keys[event.key.keysym.scancode] = false;
             for (auto itKeyboard : Event::keyup)
                 itKeyboard->OnKeyup(event.key.keysym.sym);
         }
