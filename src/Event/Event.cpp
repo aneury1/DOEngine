@@ -296,4 +296,10 @@ void Event::RemoveJoypadEventListener(JoyButtonTriggerEvent* ev)
     }
 }
 
+void Event::ShowCursor(bool value)
+{
+     SDL_ShowCursor(value?SDL_ENABLE:SDL_DISABLE);
+}
+
+
 }; // namespace doengine

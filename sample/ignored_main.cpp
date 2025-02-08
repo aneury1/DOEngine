@@ -86,7 +86,11 @@ void TileMap::render()
             Point mouse;
             Event::getMousePosition(&mouse);
             bool filled = checkCollisionPointVsRect(offset,mouse);
-           
+            if(filled)
+              Event::ShowCursor(false);
+            else
+              Event::ShowCursor(true);
+
             Tile(offset, filled).Draw(renderer, red);
             //renderer->DrawRect(offset, red);
         }
@@ -145,7 +149,7 @@ struct PongState : public doengine::GameState
         render->setDrawColor(doengine::green);
         render->clear();
         map->render();
-        render->FillCircle(mouse.x,mouse.y, 30, doengine::blue);
+        render->FillCircle(mouse.x,mouse.y, 10, doengine::blue);
         render->DrawPoint(mouse, doengine::red);
         
     }

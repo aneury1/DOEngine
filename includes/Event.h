@@ -37,6 +37,8 @@ struct Event
     static void RemoveJoypadEventListener(JoyButtonUpEvent* ev);
     static void RemoveJoypadEventListener(JoyButtonDownEvent* ev);
     static void RemoveJoypadEventListener(JoyButtonTriggerEvent* ev);
+
+    static void ShowCursor(bool value);
 };
 
 }; // namespace doengine
