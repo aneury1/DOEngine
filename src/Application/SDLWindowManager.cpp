@@ -1,11 +1,13 @@
 #include "SDLWindowManager.h"
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 namespace doengine
 {
 bool SDLWindowManager::createWindow()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
-
+    int img_flags =     IMG_INIT_JPG | IMG_INIT_PNG     | IMG_INIT_TIF     | IMG_INIT_WEBP   |  IMG_INIT_JXL  | IMG_INIT_AVIF;
+    IMG_Init(img_flags);
     SDL_DisplayMode mode;
 
     SDL_GetCurrentDisplayMode(0, &mode);
@@ -30,7 +32,8 @@ bool SDLWindowManager::createWindow(const Rect& rect)
 {
 
     SDL_Init(SDL_INIT_EVERYTHING);
-
+        int img_flags =     IMG_INIT_JPG | IMG_INIT_PNG     | IMG_INIT_TIF     | IMG_INIT_WEBP   |  IMG_INIT_JXL  | IMG_INIT_AVIF;
+    IMG_Init(img_flags);
     SDL_GetCurrentDisplayMode(0, &mode);
 
     window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
@@ -41,7 +44,7 @@ bool SDLWindowManager::createWindow(const Rect& rect)
         window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED)));
 
     TTF_Init();
-
+ 
     run = render->isRenderOk();
 
     window_rect.w = rect.w;

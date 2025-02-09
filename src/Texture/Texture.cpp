@@ -14,6 +14,7 @@ Texture::Texture(std::string path)
     color.a = 0;
     this->realNativeTexture =
         render->loadTextureFromImageFile(path.c_str(), color);
+ 
 }
 Texture::~Texture()
 {

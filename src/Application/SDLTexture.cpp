@@ -1,3 +1,6 @@
+#include <iostream>
+
+#include <SDL2/SDL_image.h>
 #include "SDLTexture.h"
 #include "Application.h"
 #include <SDL2/SDL.h>
@@ -12,16 +15,18 @@ SDLTexture::~SDLTexture()
     this_texture = nullptr;
 }
 
+
 SDLTexture* SDLTexture::loadFromFile(const char* src)
 {
     auto app = Application::getApplication();
     auto wformat = (SDL_Window*)app->getWindow()->getNativeWindowFormatBuffer();
     auto nrederer =
         (SDL_Renderer*)app->getWindow()->getRenderer()->getNativeRenderer();
-
-    SDL_Surface* sf = SDL_LoadBMP(src);
+    std::cout <<"VIEW\n";
+    SDL_Surface* sf = IMG_Load(src); ///SDL_LoadBMP(src);
     if (!sf)
     {
+        std::cout <<"FALSE Loaded "<< IMG_GetError() <<"\n";
         valid = false;
         return this;
     }
@@ -46,6 +51,7 @@ SDLTexture* SDLTexture::loadFromFile(const char* src)
         }
         else
         {
+            std::cout <<"FALSE Loaded "<< IMG_GetError() <<"\n";
             valid = false;
         }
     }
@@ -61,6 +67,7 @@ bool SDLTexture::validTexture()
 void SDLTexture::Draw(const Rect& offset)
 {
     SDL_Rect rect;
+    std::cout <<"FALSE Loaded "<< valid <<"\n";
     if (!valid)
         return;
     auto app = Application::getApplication();
@@ -71,7 +78,8 @@ void SDLTexture::Draw(const Rect& offset)
     rect.y = offset.y;
     rect.w = offset.w;
     rect.h = offset.h;
-    SDL_RenderCopy(nrederer, this_texture, nullptr, &rect);
+    int rc= SDL_RenderCopy(nrederer, this_texture, nullptr, &rect);
+    SDL_Log("Render copy of text %ld", rc);
 }
 void SDLTexture::Draw(const Rect& offset, const Rect& clipset)
 {

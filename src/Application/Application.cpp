@@ -94,6 +94,8 @@ void Application::clearScreen(const Color& color)
 void Application::createWindow(const Rect& rect)
 {
     run = windowManager->createWindow(rect);
+    this->setW(rect.w);
+    this->setH(rect.h);
 }
 
 } // namespace doengine
