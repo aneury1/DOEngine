@@ -11,12 +11,13 @@ namespace doengine
 {
 Application* Application::applicationObject = nullptr;
 
-Application::Application()
+Application::Application() : run(true)
 {
-    windowManager = WindowManager::getWindowManager();
+    //windowManager = WindowManager::getWindowManager();
     gsm = new GameStateManager();
     fps_handler = new FpsManager();
     fps_handler->setFPS(60);
+    fps_handler->Start();
 }
 
 void Application::destroy()
@@ -60,7 +61,7 @@ void Application::Update()
 void Application::Render()
 {
     gsm->Render();
-    windowManager->updateScreen();
+    //windowManager->updateScreen();
     fps_handler->Handle();
 }
 

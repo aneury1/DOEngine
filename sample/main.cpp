@@ -1,12 +1,14 @@
 
 #include "Application.h"
-#include <GameState.h>
+#include "GameState.h"
 #include <iostream>
 #include <map>
 #include <memory>
 #include <string>
-struct PongState : public GameState
+
+class PongState : public doengine::GameState
 {
+  public:
     virtual void OnEnter()
     {
     }
@@ -26,30 +28,10 @@ enum SampleStateId : int
     pongStateID = 1
 };
 
-struct PongState : public GameState
-{
-    virtual void OnEnter()
-    {
-    }
-    virtual void OnExit()
-    {
-    }
-    virtual void Update(float elapsed)
-    {
-    }
-    virtual void Render()
-    {
-    }
-};
-
-enum SampleStateId : int
-{
-    pongStateID = 1
-};
 
 int main(int argc, char* argv[])
 {
-    auto app = Application::getApplication();
+    auto app = doengine::Application::getApplication();
     app->setSize(800, 600);
     auto pongState = new PongState();
     app->addState(pongState, pongStateID);

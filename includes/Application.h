@@ -61,7 +61,7 @@ class Application
     void Render();
     void Quit();
 
-    long getElapsedTime()
+    unsigned long getElapsedTime()
     {
         return fps_handler->getElapsedTime();
     }

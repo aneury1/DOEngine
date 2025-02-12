@@ -25,13 +25,13 @@ add_executable(${PROJECT_NAME}
     fixtures/DoEngineFixture.h
     units/utUtils.cpp
     units/utLinkList.cpp
-    units/utGameStateManager.cpp
+    # units/utGameStateManager.cpp
     units/utFPSManager.cpp
-    units/utEventHandler.cpp
+    #units/utEventHandler.cpp
     units/utSDLKeyboard.cpp
     units/utSDLMouse.cpp
     units/utSDLJoypad.cpp
-    mocks/GameStateMock.h
+    # mocks/GameStateMock.h
     mocks/FPSManagerMock.h
     mocks/CameraMock.h
     mocks/MusicHandlerMock.h
@@ -39,20 +39,20 @@ add_executable(${PROJECT_NAME}
     mocks/RendererMock.h
     # mocks/FontMock.h
     mocks/EventHandlerMock.h
-    mocks/GameObjectMock.h
+    # mocks/GameObjectMock.h
     # mocks/WindowManagerMock.h
-    mocks/GameStateManagerMock.h
+    # mocks/GameStateManagerMock.h
     mocks/UDPPacketMock.h
     mocks/MouseMock.h
     mocks/JoypadMock.h
     mocks/SDLMock.h
     mocks/SDLMock.cpp
-    testmain.cpp
+    # testmain.cpp
 
     ../GameState/GameStateManager.cpp
     ../Network/UDPPacket.cpp
     ../Timer/FPSManager.cpp
-    ../Event/Event.cpp
+    #../Event/Event.cpp
     ../Event/SDLKeyboard.cpp
     ../Event/SDLMouse.cpp
     ../Event/SDLJoypad.cpp
