@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
+#include <stdint.h>
 // #include "DOEngine.h"
 #include "Application.h"
 #include "EventHandler.h"
@@ -9,7 +10,7 @@ namespace doengine
 {
 struct Event
 {
-    static float timeElapsed;
+    static uint32_t timeElapsed;
     static std::unordered_map<unsigned char, bool> keys_pressed;
     static std::vector<KeyDownEvent*> keydown;
     static std::vector<KeyUpEvent*> keyup;

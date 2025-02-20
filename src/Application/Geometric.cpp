@@ -51,4 +51,18 @@ bool checkCollision(const Rect& rect1, const Rect& rect2)
      */
 }
 
+bool checkCollisionCircleRec(const Point& circle, float radius, const Rect& rect ){
+        // Find the closest point on the rectangle to the circle center.
+    float closestX = std::max(rect.x, std::min(circle.x, rect.x + rect.w));
+    float closestY = std::max(rect.y, std::min(circle.y, rect.y + rect.h));
+
+    // Calculate the distance between the circle's center and this closest point.
+    float dx = circle.x - closestX;
+    float dy = circle.y - closestY;
+
+    // If the distance is less than the circle's radius, an intersection occurs.
+    return (dx * dx + dy * dy) <= (radius * radius);
+}
+
+
 }; // namespace doengine

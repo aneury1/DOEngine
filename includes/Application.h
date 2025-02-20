@@ -61,9 +61,9 @@ class Application
     void Render();
     void Quit();
 
-    long getElapsedTime()
+    uint32_t getDeltaTime()
     {
-        return fps_handler->getElapsedTime();
+        return fps_handler->getDeltaTime();
     }
 
     void setW(int w)

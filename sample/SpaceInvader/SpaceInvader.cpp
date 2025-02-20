@@ -262,13 +262,28 @@ struct SpacerInvaderState : public doengine::GameState
                 static const int cellsize = 32;
                 int x =75 + col * cellsize;
                 int y =110 + row *cellsize;
-                
-
                 aliens.push_back(Alien(AlienType::Type1, doengine::Rect{x,y,cellsize,cellsize}));
             }
         }
     }
+   
+    void updateAliens(){
+        float speed= 1;
+        int w = doengine::Application::getApplication()->getW();
+        for(auto& it : aliens){
+            int xf = it.offset.x + (it.offset.w);
+            int yf = it.offset.y;
+            
+            if(xf >= w)
+            {
+               speed *= -speed;
+               it.offset.y +=1;
+            }
 
+            it.offset.x = xf * speed;
+        
+        }
+    }
 
     void initObstacles(){
   
@@ -334,6 +349,7 @@ struct SpacerInvaderState : public doengine::GameState
             ship->MoveRight();
         }
         ship->Update();
+        updateAliens();
     }
     virtual void Render()
     {
@@ -364,6 +380,7 @@ int main(int argc, char* argv[])
         app->PollEvent();
         app->Update();
         app->Render();
+        
     }
     app->Quit();
     return 0;

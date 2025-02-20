@@ -120,17 +120,32 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${DOENGINE_LIBRARIES})
 
-add_executable(${PROJECT_NAME}-sample
-   sample/ignored_main.cpp 
+#add_executable(${PROJECT_NAME}-sample
+#   sample/ignored_main.cpp 
+#)
+add_executable(${PROJECT_NAME}-pong-sample
+   sample/pong/SimplePong.cpp 
 )
 
+add_executable(${PROJECT_NAME}-SpaceInvader-sample
+   sample/SpaceInvader/SpaceInvader.cpp
+)
 
 # to build sample needs 
 # Zip support, ubuntu sudo apt-get install libzip-dev
-target_link_libraries(${PROJECT_NAME}-sample PRIVATE
+#target_link_libraries(${PROJECT_NAME}-sample PRIVATE
+#    ${PROJECT_NAME}
+#    ${DOENGINE_LIBRARIES}
+#)
+
+target_link_libraries(${PROJECT_NAME}-pong-sample PRIVATE
     ${PROJECT_NAME}
     ${DOENGINE_LIBRARIES}
- 
+)
+
+target_link_libraries(${PROJECT_NAME}-SpaceInvader-sample PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
 )
 
 # install(TARGETS ${PROJECT_NAME} DESTINATION /home/afl/Desktop/doengine )

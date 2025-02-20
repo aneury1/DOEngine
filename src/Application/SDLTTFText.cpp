@@ -61,7 +61,7 @@ void SDLTTFText::DrawText(const char* text, int x, int y)
     scolor.g = fg_color.g;
     scolor.b = fg_color.b;
     scolor.a = fg_color.a;
-    SDL_Surface* sf = TTF_RenderText(font, text, scolor, bg);
+    SDL_Surface* sf = TTF_RenderText(font, text, scolor,toColor<SDL_Color>(black));
     SDL_Texture* texture = SDL_CreateTextureFromSurface(nativeRenderer, sf);
     if (texture)
     {
@@ -89,6 +89,7 @@ void SDLTTFText::getTextSize(const std::string& text, int* w, int* h)
 
 Texture* SDLTTFText::createText(const std::string& text)
 {
+    return nullptr;
 }
 
  

@@ -17,6 +17,7 @@ Application::Application()
     gsm = new GameStateManager();
     fps_handler = new FpsManager();
     fps_handler->setFPS(60);
+    
 }
 
 void Application::destroy()
@@ -54,7 +55,7 @@ void Application::PollEvent()
 
 void Application::Update()
 {
-    gsm->Update(Event::timeElapsed);
+    gsm->Update(fps_handler->getDeltaTime());
 }
 
 void Application::Render()

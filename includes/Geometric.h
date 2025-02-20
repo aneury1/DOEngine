@@ -71,4 +71,5 @@ void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
 
 bool checkCollision(const Rect& rect1, const Rect& rect2);
 bool checkCollisionPointVsRect(const Rect& rect, const Point point);
+bool checkCollisionCircleRec(const Point& cicle, float radius, const Rect& rect );
 } // namespace doengine
