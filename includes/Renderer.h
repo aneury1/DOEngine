@@ -30,6 +30,8 @@ class Renderer
     virtual NativeTexture* loadTextureFromImageFile(const char* src,
                                                     Color color) = 0;
     virtual NativeTextRenderer* getTextRenderer() = 0;
+
+    virtual NativeTexture* createTexture() =0;
 };
 
 } // namespace doengine

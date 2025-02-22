@@ -30,6 +30,9 @@ static const Color black(0, 0, 0, 255);
 static const Color gold(255, 215, 0, 255);
 static const Color gray(100, 100, 100, 255);
 static const Color blue5(19, 26, 50, 255);
+static const Color orange(226,116,17,255);
+static const Color cyan(21,204,209,255);
+static const Color skyBlue(77, 216, 255, 255);
 
 
 template<typename D>

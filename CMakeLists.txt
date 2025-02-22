@@ -131,6 +131,15 @@ add_executable(${PROJECT_NAME}-SpaceInvader-sample
    sample/SpaceInvader/SpaceInvader.cpp
 )
 
+add_executable(${PROJECT_NAME}-Tetris-sample
+   sample/tetris/Tetris.cpp
+)
+
+add_executable(${PROJECT_NAME}-MusicPlayer-sample
+   sample/MusicPlayer/MusicPlayer.cpp
+)
+
+
 # to build sample needs 
 # Zip support, ubuntu sudo apt-get install libzip-dev
 #target_link_libraries(${PROJECT_NAME}-sample PRIVATE
@@ -147,5 +156,16 @@ target_link_libraries(${PROJECT_NAME}-SpaceInvader-sample PRIVATE
     ${PROJECT_NAME}
     ${DOENGINE_LIBRARIES}
 )
+
+target_link_libraries(${PROJECT_NAME}-Tetris-sample PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+
+target_link_libraries(${PROJECT_NAME}-MusicPlayer-sample PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+
 
 # install(TARGETS ${PROJECT_NAME} DESTINATION /home/afl/Desktop/doengine )

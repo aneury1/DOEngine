@@ -14,6 +14,10 @@ struct SDLTexture : public NativeTexture
     Point size;
     SDL_Color originalColor;
     virtual ~SDLTexture();
+    SDLTexture(){
+        this_texture = nullptr;
+        valid = false;
+    }
     virtual SDLTexture* loadFromFile(const char* src);
     virtual bool validTexture() override;
     virtual void Draw(const Rect& offset) override;
@@ -22,6 +26,7 @@ struct SDLTexture : public NativeTexture
     virtual int getWidth() override;
     virtual int getHeight() override;
     virtual NativeTexture* subTexture(Rect clipset) override;
+     virtual NativeTexture* setNativeTexture(void *text)override;
 };
 
 } // namespace doengine

@@ -33,6 +33,10 @@ void TTFText::wrapText(const char* text, int maxWidth, char* wrappedText)
     nativeRenderer->wrapText(text,maxWidth,wrappedText);
     return ;
 }
- 
+
+Texture* TTFText::createBitmapFont(const std::string& font_path,const doengine::Color& bg,const doengine::Color& fg){
+  
+  return nativeRenderer->createBitmapFont(font_path,bg,fg);
+}
 
 } // namespace doengine

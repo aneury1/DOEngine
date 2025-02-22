@@ -17,12 +17,10 @@ class NativeTexture;
 class Texture
 {
     NativeTexture* realNativeTexture;
-    Texture()
-    {
-        realNativeTexture = nullptr;
-    }
+
 
   public:
+    Texture();
     Texture(std::string path);
     ~Texture();
     void Draw(const Rect& offset);
@@ -31,7 +29,7 @@ class Texture
     int getWidth();
     int getHeight();
     bool validTexture();
-
+    Texture* setNativeTexture(void *);
     Texture* subTexture(const Rect& clipset);
 };
 

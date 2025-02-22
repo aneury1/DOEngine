@@ -15,7 +15,6 @@ SDLTexture::~SDLTexture()
     this_texture = nullptr;
 }
 
-
 SDLTexture* SDLTexture::loadFromFile(const char* src)
 {
     auto app = Application::getApplication();
@@ -68,7 +67,7 @@ void SDLTexture::Draw(const Rect& offset)
 {
     SDL_Rect rect;
     std::cout <<"FALSE Loaded "<< valid <<"\n";
-    if (!valid)
+    if (!valid || !this_texture)
         return;
     auto app = Application::getApplication();
     auto wformat = (SDL_Window*)app->getWindow()->getNativeWindowFormatBuffer();
@@ -79,7 +78,7 @@ void SDLTexture::Draw(const Rect& offset)
     rect.w = offset.w;
     rect.h = offset.h;
     int rc= SDL_RenderCopy(nrederer, this_texture, nullptr, &rect);
-    SDL_Log("Render copy of text %ld", rc);
+    SDL_Log("Render copy of text %d", rc);
 }
 void SDLTexture::Draw(const Rect& offset, const Rect& clipset)
 {
@@ -143,6 +142,15 @@ NativeTexture* SDLTexture::subTexture(Rect clipset)
     retTexture->this_texture = targetTexture;
 
     return (NativeTexture*)retTexture;
+}
+
+NativeTexture* SDLTexture::setNativeTexture(void *text){
+  SDLTexture* ret =new SDLTexture();
+  int w=0, h=0;
+  SDL_QueryTexture((SDL_Texture*)text,NULL,NULL,&w,&h);
+  SDL_Log(" setNativeTexture Query Txture[%d, %d]", w,h);
+  ret->this_texture =(SDL_Texture*)text;
+  return ret;
 }
 
 } // namespace doengine

@@ -26,6 +26,7 @@ class TTFText
     void DrawText(const char* text, int x, int y);
     Texture* createText(const std::string& text);
     void   wrapText(const char* text, int maxWidth, char* wrappedText);
+    Texture*  createBitmapFont(const std::string& font_path,const doengine::Color& bg,const doengine::Color& fg);
 };
 
 } // namespace doengine
