@@ -22,16 +22,16 @@ using namespace testing;
 
 TEST(mocks_test, DISABLED_getMusicFromMarsTest)
 {
-    NiceMock<CameraMock> cameraMock;
+    //NiceMock<CameraMock> cameraMock;
     NiceMock<MusicHandlerMock> musicHandlerMock;
-    NiceMock<ParticleMock> particleMock;
-    NiceMock<RendererMock> rendererMock;
+    //NiceMock<ParticleMock> particleMock;
+    //NiceMock<RendererMock> rendererMock;
     ////NiceMock<FontMock> fontMock;
-    NiceMock<KeyDownEventMock> keyDownEventMock;
-    NiceMock<KeyUpEventMock> keyUpEventMock;
+    //NiceMock<KeyDownEventMock> keyDownEventMock;
+    //NiceMock<KeyUpEventMock> keyUpEventMock;
     /// NiceMock<WindowManagerMock> WindowManagerMock;
-    NiceMock<GameObjectMock> gameObjectMock;
-    NiceMock<UDPPacketMock> udpPacketMock;
+    //NiceMock<GameObjectMock> gameObjectMock;
+    //NiceMock<UDPPacketMock> udpPacketMock;
 
     ON_CALL(musicHandlerMock, getPlayMusicName()).WillByDefault(Return("Mars"));
     ASSERT_EQ(1, 1);

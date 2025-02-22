@@ -13,6 +13,7 @@ extern "C"
 #include <SDL2/SDL_joystick.h>
 #include <SDL2/SDL_log.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 }
 #endif
 

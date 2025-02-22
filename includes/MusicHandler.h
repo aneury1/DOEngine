@@ -9,23 +9,24 @@ class MusicHandler
 {
 
   public:
-    virtual void addToList(std::string src) = 0;
+    virtual int addToList(const std::string& src) = 0;
     virtual void playFirst() = 0;
     virtual void playLast() = 0;
-    virtual void PlayIndex(int index) = 0;
-    virtual void removeIndex(int index) = 0;
-    virtual std::string getPlayMusicName() = 0;
-    virtual void pause() = 0;
-    virtual void stop() = 0;
+    virtual void playIndex(int index) = 0;
+    virtual void removeIndex(const int index) = 0;
+    virtual void pause(const int) = 0;
+    virtual void stop(const int) = 0;
+    virtual bool isPlaying(const int) const = 0;
 
     enum class Repeat
     {
-        OnlyThis,
+        OnlyThis = -1,
+        Once,
         All,
-        None,
     };
 
     virtual void setRepeat(Repeat repeat) = 0;
+    virtual void setChannel(const int) = 0;
 };
 } // namespace doengine
 
@@ -57,7 +58,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    
 
     // Wait until the music finishes playing
     while (Mix_PlayingMusic()) {

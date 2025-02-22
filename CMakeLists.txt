@@ -4,6 +4,7 @@ project(DOENGINE)
 
 option(DOENGINE_COVERAGE "Compile with coverage flags" FALSE)
 option(DOENGINE_TESTS "Compiles and runs tests" FALSE)
+option(DOENGINE_SAMPLES "Compiles samples" TRUE)
 
 if(DOENGINE_COVERAGE)
     include(cmake-module/CodeCoverage.cmake)
@@ -21,9 +22,15 @@ set(BUILD_SHARED_LIBS FALSE)
 set(SDL2_DISABLE_INSTALL OFF)
 set(SDL2TTF_VENDORED TRUE)
 
+set(ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
+
 if(DOENGINE_TESTS)
     enable_testing()
     add_subdirectory(src/test)
+endif()
+
+if(DOENGINE_SAMPLES)
+    add_subdirectory(sample)
 endif()
 
 if(FETCH_SDL_FROM_GIT)
@@ -33,7 +40,6 @@ else()
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
-
 
 
 # message("END Fecthing SDL Source code")
@@ -58,8 +64,11 @@ includes/DS.h
      src/Texture/Texture.cpp
      src/Event/SDLMouse.cpp
      src/Event/SDLKeyboard.cpp
-     src/Event/SDLJoypad.cpp      
 
+    src/Music/SDLMusicHandler.cpp
+     src/Music/SDLSoundHandler.cpp
+     src/Event/SDLJoypad.cpp
+     src/Music/SDLMusicHandler.cpp
      src/GameObject/GameObject.cpp
       src/Font/TTFText.cpp
      src/Event/Event.cpp
@@ -94,6 +103,9 @@ includes/DS.h
       includes/Mouse.h
       includes/Keyboard.h
       includes/Joypad.h
+      includes/MusicHandler.h
+      includes/SDLMusicHandler.h
+      includes/SDLSoundHandler.h
 )
 
 add_library(${PROJECT_NAME}
