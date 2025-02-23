@@ -61,6 +61,11 @@ class Application
     void Render();
     void Quit();
 
+    long getElapsedTime()
+    {
+        return fps_handler->getElapsedTime();
+    }
+
     uint32_t getDeltaTime()
     {
         return fps_handler->getDeltaTime();

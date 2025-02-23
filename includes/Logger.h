@@ -7,14 +7,13 @@ namespace doengine
 {
 
 enum class logger_type{
+   Information,
    Warning,
    Error
 };
 
 
-void log(const logger_type& type, char *msg, ...);
-
-
+void LogOuput(const logger_type& type,const char *msg, ...);
 
 }
 

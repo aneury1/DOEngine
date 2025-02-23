@@ -8,6 +8,11 @@ Texture::Texture()
     realNativeTexture = nullptr;
 }
 
+void Texture::SetTransparentColor(const Color& color)
+{
+  realNativeTexture->SetTransparentColor(color);   
+}
+
 Texture::Texture(std::string path)
 {
     auto render = Application::getApplication()->getRender();

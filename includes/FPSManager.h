@@ -20,6 +20,7 @@ class FpsManager
     virtual void Start();
     virtual void Handle();
     virtual uint32_t getDeltaTime();
+    virtual float getElapsedTime();
 };
 
 } // namespace doengine

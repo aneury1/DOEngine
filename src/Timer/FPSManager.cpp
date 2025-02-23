@@ -16,6 +16,11 @@ uint32_t FpsManager::getDeltaTime()
     return (uint32_t)(elapsed - start);
 }
 
+float FpsManager::getElapsedTime()
+{
+    return (float)(elapsed - start);
+}
+
 void FpsManager::Start()
 {
     start = SDL_GetTicks();

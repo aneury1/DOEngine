@@ -23,6 +23,7 @@ class Texture
     Texture();
     Texture(std::string path);
     ~Texture();
+    void SetTransparentColor(const Color& color);
     void Draw(const Rect& offset);
     void Draw(const Rect& offset, const Rect& clipset);
     void ModulateColor(const Color& color);

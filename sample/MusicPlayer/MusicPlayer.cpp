@@ -28,26 +28,43 @@ struct MusicPlayerState : public doengine::GameState
     TTFText*  text;
     
     Texture* ps = nullptr;
+    Texture* parcial = nullptr;
+    Texture* fontRenderer = nullptr;
     
     virtual void OnEnter()
     {
          renderer = Application::getApplication()->getRender();
-         text =new TTFText();
-         text->setFont("/home/neon/Documents/projects/myprojects/DOEngine/assets/fonts/DroidSans.ttf", 23);
-         ps = text->createBitmapFont("/home/neon/Documents/projects/myprojects/DOEngine/assets/fonts/DroidSans.ttf", black,red);
+        
+       /// ps = new Texture("./assets/gfx/ball.bmp");
+       /// ps->SetTransparentColor(black);
+      ///  parcial = ps->subTexture(Rect{20,10,10,10});
+        text =new TTFText();
+       /// text->setFont("./assets/fonts/DroidSans.ttf", 23);
+        fontRenderer = text->createBitmapFont("./assets/fonts/DroidSans.ttf", black, red);
     }
     virtual void OnExit()
     {
     }
+    int inc = 32;
     virtual void Update(float elapsed)
     {
+        if(Event::getLastKeyPressed(SDL_SCANCODE_0))
+           inc++;
+        
+        if(Event::getLastKeyPressed(SDL_SCANCODE_1))
+           inc--;
  
     }
     virtual void Render()
     {
        renderer->setDrawColor(skyBlue);
        renderer->clear();
-       ps->Draw(Rect{100,100,100,100});
+       // ps->Draw(Rect{100,100,100,100});
+       // parcial->Draw(Rect{10,10,100,100});
+
+       /// ps->Draw(Rect{100,100,100,100},Rect{10,10,inc,inc});
+       /// fontRenderer->Draw(Rect{100,100,100,100});
+       text->DrawText("HOLAAAAAA", 10,10);
     }
 };
 
