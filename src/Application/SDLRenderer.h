@@ -37,6 +37,8 @@ class SDLRenderer : public Renderer
                                                     Color color) override;
     virtual NativeTextRenderer* getTextRenderer() override;
 
+     virtual NativeTexture* createTexture()override;
+
   private:
     SDL_Renderer* renderer;
 };

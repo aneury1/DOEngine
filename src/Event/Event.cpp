@@ -22,7 +22,7 @@ std::vector<JoyButtonTriggerEvent*> Event::joyButtonTriggerList;
 std::map<int, Joypad*> Event::joypadsConnected;
 std::unordered_map<unsigned char, bool> Event::keys_pressed;
 
-float Event::timeElapsed = 0.0f;
+uint32_t Event::timeElapsed = 0;
 
 void Event::PollEvent()
 {
@@ -177,7 +177,7 @@ void Event::PollEvent()
             break;
         }
     }
-    Event::timeElapsed = Application::getApplication()->getElapsedTime();
+    Event::timeElapsed = Application::getApplication()->getDeltaTime();
 }
 
 int Event::getMousePosition(int* x, int* y)

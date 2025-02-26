@@ -66,6 +66,11 @@ class Application
         return fps_handler->getElapsedTime();
     }
 
+    uint32_t getDeltaTime()
+    {
+        return fps_handler->getDeltaTime();
+    }
+
     void setW(int w)
     {
         window_rect.w = w;

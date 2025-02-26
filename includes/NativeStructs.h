@@ -9,17 +9,20 @@ class Texture;
 
 struct NativeTexture
 {
-    virtual ~NativeTexture()
-    {
-    }
+    virtual ~NativeTexture(){}
+    NativeTexture(){}
+  
+    virtual NativeTexture* subTexture(Rect clipset) = 0;
+    virtual NativeTexture* setNativeTexture(void *text) = 0;
     virtual NativeTexture* loadFromFile(const char* src) = 0;
-    virtual bool validTexture() = 0;
     virtual void Draw(const Rect& offset) = 0;
     virtual void Draw(const Rect& offset, const Rect& clipset) = 0;
+    virtual void SetTransparentColor(const Color& color) =0;
     virtual void ModulateColor(const Color& color) = 0;
+    virtual void Destroy() = 0;
     virtual int getWidth() = 0;
     virtual int getHeight() = 0;
-    virtual NativeTexture* subTexture(Rect clipset) = 0;
+    virtual bool validTexture() = 0;
 };
 
 struct NativeTextRenderer
@@ -34,6 +37,7 @@ struct NativeTextRenderer
     virtual void setBackgroundColor(doengine::Color color) = 0;
     virtual Texture* createText(const std::string& text) = 0;
     virtual void wrapText(const char* text, int maxWidth, char* wrappedText) =0;
+    virtual Texture*  createBitmapFont(const std::string& font_path,const doengine::Color& bg,const doengine::Color& fg)= 0;
 };
 
 } // namespace doengine

@@ -44,52 +44,55 @@ include_directories(${CMAKE_SOURCE_DIR}/includes)
 
 # message("END Fecthing SDL Source code")
 set(DOENGINE_SRC
-includes/DS.h
+    includes/DS.h
+    includes/OpenglLoader.h
     includes/WindowManager.h
-     includes/Renderer.h
-     src/Application/Geometric.cpp
+    includes/Renderer.h
+    includes/Logger.h
+    src/Application/OpenglLoader.cpp
+    src/Application/Geometric.cpp
+    src/Application/Logger.cpp
     src/Application/SDLWindowManager.cpp
     src/Application/WindowManager.cpp
-   src/Application/SDLWindowManager.h
-       src/Application/SDLRenderer.cpp
-       src/Application/SDLRenderer.h
-       src/Application/SDLTTFText.h
-     src/Application/SDLTTFText.cpp
-   src/Application/Application.cpp
-     src/Application/StringUtils.cpp
-     src/Timer/FPSManager.cpp
-     src/GameState/GameStateManager.cpp
+    src/Application/SDLWindowManager.h
+    src/Application/SDLRenderer.cpp
+    src/Application/SDLRenderer.h
+    src/Application/SDLTTFText.h
+    src/Application/SDLTTFText.cpp
+    src/Application/Application.cpp
+    src/Application/StringUtils.cpp
+    src/Timer/FPSManager.cpp
+    src/GameState/GameStateManager.cpp
     src/Timer/FPSManager.cpp
     src/Tilemap/Tilemap.cpp
-     src/Texture/Texture.cpp
-     src/Event/SDLMouse.cpp
-     src/Event/SDLKeyboard.cpp
-
+    src/Texture/Texture.cpp
+    src/Event/SDLMouse.cpp
+    src/Event/SDLKeyboard.cpp
     src/Music/SDLMusicHandler.cpp
      src/Music/SDLSoundHandler.cpp
      src/Event/SDLJoypad.cpp
      src/Music/SDLMusicHandler.cpp
      src/GameObject/GameObject.cpp
-      src/Font/TTFText.cpp
+     src/Font/TTFText.cpp
      src/Event/Event.cpp
-      src/Drawable/Gui.cpp
-      src/Application/SDLTexture.cpp
+     src/Drawable/Gui.cpp
+     src/Application/SDLTexture.cpp
      src/Application/SDLTexture.h
-    includes/NativeStructs.h
-    includes/Geometric.h
-    includes/Color.h
-       includes/defines.h
-        includes/TTFText.h
-        includes/Camera.h
-        includes/Event.h
-       includes/DOEngine.h
-       includes/DOEngine_SDL_includes.h
-       includes/EventHandler.h
-      includes/FPSManager.h
-      includes/GameObject.h
-       includes/GameState.h
-        includes/GameStateManager.h
-        includes/Grids.h
+     includes/NativeStructs.h
+     includes/Geometric.h
+     includes/Color.h
+     includes/defines.h
+     includes/TTFText.h
+     includes/Camera.h
+     includes/Event.h
+     includes/DOEngine.h
+     includes/DOEngine_SDL_includes.h
+     includes/EventHandler.h
+     includes/FPSManager.h
+     includes/GameObject.h
+     includes/GameState.h
+     includes/GameStateManager.h
+     includes/Grids.h
        includes/LinkList.h
         includes/sort.h
        includes/Sprite.h
@@ -126,23 +129,60 @@ else()
         SDL2main
         SDL2_ttf SDL2_image
         SDL2_mixer
+        GL
     )  
 endif()
 
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${DOENGINE_LIBRARIES})
 
-add_executable(${PROJECT_NAME}-sample
-   sample/ignored_main.cpp 
+#add_executable(${PROJECT_NAME}-sample
+#   sample/ignored_main.cpp 
+#)
+add_executable(${PROJECT_NAME}-pong-sample
+   sample/pong/SimplePong.cpp 
+)
+
+add_executable(${PROJECT_NAME}-SpaceInvader-sample
+   sample/SpaceInvader/SpaceInvader.cpp
+)
+
+add_executable(${PROJECT_NAME}-Tetris-sample
+   sample/tetris/Tetris.cpp
+)
+
+add_executable(${PROJECT_NAME}-MusicPlayer-sample
+   sample/MusicPlayer/MusicPlayer.cpp
 )
 
 
 # to build sample needs 
 # Zip support, ubuntu sudo apt-get install libzip-dev
-target_link_libraries(${PROJECT_NAME}-sample PRIVATE
+#target_link_libraries(${PROJECT_NAME}-sample PRIVATE
+#    ${PROJECT_NAME}
+#    ${DOENGINE_LIBRARIES}
+#)
+
+target_link_libraries(${PROJECT_NAME}-pong-sample PRIVATE
     ${PROJECT_NAME}
     ${DOENGINE_LIBRARIES}
- 
 )
 
+target_link_libraries(${PROJECT_NAME}-SpaceInvader-sample PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+
+target_link_libraries(${PROJECT_NAME}-Tetris-sample PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+
+target_link_libraries(${PROJECT_NAME}-MusicPlayer-sample PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+message("Copying asssets to buils dir.")
+file(COPY ${ASSETS_DIR}
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 # install(TARGETS ${PROJECT_NAME} DESTINATION /home/afl/Desktop/doengine )

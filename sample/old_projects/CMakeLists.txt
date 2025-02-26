@@ -41,3 +41,4 @@ target_link_libraries(Sound PRIVATE
     SDL2main
     SDL2_ttf SDL2_image
     SDL2_mixer)
+

@@ -125,6 +125,11 @@ NativeTexture* SDLRenderer::loadTextureFromImageFile(const char* src,
     auto texture = new SDLTexture();
     return texture->loadFromFile(src);
 }
+ 
+NativeTexture* SDLRenderer::createTexture()
+{
+    return new SDLTexture();   
+}
 
 NativeTextRenderer* SDLRenderer::getTextRenderer()
 {

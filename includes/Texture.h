@@ -17,21 +17,20 @@ class NativeTexture;
 class Texture
 {
     NativeTexture* realNativeTexture;
-    Texture()
-    {
-        realNativeTexture = nullptr;
-    }
+
 
   public:
+    Texture();
     Texture(std::string path);
     ~Texture();
+    void SetTransparentColor(const Color& color);
     void Draw(const Rect& offset);
     void Draw(const Rect& offset, const Rect& clipset);
     void ModulateColor(const Color& color);
     int getWidth();
     int getHeight();
     bool validTexture();
-
+    Texture* setNativeTexture(void *);
     Texture* subTexture(const Rect& clipset);
 };
 

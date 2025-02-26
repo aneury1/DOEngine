@@ -3,6 +3,15 @@
 
 namespace doengine
 {
+Texture::Texture()
+{
+    realNativeTexture = nullptr;
+}
+
+void Texture::SetTransparentColor(const Color& color)
+{
+  realNativeTexture->SetTransparentColor(color);   
+}
 
 Texture::Texture(std::string path)
 {
@@ -20,7 +29,7 @@ Texture::~Texture()
 }
 void Texture::Draw(const Rect& offset)
 {
-    this->realNativeTexture->Draw(offset);
+    realNativeTexture->Draw(offset);
 }
 void Texture::Draw(const Rect& offset, const Rect& clipset)
 {
@@ -47,6 +56,15 @@ Texture* Texture::subTexture(const Rect& clipset)
 {
     Texture* ret = new Texture();
     ret->realNativeTexture = this->realNativeTexture->subTexture(clipset);
+    return ret;
+}
+
+Texture* Texture::setNativeTexture(void* t)
+{
+    Texture* ret = new Texture();
+    ret->realNativeTexture =
+        Application::getApplication()->getRender()->createTexture();
+    ret->realNativeTexture->setNativeTexture(t);
     return ret;
 }
 

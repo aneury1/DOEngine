@@ -17,6 +17,7 @@ Application::Application()
     gsm = new GameStateManager();
     fps_handler = new FpsManager();
     fps_handler->setFPS(60);
+    
 }
 
 void Application::destroy()
@@ -54,7 +55,7 @@ void Application::PollEvent()
 
 void Application::Update()
 {
-    gsm->Update(Event::timeElapsed);
+    gsm->Update(fps_handler->getDeltaTime());
 }
 
 void Application::Render()
@@ -94,6 +95,8 @@ void Application::clearScreen(const Color& color)
 void Application::createWindow(const Rect& rect)
 {
     run = windowManager->createWindow(rect);
+    this->setW(rect.w);
+    this->setH(rect.h);
 }
 
 } // namespace doengine
