@@ -195,6 +195,40 @@ void SDLTTFText::wrapText(const char* text, int maxWidth, char* wrappedText)
     }
 }
 
+
+void replacePixels(SDL_Texture* texture, SDL_Renderer* renderer, int width, int height, SDL_Color newc, SDL_Color bg) {
+    // Allocate memory for pixel data
+    Uint32* pixels = new Uint32[width * height];
+
+    // Get the texture format
+    Uint32 format;
+    SDL_QueryTexture(texture, &format, NULL, NULL, NULL);
+    SDL_PixelFormat* mappingFormat = SDL_AllocFormat(format);
+
+    // Copy the current pixel data
+    SDL_RenderReadPixels(renderer, NULL, format, pixels, width * sizeof(Uint32));
+
+    // Define the yellow color to replace (0xFFFF00 in RGB)
+    Uint32 yellow = SDL_MapRGB(mappingFormat, bg.r, bg.g, bg.b);
+    Uint32 newColor = SDL_MapRGB(mappingFormat, newc.r, newc.g, newc.b);
+
+    // Modify only yellow pixels
+    for (int i = 0; i < width * height; i++) {
+        if (pixels[i] == yellow) {
+            pixels[i] = newColor;
+        }
+    }
+
+    // Update the texture with modified pixels
+    SDL_UpdateTexture(texture, NULL, pixels, width * sizeof(Uint32));
+
+    // Free allocated resources
+    delete[] pixels;
+    SDL_FreeFormat(mappingFormat);
+}
+
+
+
 Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
                                       const doengine::Color& bg,
                                       const doengine::Color& fg)
@@ -211,6 +245,9 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer is null!");
         return nullptr;
     }
+
+
+    
 
     // Load TTF Font
     TTF_Font* font = TTF_OpenFont(font_path.c_str(), CHAR_HEIGHT);
@@ -238,6 +275,7 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
 
     SDL_SetRenderTarget(renderer, texture);
     SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, bg.a);
+   // SDL_SetRenderDrawColor(renderer, 255,255,255,255);
     SDL_RenderClear(renderer);
 
     // Render each character to the texture
@@ -257,7 +295,10 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
                          "Failed to render glyph %c: %s", c, TTF_GetError());
             continue;
         }
-
+            SDL_SetColorKey(charSurface, SDL_TRUE,
+                            SDL_MapRGB(charSurface->format, 0,
+                                       0,
+                                       0));
         SDL_Texture* charTexture =
             SDL_CreateTextureFromSurface(renderer, charSurface);
         if (!charTexture)
@@ -300,10 +341,21 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
     SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
     SDL_Log("Created Bitmap Font Texture [%d, %d]", w, h);
 
+
+    SDL_Color yellows;
+    yellows.r = yellow.r;
+    yellows.g = yellow.g;
+    yellows.b = yellow.b;
+    yellows.a = yellow.a;
+    SDL_Color newc;
+    newc.r = 0;
+    newc.b = 200;
+    newc.g = 100;
+    newc.a = 100;
+    replacePixels(texture,renderer, w,h, newc, yellows);
+    // Assign the texture to a Texture object
     current_index = 1;
     memoryBitMapFonts[1] = texture;
-
-    // Assign the texture to a Texture object
     Texture* ret = new Texture();
     return ret->setNativeTexture(texture);
 }

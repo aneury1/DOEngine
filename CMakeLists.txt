@@ -45,9 +45,11 @@ include_directories(${CMAKE_SOURCE_DIR}/includes)
 # message("END Fecthing SDL Source code")
 set(DOENGINE_SRC
     includes/DS.h
+    includes/OpenglLoader.h
     includes/WindowManager.h
     includes/Renderer.h
     includes/Logger.h
+    src/Application/OpenglLoader.cpp
     src/Application/Geometric.cpp
     src/Application/Logger.cpp
     src/Application/SDLWindowManager.cpp
@@ -127,6 +129,7 @@ else()
         SDL2main
         SDL2_ttf SDL2_image
         SDL2_mixer
+        GL
     )  
 endif()
 

@@ -20,6 +20,29 @@ const std::vector<std::string> music = {
     "CANCION CON YANDEL 4", "CANCION CON YANDEL 5", "CANCION CON YANDEL 6",
     "CANCION CON YANDEL 7",
 };
+#include "OpenglLoader.h"
+#include <GL/gl.h>
+
+int xmain() {
+     OpenGLLoader loader;
+
+    // Load OpenGL function
+    typedef void (*glGenBuffersFunc)(GLsizei, GLuint*);
+    glGenBuffersFunc glGenBuffers = (glGenBuffersFunc)loader.loadFunction("glGenBuffers");
+
+    if (glGenBuffers) {
+        GLuint buffer;
+        glGenBuffers(1, &buffer);
+        std::cout << "Generated buffer ID: " << buffer << "\n";
+    } else {
+        std::cerr << "Failed to load glGenBuffers!\n";
+    }
+
+    return 0;
+}
+
+
+
 
 struct MusicPlayerState : public doengine::GameState
 {
@@ -40,7 +63,7 @@ struct MusicPlayerState : public doengine::GameState
       ///  parcial = ps->subTexture(Rect{20,10,10,10});
         text =new TTFText();
        /// text->setFont("./assets/fonts/DroidSans.ttf", 23);
-        fontRenderer = text->createBitmapFont("./assets/fonts/DroidSans.ttf", black, red);
+        fontRenderer = text->createBitmapFont("./assets/fonts/DroidSans.ttf", yellow, red);
     }
     virtual void OnExit()
     {
