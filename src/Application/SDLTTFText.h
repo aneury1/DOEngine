@@ -1,7 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include "DOEngine_SDL_includes.h"
 #include <string>
 
 #include "Color.h"

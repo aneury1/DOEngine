@@ -4,6 +4,10 @@ project(Doengine_tests)
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 include_directories(${CMAKE_SOURCE_DIR}/src/test/)
+include_directories(${sdl_lib_SOURCE_DIR}/include)
+include_directories(${sdl_ttf_SOURCE_DIR})
+include_directories(${sdl_image_SOURCE_DIR})
+include_directories(${sdl_mixer_SOURCE_DIR}/include)
 
 message("include dirs: ${CMAKE_SOURCE_DIR}")
 
@@ -16,6 +20,11 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(googletest)
+
+message("TEST SDL_DEP_SRC_DIR: ${sdl_lib_SOURCE_DIR}")
+message("TEST SDL_TTF_DEP_SRC_DIR: ${sdl_ttf_SOURCE_DIR}")
+message("TEST SDL_IMAGE_DEP_SRC_DIR: ${sdl_image_SOURCE_DIR}")
+message("TEST SDL_MIXER_DEP_SRC_DIR: ${sdl_mixer_SOURCE_DIR}")
 
 add_library(GTest::GTest INTERFACE IMPORTED)
 

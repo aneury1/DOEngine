@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project(DOENGINE)
 
-option(DOENGINE_COVERAGE "Compile with coverage flags" FALSE)
-option(DOENGINE_TESTS "Compiles and runs tests" FALSE)
-option(DOENGINE_SAMPLES "Compiles samples" TRUE)
+option(DOENGINE_COVERAGE "Compile with coverage flags" OFF)
+option(DOENGINE_TESTS "Compiles and runs tests" ON)
+option(DOENGINE_SAMPLES "Compiles samples" ON)
 
 if(DOENGINE_COVERAGE)
     include(cmake-module/CodeCoverage.cmake)
@@ -12,7 +12,7 @@ endif()
 
 # set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
-set(FETCH_SDL_FROM_GIT false)
+set(FETCH_SDL_FROM_GIT true)
 set(DOENGINE_PREFERED_LANGUAGE 11)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD ${DOENGINE_PREFERED_LANGUAGE})
@@ -21,6 +21,12 @@ set(SDL2IMAGE_INSTALL OFF)
 set(BUILD_SHARED_LIBS FALSE)
 set(SDL2_DISABLE_INSTALL OFF)
 set(SDL2TTF_VENDORED TRUE)
+
+if(FETCH_SDL_FROM_GIT)
+   include(cmake-module/fetchSDLProjectFromSource.cmake)
+ else()
+    message("WARNING: SDL Would the Machine Installed Version")
+endif()
 
 set(ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
 
@@ -31,12 +37,6 @@ endif()
 
 if(DOENGINE_SAMPLES)
     add_subdirectory(sample)
-endif()
-
-if(FETCH_SDL_FROM_GIT)
-   include(cmake-module/fetchSDLProjectFromSource.cmake)
-else()
-    message("WARNING: SDL Would the Machine Installed Version")
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
