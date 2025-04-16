@@ -6,7 +6,9 @@
 using doengine::devices::Joypad;
 using doengine::devices::PowerLevel;
 
-namespace doengine::devices
+namespace doengine
+{
+namespace devices
 {
 
 class SDLJoypad : public Joypad
@@ -40,4 +42,5 @@ class SDLJoypad : public Joypad
     unsigned char index;
 };
 
-} // namespace doengine::devices
+} // namespace devices
+} // namespace doengine

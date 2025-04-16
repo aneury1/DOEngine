@@ -1,7 +1,9 @@
 #include "SDLJoypad.h"
 #include <cstddef>
 
-namespace doengine::devices
+namespace doengine
+{
+namespace devices
 {
 
 const std::string SDLJoypad::DEFAULT_JOYPAD_NAME = "NOT_FOUND";
@@ -103,4 +105,5 @@ SDL_Joystick* SDLJoypad::getNativeJoystick() const
     return joystick;
 }
 
+} // namespace devices
 } // namespace doengine

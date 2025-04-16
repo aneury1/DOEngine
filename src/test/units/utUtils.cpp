@@ -2,7 +2,9 @@
 #include "Utils.h"
 #include <gtest/gtest.h>
 
-namespace doengine::ut
+namespace doengine
+{
+namespace ut
 {
 
 TEST(UtilsTests, GetPorcentageTestsInteger)
@@ -140,4 +142,5 @@ TEST(UtilsTests, ClampTests)
     EXPECT_DOUBLE_EQ(max, result);
 }
 
-} // namespace doengine::ut
+} // namespace ut
+} // namespace doengine

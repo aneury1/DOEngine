@@ -9,7 +9,9 @@
 #include <gtest/gtest.h>
 #include <tuple>
 
-namespace doengine::ut
+namespace doengine
+{
+namespace ut
 {
 using doengine::devices::Keyboard;
 using doengine::devices::Keycode;
@@ -47,4 +49,5 @@ TEST_F(utSDLKeyboard, getKeyboardBitmapTest)
     ASSERT_TRUE(result[static_cast<std::size_t>(Keycode::KeyKp1)]);
 }
 
-} // namespace doengine::ut
+} // namespace ut
+} // namespace doengine

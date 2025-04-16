@@ -2,7 +2,9 @@
 
 #include "Mouse.h"
 
-namespace doengine::devices
+namespace doengine
+{
+namespace devices
 {
 class SDLMouse : public Mouse
 {
@@ -24,4 +26,5 @@ class SDLMouse : public Mouse
     unsigned int which;
     Point position;
 };
-} // namespace doengine::devices
+} // namespace devices
+} // namespace doengine

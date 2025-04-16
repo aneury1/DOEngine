@@ -1,6 +1,8 @@
 #include "UDPPacket.h"
 
-namespace doengine::net
+namespace doengine
+{
+namespace net
 {
 
 #ifdef __WIN32__
@@ -29,4 +31,5 @@ int UDPPacket::SendPacket(const unsigned char* buffer, size_t max_len,
     return 0;
 }
 
-} // namespace doengine::net
+} // namespace net
+} // namespace doengine

@@ -12,7 +12,9 @@
 #include <gtest/gtest.h>
 #include <tuple>
 
-namespace doengine::ut
+namespace doengine
+{
+namespace ut
 {
 using doengine::devices::Mouse;
 using doengine::devices::MouseButton;
@@ -119,4 +121,5 @@ TEST_P(utSDLMouseBitmapTest, getMouseButtonsBitmapTest)
 // TEST_F(utSDLMouse, isRightClickedTest)
 // TEST_F(utSDLMouse, isRightClickedTest)
 
-} // namespace doengine::ut
+} // namespace ut
+} // namespace doengine

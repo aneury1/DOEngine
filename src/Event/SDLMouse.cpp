@@ -1,7 +1,9 @@
 #include "SDLMouse.h"
 #include "DOEngine_SDL_includes.h"
 
-namespace doengine::devices
+namespace doengine
+{
+namespace devices
 {
 
 SDLMouse::SDLMouse(unsigned int which, unsigned int bMask, Point p)
@@ -52,4 +54,5 @@ void SDLMouse::updateValues()
     buttonMask = SDL_GetMouseState(&position.x, &position.y);
 }
 
-} // namespace doengine::devices
+} // namespace devices
+} // namespace doengine

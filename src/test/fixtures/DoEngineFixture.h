@@ -9,7 +9,9 @@ using testing::_;
 using testing::NiceMock;
 using testing::Return;
 
-namespace doengine::fixture
+namespace doengine
+{
+namespace fixture
 {
 class DoEngineFixture : public testing::Test
 {
@@ -28,4 +30,5 @@ class DoEngineFixture : public testing::Test
     NiceMock<mocks::SDLMock> _sdlMock;
     /// NiceMock<mocks::WindowManagerMock> _windowMock;
 };
-} // namespace doengine::fixture
+} // namespace fixture
+} // namespace doengine

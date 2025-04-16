@@ -2,7 +2,9 @@
 
 #include "Keyboard.h"
 
-namespace doengine::devices
+namespace doengine
+{
+namespace devices
 {
 class SDLKeyboard : public Keyboard
 {
@@ -15,4 +17,5 @@ class SDLKeyboard : public Keyboard
     const unsigned char* getKeysBitset() const override;
     virtual const unsigned char getLastKeyPressed() const override;
 };
-} // namespace doengine::devices
+} // namespace devices
+} // namespace doengine

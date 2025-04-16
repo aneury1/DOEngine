@@ -1,7 +1,9 @@
 #include "SDLKeyboard.h"
 #include "DOEngine_SDL_includes.h"
 
-namespace doengine::devices
+namespace doengine
+{
+namespace devices
 {
 
 SDLKeyboard::SDLKeyboard()
@@ -22,4 +24,5 @@ const unsigned char SDLKeyboard::getLastKeyPressed() const
     return key;
 }
 
-} // namespace doengine::devices
+} // namespace devices
+} // namespace doengine

@@ -3,7 +3,9 @@
 #include <bitset>
 #include <cstddef>
 
-namespace doengine::devices
+namespace doengine
+{
+namespace devices
 {
 
 enum class Keymod : unsigned char
@@ -282,4 +284,5 @@ class Keyboard
     virtual const unsigned char getLastKeyPressed() const = 0;
 };
 
-} // namespace doengine::devices
+} // namespace devices
+} // namespace doengine

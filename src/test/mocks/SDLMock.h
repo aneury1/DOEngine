@@ -1,9 +1,11 @@
 #pragma once
 
 #include "gmock/gmock.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
-namespace doengine::mocks
+namespace doengine
+{
+namespace mocks
 {
 
 class SDLMock
@@ -37,7 +39,8 @@ class SDLMock
     MOCK_METHOD(const char*, SDL_GetError, ());
 };
 
-} // namespace doengine::mocks
+} // namespace mocks
+} // namespace doengine
 
 extern doengine::mocks::SDLMock* sdlMock;
 void SetSDLMock(doengine::mocks::SDLMock* newSdlMock);

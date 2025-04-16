@@ -8,7 +8,9 @@
 #include <tuple>
 #include <vector>
 
-namespace doengine::ut
+namespace doengine
+{
+namespace ut
 {
 
 using doengine::devices::PowerLevel;
@@ -206,4 +208,5 @@ TEST_P(utSDLJoypadPowerLevel, joystickGetCurrentPowerLevel)
     EXPECT_EQ(_sut.getPowerLevel(), std::get<0>(param));
 }
 
-} // namespace doengine::ut
+} // namespace ut
+} // namespace doengine
