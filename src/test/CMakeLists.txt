@@ -4,9 +4,8 @@ project(Doengine_tests)
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 include_directories(${CMAKE_SOURCE_DIR}/src/test/)
-include_directories(${sdl_lib_SOURCE_DIR}/include)
 include_directories(${sdl_ttf_SOURCE_DIR})
-include_directories(${sdl_image_SOURCE_DIR})
+include_directories(${sdl_image_SOURCE_DIR}/include)
 include_directories(${sdl_mixer_SOURCE_DIR}/include)
 
 message("include dirs: ${CMAKE_SOURCE_DIR}")
@@ -20,11 +19,6 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(googletest)
-
-message("TEST SDL_DEP_SRC_DIR: ${sdl_lib_SOURCE_DIR}")
-message("TEST SDL_TTF_DEP_SRC_DIR: ${sdl_ttf_SOURCE_DIR}")
-message("TEST SDL_IMAGE_DEP_SRC_DIR: ${sdl_image_SOURCE_DIR}")
-message("TEST SDL_MIXER_DEP_SRC_DIR: ${sdl_mixer_SOURCE_DIR}")
 
 add_library(GTest::GTest INTERFACE IMPORTED)
 
@@ -40,23 +34,6 @@ add_executable(${PROJECT_NAME}
     units/utSDLKeyboard.cpp
     units/utSDLMouse.cpp
     units/utSDLJoypad.cpp
-    # mocks/GameStateMock.h
-    mocks/FPSManagerMock.h
-    mocks/CameraMock.h
-    mocks/MusicHandlerMock.h
-    mocks/ParticleMock.h
-    mocks/RendererMock.h
-    # mocks/FontMock.h
-    mocks/EventHandlerMock.h
-    # mocks/GameObjectMock.h
-    # mocks/WindowManagerMock.h
-    # mocks/GameStateManagerMock.h
-    mocks/UDPPacketMock.h
-    mocks/MouseMock.h
-    mocks/JoypadMock.h
-    mocks/SDLMock.h
-    mocks/SDLMock.cpp
-    # testmain.cpp
 
     ../GameState/GameStateManager.cpp
     ../Network/UDPPacket.cpp
@@ -69,7 +46,42 @@ add_executable(${PROJECT_NAME}
 
 add_compile_definitions(DOENGINE_TESTING)
 
+add_library(SDL2_MOCK
+    mocks/SDLMock.h
+    mocks/SDLMock.cpp
+)
+
+target_include_directories(SDL2_MOCK PUBLIC mocks/include)
+target_include_directories(SDL2_MOCK PUBLIC ${sdl_lib_BINARY_DIR}/include)
+target_include_directories(SDL2_MOCK PUBLIC ${sdl_lib_BINARY_DIR}/include/SDL2)
+target_include_directories(SDL2_MOCK PUBLIC ${sdl_lib_BINARY_DIR}/include-config-debug/SDL2)
+
+add_library(DOENGINE_MOCKS
+    mocks/GameStateMock.h
+    mocks/FPSManagerMock.h
+    mocks/CameraMock.h
+    mocks/MusicHandlerMock.h
+    mocks/ParticleMock.h
+    mocks/RendererMock.h
+    mocks/FontMock.h
+    mocks/EventHandlerMock.h
+    mocks/GameObjectMock.h
+    mocks/GameStateManagerMock.h
+    mocks/UDPPacketMock.h
+    mocks/MouseMock.h
+    mocks/JoypadMock.h
+)
+
+target_link_libraries(DOENGINE_MOCKS PUBLIC
+  SDL2_MOCK
+)
+
+target_link_libraries(SDL2_MOCK PRIVATE
+    GTest::gmock
+)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    DOENGINE_MOCKS
     GTest::GTest
 )
 

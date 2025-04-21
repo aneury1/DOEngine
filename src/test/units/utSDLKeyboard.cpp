@@ -5,7 +5,6 @@
 #include <bitset>
 #include <cstddef>
 #include <cstring>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <tuple>
 

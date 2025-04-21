@@ -1,6 +1,4 @@
-
-#include "Application.h"
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 #include "Application.h"
 #include <GameState.h>
 #include <Event.h>

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.22.1)
 project(DOENGINE)
 
 option(DOENGINE_COVERAGE "Compile with coverage flags" OFF)
-option(DOENGINE_TESTS "Compiles and runs tests" ON)
+option(DOENGINE_TESTS "Compiles and runs tests" OFF)
 option(DOENGINE_SAMPLES "Compiles samples" ON)
 
 if(DOENGINE_COVERAGE)
@@ -41,8 +41,6 @@ endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 
-
-# message("END Fecthing SDL Source code")
 set(DOENGINE_SRC
 includes/DS.h
     includes/WindowManager.h
@@ -131,20 +129,6 @@ else()
     )  
 endif()
 
-
 target_link_libraries(${PROJECT_NAME} PRIVATE ${DOENGINE_LIBRARIES})
-
-add_executable(${PROJECT_NAME}-sample
-   sample/ignored_main.cpp 
-)
-
-
-# to build sample needs 
-# Zip support, ubuntu sudo apt-get install libzip-dev
-target_link_libraries(${PROJECT_NAME}-sample PRIVATE
-    ${PROJECT_NAME}
-    ${DOENGINE_LIBRARIES}
- 
-)
 
 # install(TARGETS ${PROJECT_NAME} DESTINATION /home/afl/Desktop/doengine )

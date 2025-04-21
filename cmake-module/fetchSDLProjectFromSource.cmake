@@ -16,7 +16,7 @@ FetchContent_Declare(
     sdl_image
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
     GIT_SUBMODULES external/
-    GIT_TAG release-2.6.3
+    GIT_TAG release-2.8.8
 )
 
 FetchContent_MakeAvailable(sdl_image)
