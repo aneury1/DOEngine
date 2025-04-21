@@ -1,5 +1,5 @@
 #include "Geometric.h"
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 #include <cmath>
 namespace doengine
 {

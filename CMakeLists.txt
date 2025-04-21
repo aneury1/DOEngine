@@ -117,14 +117,16 @@ if(FETCH_SDL_FROM_GIT)
   set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
         SDL2::SDL2
         SDL2::SDL2main
-        SDL2_ttf SDL2_image
+        SDL2_ttf
+        SDL2_image
         SDL2_mixer
   )    
 else()
     set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
         SDL2
         SDL2main
-        SDL2_ttf SDL2_image
+        SDL2_ttf
+        SDL2_image
         SDL2_mixer
     )  
 endif()
