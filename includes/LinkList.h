@@ -69,25 +69,97 @@ class LinkList
         _len++;
     }
 
-    const Node* const remove(T nodeValue)
+    const T remove(T nodeValue)
     {
-        return nullptr;
-    } // TODO to be done later
 
-    const Node* find(T nodeValue)
+      Node* prev = findPrev(nodeValue);
+      Node* curr = find(nodeValue);
+      T deleteValue = T();
+
+      if (curr != nullptr) {
+        Node * next = curr->next();
+        prev->setNext(next);
+        deleteValue = curr->data;
+        delete curr;
+        curr = nullptr;
+        _len--;
+      }
+
+      return deleteValue;
+    }
+
+    Node* find(T nodeValue)
     {
-        return nullptr;
-    } // TODO to be done later
+      return findPrev(nodeValue)->next();
+    }
+
+    Node* findPrev(T nodeValue)
+    {
+        Node* curr = head;
+        Node* prev = head;
+        while (curr != nullptr){
+          if(curr->data == nodeValue)
+            break;
+          prev = curr;
+          curr = curr->next();
+        }
+        return prev;
+    }
 
     const bool insertBefore(Node* node, T nodeValue)
     {
-        return false;
-    } // TODO to be done later
+      Node* curr = head;
+      Node* prev = head;
+      if(curr != nullptr)
+      {
+        while (curr != nullptr)
+        {
+          if(curr->data == node->data)
+          {
+            Node* ne = new Node(nodeValue, curr);
+            if(curr->data == prev->data) // If equals, means node is head
+            {
+              head = ne;
+            }
+            else
+              prev->setNext(ne);
+            _len++;
+            break;
+          }
+          prev = curr;
+          curr = curr->next();
+        }
+      }
+      else
+      {
+          insert(nodeValue);
+      }
+      return true;
+    }
 
     const bool insertAfter(Node* node, T nodeValue)
     {
-        return false;
-    } // TODO to be done later
+      Node* curr = head;
+      if(curr != nullptr)
+      {
+        while (curr != nullptr)
+        {
+          if(curr->data == node->data)
+          {
+            Node* ne = new Node(nodeValue, curr->next());
+            curr->setNext(ne);
+            _len++;
+            break;
+          }
+          curr = curr->next();
+        }
+      }
+      else
+      {
+          insert(nodeValue);
+      }
+      return false;
+    } 
 
     std::size_t getLength() const
     {

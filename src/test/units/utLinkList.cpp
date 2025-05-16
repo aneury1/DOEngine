@@ -18,13 +18,12 @@ class utLinkedList : public ::testing::Test
         _list.insert(0xAFFAB1E);
         _list.insert(0xABBA);
         _list.insert(0xDEADBEEF);
-        _list.insert(0xCAFEBABE);
     }
 
     LinkList<int> _list;
 };
 
-TEST(LinkListTests, DISABLED_InsertTest)
+TEST(LinkListTests, InsertTest)
 {
     const int nodeData = 0xCAFEBABE;
     LinkList<int> list;
@@ -34,7 +33,7 @@ TEST(LinkListTests, DISABLED_InsertTest)
     EXPECT_EQ(list.getHead()->data, nodeData);
 }
 
-TEST_F(utLinkedList, DISABLED_TraverseTest)
+TEST_F(utLinkedList, TraverseTest)
 {
     const int nodeData = 0xCAFEBABE;
     LinkList<int>::Node* tempNode = nullptr;
@@ -47,34 +46,31 @@ TEST_F(utLinkedList, DISABLED_TraverseTest)
     tempNode = tempNode->next();
     EXPECT_EQ(tempNode->data, 0xDEADBEEF);
     tempNode = tempNode->next();
-    EXPECT_EQ(tempNode->data, nodeData);
-    EXPECT_EQ(_list.getLength(), 4);
+    EXPECT_EQ(_list.getLength(), 3);
 }
 
-TEST_F(utLinkedList, DISABLED_RemoveTest)
+TEST_F(utLinkedList, RemoveTest)
 {
     using Node = LinkList<int>::Node;
-    const int nodeData = 0xCAFEBABE;
+    const int nodeData = 0xDEADBEEF;
 
-    EXPECT_EQ(_list.getLength(), 4);
-
-    auto tempNode = _list.remove(nodeData);
-
-    EXPECT_EQ(tempNode->data, nodeData);
-    EXPECT_EQ(tempNode->next(), nullptr);
     EXPECT_EQ(_list.getLength(), 3);
 
-    tempNode = _list.remove(0xBABA);
+    auto deletedValue = _list.remove(nodeData);
 
-    EXPECT_EQ(tempNode->data, int());
-    EXPECT_EQ(tempNode, nullptr);
-    EXPECT_EQ(_list.getLength(), 3);
+    EXPECT_EQ(deletedValue, nodeData);
+    EXPECT_EQ(_list.getLength(), 2);
+
+    deletedValue = _list.remove(0xBABA);
+
+    EXPECT_EQ(deletedValue, 0);
+    EXPECT_EQ(_list.getLength(), 2);
 }
 
 TEST_F(utLinkedList, DestroyTest)
 {
 
-    EXPECT_EQ(_list.getLength(), 4);
+    EXPECT_EQ(_list.getLength(), 3);
 
     _list.destroy();
 
@@ -82,16 +78,15 @@ TEST_F(utLinkedList, DestroyTest)
     EXPECT_EQ(_list.getLength(), 0);
 }
 
-TEST_F(utLinkedList, DISABLED_InsertBeforeTest)
+TEST_F(utLinkedList, InsertBeforeTest)
 {
 
     auto tempNode = _list.getHead()->next(); // The Dancing Queeeeen!
 
     /* CURRENT LL
       HEAD - AFFABLE
-      NEXT - THE DANCING QUEEEN
+      NEXT - ABBA
       NEXT - DEAD BEEF
-      NEXT - CAFE BABE
     */
 
     _list.insertBefore(tempNode, 0xDEADBEEF);
@@ -99,19 +94,18 @@ TEST_F(utLinkedList, DISABLED_InsertBeforeTest)
     /* CURRENT LL
       HEAD - AFFABLE
       NEXT - DEAD BEEF
-      NEXT - THE DANCING QUEEEN
+      NEXT - ABBA
       NEXT - DEAD BEEF
-      NEXT - CAFE BABE
     */
 
     EXPECT_EQ(_list.getHead()->next()->data, 0xDEADBEEF);
     tempNode = _list.getHead()->next();
     EXPECT_EQ(tempNode->next()->data, 0xABBA);
-    EXPECT_EQ(_list.getLength(), 5);
+    EXPECT_EQ(_list.getLength(), 4);
 
     tempNode = _list.getHead();
 
-    _list.insertBefore(_list.getHead(), 0xCAFEBABE);
+    _list.insertBefore(tempNode, 0xCAFEBABE);
 
     /* CURRENT LL
       HEAD - CAFE BABE
@@ -119,51 +113,64 @@ TEST_F(utLinkedList, DISABLED_InsertBeforeTest)
       NEXT - DEAD BEEF
       NEXT - THE DANCING QUEEEN
       NEXT - DEAD BEEF
-      NEXT - CAFE BABE
     */
-
+ 
     EXPECT_EQ(tempNode->data, 0xAFFAB1E);
     EXPECT_EQ(_list.getHead()->data, 0xCAFEBABE);
-    EXPECT_EQ(_list.getLength(), 6);
+    EXPECT_EQ(_list.getLength(), 5);
+
 }
 
-TEST_F(utLinkedList, DISABLED_InsertAfterTest)
+TEST_F(utLinkedList, InsertAfterTest)
 {
     auto tempNode = _list.getHead()->next();
 
     /* CURRENT LL
       HEAD - AFFABLE
-      NEXT - THE DANCING QUEEEN
+      NEXT - ABBA
       NEXT - DEAD BEEF
-      NEXT - CAFE BABE
     */
 
     _list.insertAfter(tempNode, 0xCAFEBABE);
 
     /* CURRENT LL
       HEAD - AFFABLE
-      NEXT - THE DANCING QUEEEN
+      NEXT - ABBA
       NEXT - CAFE BABE
       NEXT - DEAD BEEF
-      NEXT - CAFE BABE
     */
 
     EXPECT_EQ(tempNode->data, 0xABBA);
     tempNode = tempNode->next();
     EXPECT_EQ(tempNode->data, 0xCAFEBABE);
+    EXPECT_EQ(_list.getLength(), 4);
+    
+    tempNode = _list.getHead();
+    _list.insertBefore(tempNode, 0xBEBACAFE);
+    
+    /* CURRENT LL
+      HEAD - AFFABLE
+      NEXT - ABBA
+      NEXT - BEBA CAFE
+      NEXT - DEAD BEEF
+    */
+
+    EXPECT_EQ(tempNode->data, 0xAFFAB1E);
+    tempNode = tempNode->next();
+    EXPECT_EQ(tempNode->data, 0xABBA);
     EXPECT_EQ(_list.getLength(), 5);
 }
 
-TEST_F(utLinkedList, DISABLED_FindTest)
+TEST_F(utLinkedList, FindTest)
 {
     auto tempNode = _list.find(0xDEADBEEF);
 
+    EXPECT_NE(tempNode, nullptr);
     EXPECT_EQ(tempNode->data, 0xDEADBEEF);
 
     tempNode = _list.find(0xBABA);
 
-    EXPECT_EQ(tempNode->data, int());
-    EXPECT_EQ(tempNode->next(), nullptr);
+    EXPECT_EQ(tempNode, nullptr);
 }
 
 } // namespace ut
