@@ -34,6 +34,10 @@ add_executable(Particles
     Particles/Particles.cpp
 )
 
+add_executable(Sprites
+    Sprites.cpp
+)
+
 target_link_libraries(DoSample PRIVATE
     DOENGINE
 	${DOENGINE_LIBRARIES}
@@ -50,6 +54,11 @@ target_link_libraries(Sound PRIVATE
 )
 
 target_link_libraries(Particles PRIVATE
+    DOENGINE
+	${DOENGINE_LIBRARIES}
+)
+
+target_link_libraries(Sprites PRIVATE
     DOENGINE
 	${DOENGINE_LIBRARIES}
 )

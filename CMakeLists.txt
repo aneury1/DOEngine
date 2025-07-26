@@ -80,6 +80,7 @@ set(DOENGINE_SRC
     src/Tilemap/Tilemap.cpp
     src/Tilemap/TileMapEditor.cpp
     src/Texture/Texture.cpp
+    src/Texture/Sprite.cpp
     src/Event/SDLMouse.cpp
     src/Event/SDLKeyboard.cpp
     src/Music/SDLMusicHandler.cpp
