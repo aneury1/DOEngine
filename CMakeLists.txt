@@ -11,11 +11,15 @@ if(DOENGINE_COVERAGE)
 endif()
 
 # set(CMAKE_EXPORT_COMPILE_COMMANDS true)
-
+set(FETCH_GLM_FROM_GIT true)
 set(FETCH_SDL_FROM_GIT true)
 set(DOENGINE_PREFERED_LANGUAGE 11)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD ${DOENGINE_PREFERED_LANGUAGE})
+
+set(CURRENT_SDL_VERSION SDL2)
+set(CURRENT_SDL_MAIN_VERSION SDL2main)
+
 
 set(SDL2IMAGE_INSTALL OFF)
 set(BUILD_SHARED_LIBS FALSE)
@@ -28,6 +32,15 @@ if(FETCH_SDL_FROM_GIT)
     message("WARNING: SDL Would the Machine Installed Version")
 endif()
 
+
+if(FETCH_GLM_FROM_GIT)
+   include(cmake-module/fetchGLMProjectFromSource.cmake)
+ else()
+    message("WARNING: SDL Would the Machine Installed Version")
+endif()
+
+
+
 set(ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
 
 if(DOENGINE_TESTS)
@@ -36,74 +49,85 @@ if(DOENGINE_TESTS)
 endif()
 
 if(DOENGINE_SAMPLES)
-    add_subdirectory(sample)
+    add_subdirectory(sample/battlecity)
+   # add_subdirectory(old_sample)
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
 
+add_library(pugixml STATIC
+  ${CMAKE_SOURCE_DIR}/src/Application/pugixml.cpp
+)
+
+
+
 set(DOENGINE_SRC
-includes/DS.h
+    includes/DS.h
+    includes/Xml.h
+    includes/pugixml.hpp
     includes/WindowManager.h
-     includes/Renderer.h
-     src/Application/Geometric.cpp
+    includes/Renderer.h
+    src/Application/Geometric.cpp
     src/Application/SDLWindowManager.cpp
     src/Application/WindowManager.cpp
-   src/Application/SDLWindowManager.h
-       src/Application/SDLRenderer.cpp
-       src/Application/SDLRenderer.h
-       src/Application/SDLTTFText.h
-     src/Application/SDLTTFText.cpp
-   src/Application/Application.cpp
-     src/Application/StringUtils.cpp
-     src/Timer/FPSManager.cpp
-     src/GameState/GameStateManager.cpp
+    src/Application/SDLWindowManager.h
+    src/Application/SDLRenderer.cpp
+    src/Application/SDLRenderer.h
+    src/Application/SDLTTFText.h
+    src/Application/SDLTTFText.cpp
+    src/Application/Application.cpp
+    src/Application/StringUtils.cpp
+    
+    src/Timer/FPSManager.cpp
+    src/GameState/GameStateManager.cpp
     src/Timer/FPSManager.cpp
     src/Tilemap/Tilemap.cpp
-     src/Texture/Texture.cpp
-     src/Event/SDLMouse.cpp
-     src/Event/SDLKeyboard.cpp
+    src/Texture/Texture.cpp
+    src/Event/SDLMouse.cpp
+    src/Event/SDLKeyboard.cpp
 
     src/Music/SDLMusicHandler.cpp
-     src/Music/SDLSoundHandler.cpp
-     src/Event/SDLJoypad.cpp
-     src/Music/SDLMusicHandler.cpp
-     src/GameObject/GameObject.cpp
-      src/Font/TTFText.cpp
-     src/Event/Event.cpp
-      src/Drawable/Gui.cpp
-      src/Application/SDLTexture.cpp
-     src/Application/SDLTexture.h
+    src/Music/SDLSoundHandler.cpp
+    src/Event/SDLJoypad.cpp
+    src/Music/SDLMusicHandler.cpp
+    src/GameObject/GameObject.cpp
+    src/Font/TTFText.cpp
+    src/Event/Event.cpp
+    src/Drawable/Gui.cpp
+    src/Drawable/TileMap.cpp
+    src/Application/SDLTexture.cpp
+    src/Application/SDLTexture.h
     includes/NativeStructs.h
     includes/Geometric.h
     includes/Color.h
-       includes/defines.h
-        includes/TTFText.h
-        includes/Camera.h
-        includes/Event.h
-       includes/DOEngine.h
-       includes/DOEngine_SDL_includes.h
-       includes/EventHandler.h
-      includes/FPSManager.h
-      includes/GameObject.h
-       includes/GameState.h
-        includes/GameStateManager.h
-        includes/Grids.h
-       includes/LinkList.h
-        includes/sort.h
-       includes/Sprite.h
-        includes/Utils.h
-        includes/Texture.h
-        includes/Tile.h
-        includes/Tilemap.h
-        includes/UDPPacket.h
-        includes/Vector.h
-        includes/Application.h
-      includes/Mouse.h
-      includes/Keyboard.h
-      includes/Joypad.h
-      includes/MusicHandler.h
-      includes/SDLMusicHandler.h
-      includes/SDLSoundHandler.h
+    includes/defines.h
+    includes/TTFText.h
+    includes/Camera.h
+    includes/Event.h
+    includes/DOEngine.h
+    includes/DOEngine_SDL_includes.h
+    includes/EventHandler.h
+    includes/FPSManager.h
+    includes/GameObject.h
+    includes/GameState.h
+    includes/GameStateManager.h
+    includes/Grids.h
+    includes/LinkList.h
+    includes/sort.h
+    includes/Sprite.h
+    includes/Utils.h
+    includes/Texture.h
+    includes/Tile.h
+    includes/TileMap.h
+    includes/UDPPacket.h
+    includes/Vector.h
+    includes/Application.h
+    includes/Mouse.h
+    includes/Keyboard.h
+    includes/Joypad.h
+    includes/MusicHandler.h
+    includes/SDLMusicHandler.h
+    includes/SDLSoundHandler.h
 )
 
 add_library(${PROJECT_NAME}
@@ -113,11 +137,13 @@ add_library(${PROJECT_NAME}
 set(DOENGINE_LIBRARIES )
 if(FETCH_SDL_FROM_GIT)
   set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
-        SDL2::SDL2
-        SDL2::SDL2main
+        
+   ${CURRENT_SDL_VERSION}
+   ${CURRENT_SDL_MAIN_VERSION}
         SDL2_ttf
         SDL2_image
         SDL2_mixer
+        pugixml
   )    
 else()
     set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
@@ -126,9 +152,10 @@ else()
         SDL2_ttf
         SDL2_image
         SDL2_mixer
+        pugixml
     )  
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${DOENGINE_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${DOENGINE_LIBRARIES} pugixml)
 
 # install(TARGETS ${PROJECT_NAME} DESTINATION /home/afl/Desktop/doengine )

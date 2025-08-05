@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <vector>
 #include <unordered_map>
 // #include "DOEngine.h"
@@ -9,8 +10,16 @@ namespace doengine
 {
 struct Event
 {
+    
+
+
+     
+    typedef std::function<void(const Keyboard&)> KeyPressedCB;
+    
+    
     static float timeElapsed;
     static std::unordered_map<unsigned char, bool> keys_pressed;
+    static std::vector<std::function<void(const Keyboard&)>> keydowncb;
     static std::vector<KeyDownEvent*> keydown;
     static std::vector<KeyUpEvent*> keyup;
     static std::vector<MouseEvent*> mouseEvent;
@@ -27,6 +36,7 @@ struct Event
     static void PollEvent();
     static void AddKeyPressEventListener(KeyUpEvent* ev);
     static void AddKeyPressEventListener(KeyDownEvent* ev);
+    static void AddKeyPressEventCallback(std::function<void(const Keyboard&)> ev);
     static void RemoveKeyPressEventListener(KeyUpEvent* ev);
     static void RemoveKeyPressEventListener(KeyDownEvent* ev);
     static void AddMouseEvent(MouseEvent* event);

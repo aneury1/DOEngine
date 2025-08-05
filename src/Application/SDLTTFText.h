@@ -2,7 +2,7 @@
 
 #include "DOEngine_SDL_includes.h"
 #include <string>
-
+#include <map>
 #include "Color.h"
 #include "NativeStructs.h"
 #include "TTFText.h"

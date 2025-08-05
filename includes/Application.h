@@ -37,8 +37,15 @@ class Application
     ~Application();
 
     void _internalResize();
+    
+    bool debug = false;
 
   public:
+
+    bool isDebug() {
+        return debug;
+    }
+
     static Application* getApplication()
     {
         if (applicationObject == nullptr)
@@ -61,9 +68,9 @@ class Application
     void Render();
     void Quit();
 
-    long getElapsedTime()
+    float getDeltaTime()
     {
-        return fps_handler->getElapsedTime();
+        return fps_handler->getDeltaTime();
     }
 
     void setW(int w)

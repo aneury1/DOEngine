@@ -61,7 +61,7 @@ void Application::Render()
 {
     gsm->Render();
     windowManager->updateScreen();
-    fps_handler->Handle();
+    fps_handler->End();
 }
 
 void Application::Quit()

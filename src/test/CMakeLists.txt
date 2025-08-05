@@ -34,6 +34,7 @@ add_executable(${PROJECT_NAME}
     units/utSDLKeyboard.cpp
     units/utSDLMouse.cpp
     units/utSDLJoypad.cpp
+   # units/utTileMap.cpp
 
     ../GameState/GameStateManager.cpp
     ../Network/UDPPacket.cpp
@@ -42,6 +43,8 @@ add_executable(${PROJECT_NAME}
     ../Event/SDLKeyboard.cpp
     ../Event/SDLMouse.cpp
     ../Event/SDLJoypad.cpp
+
+   # ../Tilemap/Tilemap.cpp
 )
 
 add_compile_definitions(DOENGINE_TESTING)

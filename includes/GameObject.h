@@ -1,8 +1,10 @@
 #pragma once
-
+#include "GameObjectPool.h"
+#include <algorithm>
 #include <string>
 namespace doengine
 {
+
 class GameObject
 {
   protected:
@@ -16,10 +18,12 @@ class GameObject
   public:
     GameObject()
     {
+      GameObjectPool::ref.push_back(this);
     }
 
     virtual ~GameObject()
     {
+        auto ref = std::find(GameObjectPool::ref.begin(), GameObjectPool::ref.end(), this);
     }
     virtual void Update(float timer = 0) = 0;
     virtual void Render() = 0;

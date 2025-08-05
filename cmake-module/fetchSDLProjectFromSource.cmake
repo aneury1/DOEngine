@@ -1,12 +1,13 @@
 
 include(FetchContent)
 message("Fecthing SDL Source code")
+message("Fecthing SDL Source code please update so we can use sdl3")
 # SDL2
 # SET(SDL_SHARED FALSE)
 FetchContent_Declare(
     sdl_lib
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG release-2.32.4 
+    GIT_TAG release-3.2.20 
 )
 
 FetchContent_MakeAvailable(sdl_lib)
@@ -16,7 +17,7 @@ FetchContent_Declare(
     sdl_image
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
     GIT_SUBMODULES external/
-    GIT_TAG release-2.8.8
+    GIT_TAG release-3.2.4
 )
 
 FetchContent_MakeAvailable(sdl_image)
@@ -25,7 +26,7 @@ FetchContent_MakeAvailable(sdl_image)
 FetchContent_Declare(
     sdl_ttf
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
-    GIT_TAG release-2.20.2
+    GIT_TAG release-3.2.2
 )
 
 FetchContent_MakeAvailable(sdl_ttf)
@@ -35,7 +36,7 @@ SET(SDL2MIXER_VENDORED TRUE)
 FetchContent_Declare(
     sdl_mixer
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
-    GIT_TAG release-2.6.3
+    GIT_TAG release-2.8.1
 )
 
 FetchContent_MakeAvailable(sdl_mixer)

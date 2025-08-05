@@ -1,4 +1,5 @@
 #include "SDLWindowManager.h"
+#include <SDL2/SDL_image.h>
 namespace doengine
 {
 bool SDLWindowManager::createWindow()
@@ -21,6 +22,12 @@ bool SDLWindowManager::createWindow()
     window_rect.w = mode.w;
 
     window_rect.h = mode.h;
+
+
+    int imageFlags = IMG_INIT_AVIF|IMG_INIT_PNG|IMG_INIT_TIF|IMG_INIT_WEBP|IMG_INIT_JXL;
+    int ret = IMG_Init(imageFlags);
+
+    /// sdl3SDL_SetRenderLogicalPresentation()
 
     return run;
 }

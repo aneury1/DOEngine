@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Test comment -->
+    <maps>
+        <map title="level1">
+            <metadata 
+                rows="20" 
+                cols="20" 
+                tilesize="16"
+                texture="/home/neon/Desktop/DOEngine/assets/images/battlecitysprites.png"
+                texture_id="1"
+                paddingLeft="10"
+                paddingTop="10"
+                basebackground="#000000"
+            />
+            <layers>
+                <layer number="1">
+                    <tileset>
+                        <tile char="0"/>
+                        <tile char="1" x="" y="" name="brick"/>
+                        <tile char="2" x="" y="" name="metal" nondestructible="true"/>
+                        <tile char="3" x="" y="" name="tree" nondestructible="true"/>
+                        <tile char="4" x="" y="" name="water" nondestructible="true"/>
+                        <tile char="5" x="" y="" name="base"/>
+                    </tileset>
+                    <map-data>
+                        0000000000000
+                        0110101010100
+                        0101001010100
+                        0110101010100
+                        0000000000000
+                        0022220002220
+                        0000000000000
+                        0033333333300
+                        0000005000000
+                    </map-data>
+                </layer>
+            </layers>
+        </map>
+</maps>

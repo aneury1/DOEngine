@@ -11,6 +11,14 @@ using doengine::devices::Mouse;
 namespace doengine
 {
 
+
+struct MouseEvent{
+   virtual void OnMouseMovement(int x, int y) = 0;
+   virtual void OnMouseButtonDown(Uint8 left, Uint8 right, int x, int y) = 0;
+   virtual void OnMouseButtonUp(Uint8 left, Uint8 right, int x, int y) = 0;
+};
+
+
 class KeyDownEvent
 {
   public:

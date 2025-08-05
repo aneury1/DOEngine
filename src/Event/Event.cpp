@@ -13,6 +13,7 @@ using doengine::devices::SDLKeyboard;
 using doengine::devices::SDLMouse;
 namespace doengine
 {
+std::vector<std::function<void(const Keyboard&)>> Event::keydowncb;    
 std::vector<KeyDownEvent*> Event::keydown;
 std::vector<KeyUpEvent*> Event::keyup;
 std::vector<MouseEvent*> Event::mouseEvent;
@@ -21,6 +22,7 @@ std::vector<JoyButtonDownEvent*> Event::joyButtonDownList;
 std::vector<JoyButtonTriggerEvent*> Event::joyButtonTriggerList;
 std::map<int, Joypad*> Event::joypadsConnected;
 std::unordered_map<unsigned char, bool> Event::keys_pressed;
+int keysPressed[1024]={0x00};
 
 float Event::timeElapsed = 0.0f;
 
@@ -36,12 +38,13 @@ void Event::PollEvent()
             break;
         }
         case SDL_KEYDOWN: {
-            SDL_Log("SDL_KEYDOWN");
-            keys_pressed[event.key.keysym.scancode] =
-                true; ///(event.key.keysym.scancode);
+           /// SDL_Log("SDL_KEYDOWN");
+            keys_pressed[event.key.keysym.scancode] = true;
             SDLKeyboard keyboard(event.key.keysym.scancode);
             for (auto itKeyboard : Event::keydown)
                 itKeyboard->OnKeydown(keyboard);
+            for(auto itCb : keydowncb)
+                itCb(keyboard);
         }
         break;
         case SDL_KEYUP: {
@@ -178,6 +181,7 @@ void Event::PollEvent()
         }
     }
     Event::timeElapsed = Application::getApplication()->getElapsedTime();
+    SDL_GetKeyboardState(keysPressed);
 }
 
 int Event::getMousePosition(int* x, int* y)
@@ -200,9 +204,14 @@ void Event::AddKeyPressEventListener(KeyDownEvent* ev)
     Event::keydown.push_back(ev);
 }
 
+void Event::AddKeyPressEventCallback(std::function<void(const Keyboard&)> ev)
+{
+   Event::keydowncb.push_back(ev);
+}
+
 bool Event::getLastKeyPressed(int scancode)
 {
-    return keys_pressed[scancode];
+    return keys_pressed[scancode] || keysPressed[scancode];
 }
 
 void Event::RemoveKeyPressEventListener(KeyUpEvent* ev)

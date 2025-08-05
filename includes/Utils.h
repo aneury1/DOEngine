@@ -1,5 +1,5 @@
 #pragma once
-
+#include <vector>
 #include <algorithm>
 #include <limits>
 #include <random>
@@ -46,4 +46,22 @@ constexpr T clamp(const T v, const T min, const T max)
 {
     return std::min(max, std::max(v, min));
 }
+
+std::vector<std::string> extractValueFromXML(std::string mainBuffer, std::string tagtitle)
+{
+    std::vector<std::string> ret;
+    auto fndbeg = mainBuffer.find_first_of(tagtitle+">");
+    auto fndend = mainBuffer.find_first_of("</"+tagtitle+">");
+    while(fndbeg != std::string::npos)
+    {
+        
+    }
+    return ret;
+}
+
+
+
+
+
+
 } // namespace doengine

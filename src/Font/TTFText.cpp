@@ -13,6 +13,12 @@ void TTFText::setColor(Color color)
     nativeRenderer->setColor(color);
 }
 
+void TTFText::setColor(Color bg, Color fg)
+{
+    nativeRenderer->setColor(fg, bg);
+
+}
+
 void TTFText::setFont(const std::string& path, int fntsize)
 {
     nativeRenderer->setFont(path, fntsize);

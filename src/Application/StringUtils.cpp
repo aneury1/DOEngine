@@ -12,6 +12,7 @@ void readMapFile(const char* filename, std::vector<std::string>& ret)
         while (std::getline(file, line))
         {
             ret.emplace_back(line);
+             
             line = "";
         }
     }

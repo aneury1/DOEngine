@@ -10,27 +10,20 @@ void FpsManager::setFPS(long fps)
 {
     this->fps = fps;
 }
-float FpsManager::getElapsedTime()
+float FpsManager::getDeltaTime()
 {
-    return (float)(elapsed - start);
+    return deltaTime;
 }
 
 void FpsManager::Start()
 {
-    start = SDL_GetTicks();
+    current = SDL_GetTicks();
+    float deltaTime = (current - previous) / 1000.0f;
 }
 
-void FpsManager::Handle()
+void FpsManager::End()
 {
-    elapsed = SDL_GetTicks();
-    float ticks = 1000 / fps;
-    if (ticks > (elapsed - start))
-    {
-        wait = (long)ticks - (elapsed - start);
-        ////SDL_Log("FPS %ld", wait);
-        if (wait > 0)
-            SDL_Delay(wait);
-    }
+   previous = current;
 }
 
 } // namespace doengine

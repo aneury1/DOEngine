@@ -1,7 +1,8 @@
 #include "SDLTexture.h"
 #include "Application.h"
 #include <SDL2/SDL.h>
-
+#include <SDL2/SDL_image.h>
+#include <iostream>
 namespace doengine
 {
 
@@ -19,7 +20,7 @@ SDLTexture* SDLTexture::loadFromFile(const char* src)
     auto nrederer =
         (SDL_Renderer*)app->getWindow()->getRenderer()->getNativeRenderer();
 
-    SDL_Surface* sf = SDL_LoadBMP(src);
+    SDL_Surface* sf = IMG_Load(src);
     if (!sf)
     {
         valid = false;
@@ -61,8 +62,8 @@ bool SDLTexture::validTexture()
 void SDLTexture::Draw(const Rect& offset)
 {
     SDL_Rect rect;
-    if (!valid)
-        return;
+   /// if (!valid)
+    ///    return;
     auto app = Application::getApplication();
     auto wformat = (SDL_Window*)app->getWindow()->getNativeWindowFormatBuffer();
     auto nrederer =
@@ -71,7 +72,8 @@ void SDLTexture::Draw(const Rect& offset)
     rect.y = offset.y;
     rect.w = offset.w;
     rect.h = offset.h;
-    SDL_RenderCopy(nrederer, this_texture, nullptr, &rect);
+   int ret = SDL_RenderCopy(nrederer, this_texture, nullptr, &rect);
+   
 }
 void SDLTexture::Draw(const Rect& offset, const Rect& clipset)
 {
@@ -92,7 +94,7 @@ void SDLTexture::Draw(const Rect& offset, const Rect& clipset)
     clip.y = clipset.y;
     clip.w = clipset.w;
     clip.h = clipset.h;
-    SDL_RenderCopy(nrederer, this_texture, &clip, &rect);
+    int ret = SDL_RenderCopy(nrederer, this_texture, &clip, &rect);
 }
 void SDLTexture::ModulateColor(const Color& color)
 {

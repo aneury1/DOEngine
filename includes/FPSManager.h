@@ -3,10 +3,11 @@ namespace doengine
 {
 class FpsManager
 {
-    long start, elapsed, wait, fps;
+    long previous, current, fps;
+    float deltaTime;
 
   public:
-    FpsManager() : start(0L), elapsed(0L), fps(60L)
+    FpsManager() : previous{0L}, current{0L}, fps{60L}, deltaTime{0.0f}
     {
     }
 
@@ -16,8 +17,8 @@ class FpsManager
 
     virtual void setFPS(long fps = 60);
     virtual void Start();
-    virtual void Handle();
-    virtual float getElapsedTime();
+    virtual void End();
+    virtual float getDeltaTime();
 };
 
 } // namespace doengine
