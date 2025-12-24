@@ -30,7 +30,16 @@ class Mouse
     virtual bool isMiddleClick() const = 0;
     virtual void getPosition(Point&) = 0;
     virtual const Point& getPosition() const = 0;
+    virtual const Point& getMotionPosition() const = 0;
     virtual void getButtonStateBitset(std::bitset<BUTTONS_COUNT>&) const = 0;
+    virtual const Point& getWheelScroll() const = 0;
+    enum  MouseButtonDown : uint8_t{
+      Left = 1,
+      Right = 2,
+      Center = 4
+    };
+    static Rect getMousePosition();
+    static uint8_t getButtonPressed();
 };
 
 } // namespace devices

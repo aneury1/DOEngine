@@ -11,6 +11,16 @@ using doengine::devices::Mouse;
 namespace doengine
 {
 
+
+struct KeyboardInputhandlingEvent
+{
+   KeyboardInputhandlingEvent();
+   virtual ~KeyboardInputhandlingEvent();
+   virtual void OnKeydown(const Keyboard&) = 0;
+   virtual void OnKeyup(const Keyboard&) = 0;
+};
+
+
 class KeyDownEvent
 {
   public:
@@ -113,13 +123,22 @@ class OnMessageQueue
 
 struct MouseEvent
 {
-    virtual ~MouseEvent()
-    {
-    }
-
+    virtual ~MouseEvent();
+    MouseEvent();
+    virtual void MouseWheel(const Mouse&) = 0;
     virtual void MouseMove(const Mouse&) = 0;
     virtual void MouseButtonDown(const Mouse&) = 0;
     virtual void MouseButtonUp(const Mouse&) = 0;
 };
+
+
+struct TextInputEvent
+{
+    virtual ~TextInputEvent();
+    TextInputEvent();
+    virtual void OnTextInput(const std::string& text) = 0;
+};
+
+
 
 } // namespace doengine

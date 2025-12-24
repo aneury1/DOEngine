@@ -61,6 +61,7 @@ class Application
     void Render();
     void Quit();
 
+
     long getElapsedTime()
     {
         return fps_handler->getElapsedTime();
@@ -94,6 +95,11 @@ class Application
     int getW()
     {
         return window_rect.w;
+    }
+
+    Rect getDisplayMode(int m=0)
+    {
+        return windowManager->getWindowDisplayMode(m);
     }
 
     void SetWindowPencilColor(const Color& color);

@@ -21,10 +21,14 @@ class SDLRenderer : public Renderer
     virtual void clear() override;
     virtual void setDrawColor(const Color& color) override;
     virtual void updateScreen() override;
+    virtual void RenderSetClipRect(const Rect& ) override;
+    virtual void ResetRenderSetClipRect() override;
+
 
     virtual void DrawPoint(const Point& point, const Color& color);
     virtual void DrawLine(const Point& p1, const Point& p2, const Color& color);
     virtual void DrawRect(const Rect& rect, const Color& color);
+    virtual void DrawRect(const Rect& rect, const Color& color, int thickness);
     virtual void DrawFillRect(const Rect& rect, const Color& color);
     virtual void FillCircle(int x, int y, int radius, const Color& color);
     virtual void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
@@ -35,6 +39,7 @@ class SDLRenderer : public Renderer
 
     virtual NativeTexture* loadTextureFromImageFile(const char* src,
                                                     Color color) override;
+    virtual NativeTexture* loadTextureFromImageFile(const char* src) override;
     virtual NativeTextRenderer* getTextRenderer() override;
 
      virtual NativeTexture* createTexture()override;

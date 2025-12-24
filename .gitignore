@@ -55,6 +55,8 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+/sample/AnnetteWorld/
+/sample/random_stuff/
 
 # StyleCop
 StyleCopReport.xml

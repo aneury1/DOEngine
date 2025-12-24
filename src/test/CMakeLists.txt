@@ -34,6 +34,7 @@ add_executable(${PROJECT_NAME}
     units/utSDLKeyboard.cpp
     units/utSDLMouse.cpp
     units/utSDLJoypad.cpp
+    units/utSpriteOffset.cpp
 
     ../GameState/GameStateManager.cpp
     ../Network/UDPPacket.cpp

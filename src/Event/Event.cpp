@@ -16,9 +16,11 @@ namespace doengine
 std::vector<KeyDownEvent*> Event::keydown;
 std::vector<KeyUpEvent*> Event::keyup;
 std::vector<MouseEvent*> Event::mouseEvent;
+std::vector<TextInputEvent*> Event::TextInputList;
 std::vector<JoyButtonUpEvent*> Event::joyButtonUpList;
 std::vector<JoyButtonDownEvent*> Event::joyButtonDownList;
 std::vector<JoyButtonTriggerEvent*> Event::joyButtonTriggerList;
+std::vector<KeyboardInputhandlingEvent*> Event::keyboardHandlingEventList;
 std::map<int, Joypad*> Event::joypadsConnected;
 std::unordered_map<unsigned char, bool> Event::keys_pressed;
 
@@ -26,6 +28,10 @@ uint32_t Event::timeElapsed = 0;
 
 void Event::PollEvent()
 {
+
+    ////todo add validtio for this call
+    SDL_StartTextInput();
+
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
@@ -35,18 +41,23 @@ void Event::PollEvent()
             Application::getApplication()->Quit();
             break;
         }
+ 
         case SDL_KEYDOWN: {
-            SDL_Log("SDL_KEYDOWN");
+            ////SDL_Log("SDL_KEYDOWN %ld",event.key.keysym.scancode);
             keys_pressed[event.key.keysym.scancode] =
                 true; ///(event.key.keysym.scancode);
             SDLKeyboard keyboard(event.key.keysym.scancode);
+            for(auto keyboardPressed : Event::keyboardHandlingEventList)
+                keyboardPressed->OnKeydown(keyboard);
+            
             for (auto itKeyboard : Event::keydown)
                 itKeyboard->OnKeydown(keyboard);
+            
         }
         break;
         case SDL_KEYUP: {
             ///// SDL_Log("SDL_KEYUP");
-            keys_pressed[event.key.keysym.scancode] = false;
+           /// keys_pressed[event.key.keysym.scancode] = false;
             SDLKeyboard keyboard;
 
             for (auto itKeyboard : Event::keyup)
@@ -54,11 +65,16 @@ void Event::PollEvent()
         }
         break; /**< Key released */
         case SDL_TEXTEDITING: {
-            /// SDL_Log("SDL_TEXTEDITING");
+            ////SDL_Log("SDL_TEXTEDITING");
         }
         break; /**< Keyboard text editing (composition) */
         case SDL_TEXTINPUT: {
-            /// SDL_Log("SDL_TEXTEDITING");
+             SDL_Log("SDL_TEXTINPUT");
+                        for(auto events : Event::TextInputList)
+            {
+                std::string text = event.text.text;
+                events->OnTextInput(text);
+            }
         }
         break; /**< Keyboard text input */
         case SDL_MOUSEMOTION: {
@@ -66,9 +82,12 @@ void Event::PollEvent()
             auto mask = getMousePosition(&mousePos.x, &mousePos.y);
             doengine::devices::SDLMouse mouse(event.motion.which, mask,
                                               mousePos);
-
-            ////SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mouse.x, mouse.y);
-            /// SDL_Log("Mouse Count = %ld", Event::mouseEvent.size());
+            doengine::Rect mouseOffset{mousePos.x, mousePos.y, 1,1};
+            mouse.motion.x = event.motion.x;
+            mouse.motion.y = event.motion.y;
+            ///SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mousePos.x, mousePos.y);
+            /////SDL_Log("Mouse Count = %ld", Event::mouseEvent.size());
+           
 
             for (auto itMouse : Event::mouseEvent)
             {
@@ -85,7 +104,7 @@ void Event::PollEvent()
             mouse.getButtonStateBitset(buttonPressed);
 
             /// SDL_Log("SDL_MOUSEBUTTONDOWN %X", buttonPressed.to_ulong());
-            ////SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+           SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
 
             for (auto it : Event::mouseEvent)
                 it->MouseButtonDown(mouse);
@@ -108,6 +127,18 @@ void Event::PollEvent()
         break;
         case SDL_MOUSEWHEEL: {
             SDL_Log("SDL_MOUSEWHEEL");
+                        Point mousePos;
+            std::bitset<doengine::devices::Mouse::BUTTONS_COUNT> buttonPressed;
+            auto mask = getMousePosition(&mousePos.x, &mousePos.y);
+            doengine::devices::SDLMouse mouse(event.button.which, mask,
+                                              mousePos);
+            mouse.getButtonStateBitset(buttonPressed);
+            mouse.setScroll(event.wheel.x,event.wheel.y);
+
+            /// SDL_Log("SDL_MOUSEBUTTONDOWN %X", buttonPressed.to_ulong());
+           SDL_Log("mousePos Count = %ld", Event::mouseEvent.size());
+            for (auto it : Event::mouseEvent)
+                it->MouseWheel(mouse);
         }
         break;
         case SDL_JOYAXISMOTION:
@@ -200,9 +231,27 @@ void Event::AddKeyPressEventListener(KeyDownEvent* ev)
     Event::keydown.push_back(ev);
 }
 
+void Event::AddKeyboardEvent(KeyboardInputhandlingEvent* ev)
+{
+    Event::keyboardHandlingEventList.push_back(ev);
+}
+
 bool Event::getLastKeyPressed(int scancode)
 {
     return keys_pressed[scancode];
+}
+
+
+void Event::RemoveKeyboardEvent(KeyboardInputhandlingEvent* ev)
+{
+    auto& evts = Event::keyboardHandlingEventList;
+    for (auto it = evts.begin(); it != evts.end();)
+    {
+        if (*it == ev)
+            it = evts.erase(it);
+        else
+            ++it;
+    }
 }
 
 void Event::RemoveKeyPressEventListener(KeyUpEvent* ev)
@@ -231,6 +280,7 @@ void Event::RemoveKeyPressEventListener(KeyDownEvent* ev)
 
 void Event::AddMouseEvent(MouseEvent* event)
 {
+    SDL_Log("MOuse event added");
     Event::mouseEvent.push_back(event);
 }
 
@@ -245,6 +295,24 @@ void Event::RemovedMouseEvent(MouseEvent* event)
             ++it;
     }
 }
+
+void Event::RemoveTextInputEvent(TextInputEvent* event)
+{
+    auto& evts = Event::TextInputList;
+    for (auto it = evts.begin(); it != evts.end();)
+    {
+        if (*it == event)
+            it = evts.erase(it);
+        else
+            ++it;
+    }
+}
+
+void Event::AddTextInputEvent(TextInputEvent *event)
+{
+    Event::TextInputList.push_back(event);
+}
+
 
 void Event::AddJoypadEventListener(JoyButtonUpEvent* ev)
 {

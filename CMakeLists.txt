@@ -13,7 +13,9 @@ endif()
 # set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
 set(FETCH_SDL_FROM_GIT true)
-set(DOENGINE_PREFERED_LANGUAGE 11)
+set(FETCH_GLM_FROM_GIT true)
+set(BUILD_SAMPLE_ACTIVE false)
+set(DOENGINE_PREFERED_LANGUAGE 17)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD ${DOENGINE_PREFERED_LANGUAGE})
 
@@ -23,10 +25,17 @@ set(SDL2_DISABLE_INSTALL OFF)
 set(SDL2TTF_VENDORED TRUE)
 
 if(FETCH_SDL_FROM_GIT)
-   include(cmake-module/fetchSDLProjectFromSource.cmake)
+   include(cmake-module/fetchSDL3ProjectFromSource.cmake)
  else()
     message("WARNING: SDL Would the Machine Installed Version")
 endif()
+
+if(FETCH_GLM_FROM_GIT)
+   include(cmake-module/fetchGLMProjectFromSource.cmake)
+ else()
+    message("WARNING: SDL Would the Machine Installed Version")
+endif()
+
 
 set(ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
 
@@ -50,6 +59,10 @@ set(DOENGINE_SRC
     src/Application/OpenglLoader.cpp
     src/Application/Geometric.cpp
     src/Application/Logger.cpp
+    src/Application/opengl_decls.cpp
+    src/Application/opengl_decls.h
+    src/Application/SDLOpenglWindow.cpp
+    src/Application/SDLOpenglRenderer.cpp
     src/Application/SDLWindowManager.cpp
     src/Application/WindowManager.cpp
     src/Application/SDLWindowManager.h
@@ -63,25 +76,35 @@ set(DOENGINE_SRC
     src/GameState/GameStateManager.cpp
     src/Timer/FPSManager.cpp
     src/Tilemap/Tilemap.cpp
+    src/Tilemap/TileMapEditor.cpp
     src/Texture/Texture.cpp
     src/Event/SDLMouse.cpp
     src/Event/SDLKeyboard.cpp
     src/Music/SDLMusicHandler.cpp
-     src/Music/SDLSoundHandler.cpp
-     src/Event/SDLJoypad.cpp
-     src/Music/SDLMusicHandler.cpp
-     src/GameObject/GameObject.cpp
-     src/Font/TTFText.cpp
-     src/Event/Event.cpp
-     src/Drawable/Gui.cpp
-     src/Application/SDLTexture.cpp
-     src/Application/SDLTexture.h
-     includes/NativeStructs.h
-     includes/Geometric.h
-     includes/Color.h
-     includes/defines.h
-     includes/TTFText.h
-     includes/Camera.h
+    src/Music/SDLSoundHandler.cpp
+    src/Event/SDLJoypad.cpp
+    src/Music/SDLMusicHandler.cpp
+    src/GameObject/GameObject.cpp
+    src/Font/TTFText.cpp
+    src/Font/FontCache.cpp
+    src/Event/Event.cpp
+    src/Event/EventHandler.cpp
+    src/Drawable/Gui.cpp
+    src/Drawable/UI.cpp
+    src/Drawable/TextField.cpp
+    src/Application/SDLTexture.cpp
+    src/Application/SDLTexture.h
+    src/Drawable/Draggable.cpp
+    src/Drawable/DraggableGameObject.cpp
+    src/Drawable/SelectionRect.cpp
+    src/Drawable/MessageBox.cpp
+    includes/NativeStructs.h
+    includes/Geometric.h
+    includes/Color.h
+    includes/defines.h
+    includes/TTFText.h
+    includes/FontCache.h
+    includes/Camera.h
      includes/Event.h
      includes/DOEngine.h
      includes/DOEngine_SDL_includes.h
@@ -91,22 +114,30 @@ set(DOENGINE_SRC
      includes/GameState.h
      includes/GameStateManager.h
      includes/Grids.h
-       includes/LinkList.h
-        includes/sort.h
-       includes/Sprite.h
-        includes/Utils.h
-        includes/Texture.h
-        includes/Tile.h
-        includes/Tilemap.h
-        includes/UDPPacket.h
-        includes/Vector.h
-        includes/Application.h
-      includes/Mouse.h
-      includes/Keyboard.h
-      includes/Joypad.h
-      includes/MusicHandler.h
-      includes/SDLMusicHandler.h
-      includes/SDLSoundHandler.h
+     includes/LinkList.h
+     includes/sort.h
+     includes/Sprite.h
+     includes/Utils.h
+     includes/Texture.h
+     includes/Tile.h
+     includes/Tilemap.h
+     includes/TileMapEditor.h
+     includes/UDPPacket.h
+     includes/Vector.h
+     includes/Application.h
+     includes/Mouse.h
+     includes/Keyboard.h
+     includes/Joypad.h
+     includes/MusicHandler.h
+     includes/SDLMusicHandler.h
+     includes/SDLSoundHandler.h
+     includes/UI.h
+     includes/Draggable.h
+     includes/DraggableGameObject.h
+     includes/SelectionRect.h
+     includes/SpriteOffset.h
+     includes/TextField.h
+     includes/MessageBox.h
 )
 
 add_library(${PROJECT_NAME}
@@ -116,11 +147,12 @@ add_library(${PROJECT_NAME}
 set(DOENGINE_LIBRARIES )
 if(FETCH_SDL_FROM_GIT)
   set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
-        SDL2::SDL2
-        SDL2::SDL2main
-        SDL2_ttf
-        SDL2_image
+        SDL3::SDL3
+        # SDL2::SDL2main
+        SDL3_ttf::SDL3_ttf
+        SDL3_image::SDL3_image
         SDL2_mixer
+        GL
   )    
 else()
     set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
@@ -135,6 +167,13 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${DOENGINE_LIBRARIES})
 
+message("Copying asssets to buils dir.")
+file(COPY ${ASSETS_DIR}
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+# install(TARGETS ${PROJECT_NAME} DESTINATION /home/afl/Desktop/doengine )
+
+
+if(${BUILD_SAMPLE_ACTIVE})
 #add_executable(${PROJECT_NAME}-sample
 #   sample/ignored_main.cpp 
 #)
@@ -153,7 +192,24 @@ add_executable(${PROJECT_NAME}-Tetris-sample
 add_executable(${PROJECT_NAME}-MusicPlayer-sample
    sample/MusicPlayer/MusicPlayer.cpp
 )
+add_executable(BattleSpawn
+   sample/BattleSpawn/BattleSpawn.cpp
+)
+add_executable(PacmanClone
+   sample/Pacman/Pacman.cpp
+)
 
+add_executable(BattleCityRecreation
+   sample/BattleCityRecreation/BattleCityRecreation.cpp
+)
+
+add_executable(Tetris
+   sample/tetris/Tetris.cpp
+)
+
+add_executable(SideScroller
+    sample/SideScroller/SideScroller.cpp
+)
 
 # to build sample needs 
 # Zip support, ubuntu sudo apt-get install libzip-dev
@@ -181,7 +237,31 @@ target_link_libraries(${PROJECT_NAME}-MusicPlayer-sample PRIVATE
     ${PROJECT_NAME}
     ${DOENGINE_LIBRARIES}
 )
-message("Copying asssets to buils dir.")
-file(COPY ${ASSETS_DIR}
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-# install(TARGETS ${PROJECT_NAME} DESTINATION /home/afl/Desktop/doengine )
+
+target_link_libraries(BattleSpawn PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+
+target_link_libraries(PacmanClone PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+
+
+target_link_libraries(BattleCityRecreation PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+
+target_link_libraries(Tetris PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+
+
+target_link_libraries(SideScroller PRIVATE
+    ${PROJECT_NAME}
+    ${DOENGINE_LIBRARIES}
+)
+endif()

@@ -42,7 +42,9 @@ struct MusicPlayerState : public doengine::GameState
       ///  parcial = ps->subTexture(Rect{20,10,10,10});
         text =new TTFText();
        /// text->setFont("./assets/fonts/DroidSans.ttf", 23);
-        fontRenderer = text->createBitmapFont("./assets/fonts/DroidSans.ttf", yellow, red);
+        fontRenderer = text->createBitmapFont("./assets/fonts/DroidSans.ttf",
+         doengine::Colors::yellow, 
+         doengine::Colors::red);
     }
     virtual void OnExit()
     {
@@ -59,7 +61,7 @@ struct MusicPlayerState : public doengine::GameState
     }
     virtual void Render()
     {
-       renderer->setDrawColor(skyBlue);
+       renderer->setDrawColor(doengine::Colors::skyBlue);
        renderer->clear();
        // ps->Draw(Rect{100,100,100,100});
        // parcial->Draw(Rect{10,10,100,100});

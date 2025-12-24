@@ -1,6 +1,7 @@
 #pragma once
 #include "StringUtils.h"
 #include <SDL2/SDL.h>
+#include <sstream>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -14,4 +15,14 @@ std::vector<char> splitChar(const std::string& original,
                             const std::string& ignoredChars);
 std::string vectorOfCharToString(const std::vector<char>& chars);
 int StringAsInt(const std::string& str);
+template <typename T>
+std::string to_string(T value)
+{
+    std::ostringstream os;
+    os << value;
+    return os.str();
+}
+
+bool isCharInGroup(char ch, const std::string group);
+
 } // namespace doengine

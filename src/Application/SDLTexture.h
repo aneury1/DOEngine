@@ -9,6 +9,7 @@ namespace doengine
 
 struct SDLTexture : public NativeTexture
 {
+    int texture = -1;
     std::string path;
     SDL_Renderer *renderer;
     bool valid = false;
@@ -20,6 +21,7 @@ struct SDLTexture : public NativeTexture
     virtual SDLTexture* loadFromFile(const char* src)override;
     virtual void SetTransparentColor(const Color& color)override;
     virtual bool validTexture() override;
+    virtual void Draw(int x, int y) override;
     virtual void Draw(const Rect& offset) override;
     virtual void Draw(const Rect& offset, const Rect& clipset) override;
     virtual void ModulateColor(const Color& color) override;

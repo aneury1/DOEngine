@@ -1,6 +1,15 @@
 #pragma once
+#include <variant>
+#include <string>
+
+#include "GameObject.h"
 namespace doengine
 {
+
+
+
+typedef std::variant<int, std::string, GameObject *> ArgValue;
+
 class GameState
 {
   public:

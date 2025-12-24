@@ -1,5 +1,6 @@
 #include "WindowManager.h"
 #include "SDLWindowManager.h"
+#include "SDLOpenglWindowManager.h"
 #include <memory.h>
 
 namespace doengine
@@ -7,8 +8,17 @@ namespace doengine
 
 WindowManager* WindowManager::getWindowManager()
 {
-    SDLWindowManager* manager = new SDLWindowManager();
-    return manager;
+    bool opengl_support = true;
+    if(!opengl_support)
+    {
+        SDLWindowManager* manager = new SDLWindowManager();
+        return manager;
+    }
+    else
+    {
+        SDLWindowManager* manager = new SDLOpenglWindowManager(); ///
+        return manager;
+    }
 }
 
 }; // namespace doengine

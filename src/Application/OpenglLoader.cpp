@@ -54,3 +54,58 @@ void* OpenGLLoader::loadFunction(const char* name) {
 
 
 #endif
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+
+static PFNGLGENVERTEXARRAYSPROC        glGenVertexArrays;
+static PFNGLBINDVERTEXARRAYPROC        glBindVertexArray;
+static PFNGLGENBUFFERSPROC             glGenBuffers;
+static PFNGLBINDBUFFERPROC             glBindBuffer;
+static PFNGLBUFFERDATAPROC             glBufferData;
+static PFNGLBUFFERSUBDATAPROC          glBufferSubData;
+static PFNGLVERTEXATTRIBPOINTERPROC    glVertexAttribPointer;
+static PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
+static PFNGLCREATESHADERPROC           glCreateShader;
+static PFNGLSHADERSOURCEPROC           glShaderSource;
+static PFNGLCOMPILESHADERPROC          glCompileShader;
+static PFNGLCREATEPROGRAMPROC          glCreateProgram;
+static PFNGLATTACHSHADERPROC           glAttachShader;
+static PFNGLLINKPROGRAMPROC            glLinkProgram;
+static PFNGLUSEPROGRAMPROC             glUseProgram;
+static PFNGLGETUNIFORMLOCATIONPROC     glGetUniformLocation;
+static PFNGLUNIFORM4FPROC              glUniform4f;
+static PFNGLUNIFORM2FPROC              glUniform2f;
+///static PFNGLDRAWARRAYSEXTPROC          glDrawArrays;
+static PFNGLDELETESHADERPROC           glDeleteShader;
+
+bool LoadMinimalGL()
+{
+#define LOAD_GL(fn) \
+    fn = (decltype(fn))SDL_GL_GetProcAddress(#fn); \
+    if (!fn) return false;
+
+    LOAD_GL(glGenVertexArrays)
+    LOAD_GL(glBindVertexArray)
+    LOAD_GL(glGenBuffers)
+    LOAD_GL(glBindBuffer)
+    LOAD_GL(glBufferData)
+    LOAD_GL(glBufferSubData)
+    LOAD_GL(glVertexAttribPointer)
+    LOAD_GL(glEnableVertexAttribArray)
+    LOAD_GL(glCreateShader)
+    LOAD_GL(glShaderSource)
+    LOAD_GL(glCompileShader)
+    LOAD_GL(glCreateProgram)
+    LOAD_GL(glAttachShader)
+    LOAD_GL(glLinkProgram)
+    LOAD_GL(glUseProgram)
+    LOAD_GL(glGetUniformLocation)
+    LOAD_GL(glUniform4f)
+    LOAD_GL(glUniform2f)
+    ///OAD_GL(glDrawArrays)
+    LOAD_GL(glDeleteShader)
+
+#undef LOAD_GL
+    return true;
+}

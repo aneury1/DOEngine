@@ -16,8 +16,7 @@ Application::Application()
     windowManager = WindowManager::getWindowManager();
     gsm = new GameStateManager();
     fps_handler = new FpsManager();
-    fps_handler->setFPS(60);
-    
+    fps_handler->setFPS(60);    
 }
 
 void Application::destroy()
@@ -45,17 +44,19 @@ void Application::setFullScreen()
 
 void Application::setWindowMode()
 {
-    windowManager->setFullScreen();
+    windowManager->setWindowMode();
 }
 void Application::PollEvent()
 {
     fps_handler->Start();
+    fps_handler->beginFrame();
     Event::PollEvent();
 }
 
 void Application::Update()
 {
-    gsm->Update(fps_handler->getDeltaTime());
+    auto deltaTime = fps_handler->endFrame();
+    gsm->Update(deltaTime);
 }
 
 void Application::Render()
@@ -80,6 +81,7 @@ Renderer* Application::getRender() const
 
 const bool Application::IsRunning() const
 {
+    ///LogOuput(logger_type::Information, "Is running %d", run);
     return run;
 }
 
@@ -94,9 +96,10 @@ void Application::clearScreen(const Color& color)
 
 void Application::createWindow(const Rect& rect)
 {
-    run = windowManager->createWindow(rect);
     this->setW(rect.w);
     this->setH(rect.h);
+    run = windowManager->createWindow(rect);
+
 }
 
 } // namespace doengine

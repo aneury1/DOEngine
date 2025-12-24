@@ -72,4 +72,9 @@ int StringAsInt(const std::string& str)
     return std::stoi(str);
 }
 
+bool isCharInGroup(char ch, const std::string group)
+{
+    return (group.find(ch,0) != std::string::npos);
+}
+
 }; // namespace doengine

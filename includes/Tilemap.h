@@ -1,123 +1,155 @@
 #pragma once
-
+#include "Renderer.h"
+#include "Application.h"
 #include "Geometric.h"
 #include "Texture.h"
 #include "Tile.h"
+#include "Event.h"
 #include <cstddef>
 #include <string>
 #include <vector>
+#include <functional>
 
 namespace doengine
 {
 
 #define VALUE_IN_ARRAY(X, Y, W, A) A[Y * W + X]
 
-struct MapRenderer
-{
-    virtual void RenderTile(Rect rect) = 0;
-    virtual void RenderTile(int x, int y, int w, int h, Color color) = 0;
+
+ 
+
+
+
+template<class T>
+struct RenderType{
+    T type;
+    std::function<void(T, doengine::Renderer *)>renderFn;
 };
+
+struct TileDef
+{
+    std::string        textureId;
+    doengine::Rect     src;   // atlas rect
+    bool               solid;
+    int layer;
+};
+
+
+struct TileMapEditor;
 
 struct TileMap
 {
-
-  protected:
-    MapRenderer* mapRenderer;
-
-  public:
-    TileMap() : mapRenderer(nullptr)
-    {
-    }
-    virtual ~TileMap()
-    {
-    }
-    virtual void setMapRenderer(MapRenderer* render) = 0;
-    virtual void loadTileMapFromFile(const char* file) = 0;
-    virtual void saveLoadedTileMap() = 0;
-    virtual void render() = 0;
-    virtual void update() = 0;
+    protected:
+        std::string tilesetId;
+        TileMapEditor* editor = nullptr;
+        std::vector<RenderType<char>> primitive_chars; //// TBI in next classess
+    public:
+        virtual ~TileMap() = default;
+        virtual bool loadTileMapFromFile(const std::string& fn) = 0;
+        virtual void Update(double) = 0;
+        virtual void Draw() = 0;
+        void setTileSetId(std::string tilesetId){
+            this->tilesetId = tilesetId;
+        }
 };
 
-/*
-    the simplest Tilemap the DOEngine Handler, support not layer
-    single layer,  allow from 0 - 255 tiles types for map,
-    definition must be implemented or provide by developers.
 
-    it could be
-
-    file structure would be.
-    C = Columns
-    R = Rows
-
-    tilesetimage\n
-    tilesizew\n
-    tilesizeh\n
-    ColumnCount\n
-    RowCount\n
-    C C C C...C+n
-    C C C C...
-    ...
-    ...
-    R+n
-
-    example:
-    10
-    3
-    1 1 1 1 1 1 1 1 1 1
-    1 0 0 0 0 0 0 0 0 1
-    1 1 1 1 1 1 1 1 1 1
-*/
-struct SimpleLayerTileMap : public TileMap
+struct NonScrollCharTileMap : 
+    public TileMap,
+    public MouseEvent
 {
+    protected:
+        bool debug = true; 
+        doengine::Rect debugRect;
+        char type_to_change_by_editor = 0;
 
-  protected:
-    Texture* texture;
-    std::vector<std::string> thisMap;
+        int paddingLeft = 100;
+        int paddingTop  = 100;
 
-  public:
-    SimpleLayerTileMap();
-    virtual ~SimpleLayerTileMap();
-    virtual void loadTileMapFromFile(const char* file);
-    virtual void saveLoadedTileMap();
-    virtual void setTileType(int r, int c, char t);
-    virtual char getTileType(int r, int c);
-    virtual void setMapRenderer(MapRenderer* render);
-    virtual void render();
-    virtual void update();
 
-    int margin_left;
-    int margin_right;
-    int margin_bottom;
-    int margin_top;
-    int rows;
-    int cols;
+        doengine::Renderer *renderer;
+        ///std::vector<std::string> tiles;
+        std::vector<Tile> tiles;
+        std::unordered_map<char, TileDef> tile_defs;
+        char getTile(int row, int col)const;
+        int rows;
+        int cols;
+        int tilesize;
+        virtual void MouseMove(const Mouse&) override;
+        virtual void MouseButtonDown(const Mouse&) override;
+        virtual void MouseButtonUp(const Mouse&) override;
+    
+    
+    public:
 
-    int getMarginLeft()
-    {
-        return margin_left;
-    }
-    int getMarginTop()
-    {
-        return margin_top;
-    }
 
-    int setMarginLeft(int s)
-    {
-        return (margin_left = s);
-    }
-    int getMarginTop(int s)
-    {
-        return (margin_top = s);
-    }
+        NonScrollCharTileMap();
+        
+        virtual ~NonScrollCharTileMap()=default;
+        virtual bool loadTileMapFromFile(const std::string& fn) override;
+        virtual void Update(double) override;
+        virtual void Draw() override;
+        void setTileDef(std::unordered_map<char, TileDef> tile_defs);
+        void setTileMapEditor(TileMapEditor *ptr);
+        inline const char getEditorType()const{
+            return this->type_to_change_by_editor;
+        }
+    virtual void MouseWheel(const Mouse&)
+    {}
+        void changeGroupOfTileByRectCollision(char ch, doengine::Rect rect);
 
-    int getRowCount()
-    {
-        return rows;
-    }
-    int getColumnCount()
-    {
-        return rows;
-    }
 };
 
-}; // namespace doengine
+
+
+struct ScrollableCharTileMap : 
+    public TileMap,
+    public MouseEvent
+{
+    protected:
+        bool debug = true; 
+        doengine::Rect debugRect;
+        char type_to_change_by_editor = 0;
+
+        int paddingLeft = 100;
+        int paddingTop  = 100;
+
+
+        doengine::Renderer *renderer;
+        ///std::vector<std::string> tiles;
+        std::vector<Tile> tiles;
+        std::unordered_map<char, TileDef> tile_defs;
+        char getTile(int row, int col)const;
+        int rows;
+        int cols;
+        int tilesize;
+        virtual void MouseMove(const Mouse&) override;
+        virtual void MouseButtonDown(const Mouse&) override;
+        virtual void MouseButtonUp(const Mouse&) override;
+    
+    
+    public:
+
+
+        ScrollableCharTileMap();
+        
+        virtual ~ScrollableCharTileMap();
+        virtual bool loadTileMapFromFile(const std::string& fn) override;
+        virtual void Update(double) override;
+        virtual void Draw() override;
+        void setTileDef(std::unordered_map<char, TileDef> tile_defs);
+        void setTileMapEditor(TileMapEditor *ptr);
+        inline const char getEditorType()const{
+            return this->type_to_change_by_editor;
+        }
+
+        void changeGroupOfTileByRectCollision(char ch, doengine::Rect rect);
+
+};
+
+
+
+
+
+
+}
