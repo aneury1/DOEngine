@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include "Application.h"
-
+#include <variant>
 namespace doengine
 {
 Texture::Texture()
@@ -27,10 +27,15 @@ Texture::Texture(std::string path)
 Texture::~Texture()
 {
 }
+void Texture::Draw(int x, int y)
+{
+    realNativeTexture->Draw(x,y);
+}
 void Texture::Draw(const Rect& offset)
 {
     realNativeTexture->Draw(offset);
 }
+
 void Texture::Draw(const Rect& offset, const Rect& clipset)
 {
     this->realNativeTexture->Draw(offset, clipset);
@@ -70,7 +75,7 @@ Texture* Texture::setNativeTexture(void* t)
 
 TextureManager* TextureManager::instance;
 
-std::map<std::string, Texture*> textures;
+std::map<std::variant<std::string,int>, Texture*> textures;
 
 TextureManager* TextureManager::getTextureManager()
 {
@@ -79,10 +84,10 @@ TextureManager* TextureManager::getTextureManager()
     return instance;
 }
 
-void TextureManager::loadTextureFromFile(std::string id, std::string src)
+void TextureManager::loadTextureFromFile(const std::variant<std::string, int>& id, string src)
 {
     Texture* texture = new Texture(src);
-    addTexture(id, texture);
+    addTexture(id, texture); 
 }
 
 void TextureManager::loadTextureFromTexture(std::string id, Texture* texture,
@@ -106,12 +111,28 @@ void TextureManager::addTexture(std::string id, Texture* texture)
         }
     }
 }
+void TextureManager::addTexture(const std::variant<std::string, int>& id, Texture* texture)
+{
+    auto it = textures.find(id);
+    if (texture->validTexture())
+    {
+        if (it != textures.end())
+        {
+            //removeTexture(id);
+        }
+        else
+        {
+            textures[id] = texture;
+        }
+    }
+}
+
 
 void TextureManager::removeTexture(std::string id)
 {
 }
 
-Texture* TextureManager::getTexture(std::string id)
+Texture* TextureManager::getTexture(const std::variant<std::string, int>& id)
 {
     return textures[id];
 }

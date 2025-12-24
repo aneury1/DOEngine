@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
 
 #include "Application.h"
@@ -29,8 +30,9 @@ SDL_Surface* loadSurface(const char* src, SDL_Renderer* r,
     {
         LogOuput(logger_type::Information, "Surface and Window Ready");
         SDL_Surface* screen = SDL_GetWindowSurface(w);
-        SDL_Surface* r = SDL_ConvertSurface(surface, screen->format, 0);
-        SDL_FreeSurface(surface);
+        //// SDL_Surface* r = SDL_ConvertSurface(surface, screen->format, 0);
+        ///SDL_FreeSurface(surface);
+        auto r  = surface;
         surface = nullptr;
         if (r && transparentColor)
         {
@@ -85,30 +87,45 @@ SDL_Texture* ExtractSubTexture(SDL_Renderer* renderer, SDL_Texture* source, SDL_
         return nullptr;
     }
 
-    // Get the texture format
+    if (!renderer || !source)
+    {
+        std::cerr << "Error: Renderer or source texture is null!" << std::endl;
+        return nullptr;
+    }
+
+    // Save renderer state
+    SDL_Texture* oldTarget = SDL_GetRenderTarget(renderer);
+
     Uint32 format;
     int access, width, height;
     SDL_QueryTexture(source, &format, &access, &width, &height);
 
-    // Create a new texture with the same format as the source
-    SDL_Texture* subTexture = SDL_CreateTexture(renderer, format, SDL_TEXTUREACCESS_TARGET, region.w, region.h);
-    if (!subTexture) {
-        std::cerr << "Failed to create subTexture: " << SDL_GetError() << std::endl;
+    // Create target texture
+    SDL_Texture* subTexture =
+        SDL_CreateTexture(renderer,
+                          format,
+                          SDL_TEXTUREACCESS_TARGET,
+                          region.w,
+                          region.h);
+
+    if (!subTexture)
+    {
+        std::cerr << "Failed to create subTexture: "
+                  << SDL_GetError() << std::endl;
         return nullptr;
     }
 
-    // Set the new texture as the rendering target
-    SDL_SetRenderTarget(renderer, subTexture);
-    
-    // Clear the subTexture with transparency
     SDL_SetTextureBlendMode(subTexture, SDL_BLENDMODE_BLEND);
+
+    // Render into subTexture
+    SDL_SetRenderTarget(renderer, subTexture);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
-    
-    // Copy the selected region from the source texture
+
     SDL_RenderCopy(renderer, source, &region, nullptr);
-    
-    // Reset render target to default
-    SDL_SetRenderTarget(renderer, nullptr);
+
+    // Restore renderer target
+    SDL_SetRenderTarget(renderer, oldTarget);
 
     return subTexture;
 }
@@ -117,34 +134,64 @@ SDL_Texture* ExtractSubTexture(SDL_Renderer* renderer, SDL_Texture* source, SDL_
 SDL_Texture* CopyTexture(SDL_Renderer* renderer, SDL_Texture* srcTexture,
                          int width, int height)
 {
-    // Create a new target texture
+    if (!renderer || !srcTexture)
+        return nullptr;
+    const SDL_Color* colorMod = nullptr;
+    // Save renderer state
+    SDL_Texture* oldTarget = SDL_GetRenderTarget(renderer);
+
+    SDL_BlendMode oldBlend;
+    SDL_GetTextureBlendMode(srcTexture, &oldBlend);
+
+    Uint8 r, g, b, a;
+    SDL_GetTextureColorMod(srcTexture, &r, &g, &b);
+    SDL_GetTextureAlphaMod(srcTexture, &a);
+
+    // Create target texture
     SDL_Texture* targetTexture =
-        SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
-                          SDL_TEXTUREACCESS_TARGET, width, height);
+        SDL_CreateTexture(renderer,
+                          SDL_PIXELFORMAT_RGBA8888,
+                          SDL_TEXTUREACCESS_TARGET,
+                          width,
+                          height);
+
     if (!targetTexture)
     {
-        std::cerr << "Failed to create target texture: " << SDL_GetError()
-                  << std::endl;
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                     "Failed to create target texture: %s",
+                     SDL_GetError());
         return nullptr;
     }
 
-    // Set render target to the new texture
-    SDL_SetRenderTarget(renderer, targetTexture);
+    SDL_SetTextureBlendMode(targetTexture, SDL_BLENDMODE_BLEND);
 
-    // Clear the texture (optional)
+    // Apply color modulation if requested
+    if (colorMod)
+    {
+        SDL_SetTextureColorMod(srcTexture,
+                               colorMod->r,
+                               colorMod->g,
+                               colorMod->b);
+        SDL_SetTextureAlphaMod(srcTexture, colorMod->a);
+    }
+
+    // Render to target
+    SDL_SetRenderTarget(renderer, targetTexture);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, srcTexture, nullptr, nullptr);
 
-    // Copy the source texture to the target texture
-    SDL_RenderCopy(renderer, srcTexture, NULL, NULL);
-
-    // Reset render target to default (screen)
-    SDL_SetRenderTarget(renderer, NULL);
+    // Restore renderer + texture state
+    SDL_SetRenderTarget(renderer, oldTarget);
+    SDL_SetTextureBlendMode(srcTexture, oldBlend);
+    SDL_SetTextureColorMod(srcTexture, r, g, b);
+    SDL_SetTextureAlphaMod(srcTexture, a);
 
     return targetTexture;
 }
 
-void GetColorMod(SDL_Texture* texture, SDL_Color* color){
+void GetColorMod(SDL_Texture* texture, SDL_Color* color)
+{
     SDL_GetTextureColorMod(texture, &color->r, &color->g, &color->b);
 }
 
@@ -198,9 +245,6 @@ SDLTexture* SDLTexture::loadFromFile(const char* src)
         valid = this_texture != nullptr;
         GetColorMod(this_texture, &originalColor);
         SDL_QueryTexture(this_texture, nullptr, nullptr, &size.x, &size.y);
-        LogOuput(logger_type::Information,
-                 "Is The texture created from SF %d Size[%d, %d]", valid,
-                 size.x, size.y);
     }
     return this;
 }
@@ -263,6 +307,17 @@ void SDLTexture::Destroy()
     }
 }
 
+void SDLTexture::Draw(int x, int y)
+{
+    SDL_Rect rect{
+        x,
+        y,
+        this->size.x,
+        this->size.y
+    };
+    SDL_RenderCopy(renderer, this_texture, NULL, &rect);
+}
+
 void SDLTexture::Draw(const Rect& offset)
 {
     SDL_Rect rect{
@@ -298,13 +353,12 @@ void SDLTexture::ModulateColor(const Color& color)
 
 int SDLTexture::getWidth()
 {
-    return 0;
+    return this->size.x;
 }
 
 int SDLTexture::getHeight()
 {
-    return 0;
+    return this->size.y;   
 }
  
-
 } // namespace doengine

@@ -16,8 +16,7 @@ Application::Application()
     windowManager = WindowManager::getWindowManager();
     gsm = new GameStateManager();
     fps_handler = new FpsManager();
-    fps_handler->setFPS(60);
-    
+    fps_handler->setFPS(60);    
 }
 
 void Application::destroy()
@@ -45,17 +44,19 @@ void Application::setFullScreen()
 
 void Application::setWindowMode()
 {
-    windowManager->setFullScreen();
+    windowManager->setWindowMode();
 }
 void Application::PollEvent()
 {
     fps_handler->Start();
+    fps_handler->beginFrame();
     Event::PollEvent();
 }
 
 void Application::Update()
 {
-    gsm->Update(fps_handler->getDeltaTime());
+    auto deltaTime = fps_handler->endFrame();
+    gsm->Update(deltaTime);
 }
 
 void Application::Render()

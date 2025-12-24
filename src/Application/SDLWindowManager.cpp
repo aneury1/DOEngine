@@ -28,12 +28,17 @@ bool SDLWindowManager::createWindow()
     return run;
 }
 
-bool SDLWindowManager::createWindow(const Rect& rect)
+SDLWindowManager::SDLWindowManager() : WindowManager()
 {
-
     SDL_Init(SDL_INIT_EVERYTHING);
         int img_flags =     IMG_INIT_JPG | IMG_INIT_PNG     | IMG_INIT_TIF     | IMG_INIT_WEBP   |  IMG_INIT_JXL  | IMG_INIT_AVIF;
     IMG_Init(img_flags);
+}
+
+bool SDLWindowManager::createWindow(const Rect& rect)
+{
+
+
     SDL_GetCurrentDisplayMode(0, &mode);
 
     window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
@@ -101,5 +106,31 @@ void* SDLWindowManager::getNativeWindowFormatBuffer()
 {
     return (void*)window;
 }
+
+Rect SDLWindowManager::getWindowDisplayMode(int m)
+{
+   /*int w, h;
+   ///// SDL_GetDesktopDisplayMode(m, &(SDL_DisplayMode){});
+
+    SDL_DisplayMode dm;
+    if (SDL_GetDesktopDisplayMode(m, &dm) == 0)
+    {
+        w = dm.w;
+        h = dm.h;
+    }
+    return Rect{
+        0,0,w,h
+    };*/ 
+
+    SDL_Rect usable;
+    SDL_GetDisplayUsableBounds(0, &usable);
+
+    int usableW = usable.w;
+    int usableH = usable.h;
+         return Rect{
+        0,0,usableW,usableH-100
+    };
+}
+
 
 } // namespace doengine

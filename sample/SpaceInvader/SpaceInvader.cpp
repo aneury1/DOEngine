@@ -39,11 +39,11 @@ struct Alien {
    void Draw(){
      switch(type){
         case AlienType::Type1:
-            renderer->DrawFillRect(offset, doengine::yellow1);break;
+            renderer->DrawFillRect(offset, doengine::Colors::yellow1);break;
         case AlienType::Type2:
-            renderer->DrawFillRect(offset, doengine::red);break;
+            renderer->DrawFillRect(offset, doengine::Colors::red);break;
         case AlienType::Type3:
-            renderer->DrawFillRect(offset, doengine::blue5);break;
+            renderer->DrawFillRect(offset, doengine::Colors::blue5);break;
      }
    }
 
@@ -62,7 +62,7 @@ struct Block{
    
    void Draw(){
      doengine::Renderer *render = doengine::Application::getApplication()->getRender();
-     render->DrawFillRect(offset, doengine::yellow);
+     render->DrawFillRect(offset, doengine::Colors::yellow);
    }
 
    Block(doengine::Rect o){
@@ -164,7 +164,7 @@ struct Laser
     void draw()
     {
         if (renderer && active)
-            renderer->DrawRect(offset, doengine::yellow);
+            renderer->DrawRect(offset, doengine::Colors::yellow);
     }
 };
 
@@ -200,7 +200,7 @@ void Spacership::Draw()
     }
     else
     {
-        renderer->DrawFillRect(offset, doengine::red);
+        renderer->DrawFillRect(offset, doengine::Colors::red);
     }
 
     for (auto beam : firebeam)

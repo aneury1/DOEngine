@@ -1,6 +1,7 @@
 #include "GameStateManager.h"
 #include "Event.h"
 // #include "TTFText.h"
+#include "Logger.h"
 namespace doengine
 {
 void GameStateManager::AddState(int state_id, GameState* object)
@@ -28,7 +29,7 @@ void GameStateManager::SetState(int state_id)
         states[current_state]->OnEnter();
     }
 }
-#include "Logger.h"
+
 void GameStateManager::Update(float elapsed)
 {
     if (states[current_state])

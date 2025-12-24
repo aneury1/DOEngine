@@ -64,5 +64,30 @@ bool checkCollisionCircleRec(const Point& circle, float radius, const Rect& rect
     return (dx * dx + dy * dy) <= (radius * radius);
 }
 
+bool isPointOnRectBorder(int mx, int my, const doengine::Rect& r, int thickness)
+{
+    bool insideX = (mx >= r.x && mx <= r.x + r.w);
+    bool insideY = (my >= r.y && my <= r.y + r.h);
+
+    if (!insideX || !insideY)
+        return false;
+
+    bool onLeft   = (mx >= r.x && mx <= r.x + thickness);
+    bool onRight  = (mx >= r.x + r.w - thickness && mx <= r.x + r.w);
+    bool onTop    = (my >= r.y && my <= r.y + thickness);
+    bool onBottom = (my >= r.y + r.h - thickness && my <= r.y + r.h);
+
+    return onLeft || onRight || onTop || onBottom;
+}
+
+void generateCirclePoints(Point center, double r,
+                            int steps, Point *out)
+{
+    for (int i = 0; i < steps; ++i) {
+        double theta = (2.0 * M_PI * i) / steps;
+        out[i].x = center.x + r * cos(theta);
+        out[i].y = center.y + r * sin(theta);
+    }
+}
 
 }; // namespace doengine

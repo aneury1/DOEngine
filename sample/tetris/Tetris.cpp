@@ -36,7 +36,8 @@ struct TetrisGrid : public GameObject
 
     std::vector<Color> getColors()
     {
-        return {gray, green, red, orange, yellow, purple, cyan, blue};
+        return {doengine::Colors::gray, doengine::Colors::green, doengine::Colors::red, 
+        doengine::Colors::orange, doengine::Colors::yellow, doengine::Colors::purple, doengine::Colors::cyan, doengine::Colors::blue};
     }
 
     void reset()
@@ -111,7 +112,7 @@ struct TetrisState : public doengine::GameState
     }
     virtual void Render()
     {
-        render->setDrawColor(black);
+        render->setDrawColor(doengine::Colors::black);
         render->clear();
         tetris->Render();
     }
