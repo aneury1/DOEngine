@@ -54,5 +54,32 @@ void SDLMouse::updateValues()
     buttonMask = SDL_GetMouseState(&position.x, &position.y);
 }
 
+Rect Mouse::getMousePosition()
+{
+    Rect rect;
+    rect.w = 1;
+    rect.h = 1;
+    SDL_GetMouseState(&rect.x, &rect.y);
+    return rect;
+}
+
+uint8_t Mouse::getButtonPressed()
+{
+    unsigned char ret;
+    Rect rect;
+    rect.w = 1;
+    rect.h = 1;
+    auto mouse = SDL_GetMouseState(&rect.x, &rect.y);
+    if(mouse&SDL_BUTTON(SDL_BUTTON_LEFT))
+        ret |= (uint8_t)Mouse::MouseButtonDown::Left;
+    if(mouse&SDL_BUTTON(SDL_BUTTON_RIGHT))
+        ret |= (uint8_t)Mouse::MouseButtonDown::Right;
+    if(mouse&SDL_BUTTON(SDL_BUTTON_MIDDLE))
+        ret |= (uint8_t)Mouse::MouseButtonDown::Center;
+
+    return ret;
+}
+
+
 } // namespace devices
 } // namespace doengine

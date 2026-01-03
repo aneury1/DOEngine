@@ -90,7 +90,7 @@ struct Paddle : public GameObject
     }
     virtual void Render()
     {
-        renderer->DrawFillRect(position, white);
+        renderer->DrawFillRect(position, doengine::Colors::white);
     }
 };
 
@@ -135,7 +135,7 @@ struct Ball : public GameObject
     }
     virtual void Render()
     {
-        renderer->FillCircle(point.x, point.y, radius, white);
+        renderer->FillCircle(point.x, point.y, radius, doengine::Colors::white);
     }
 };
 
@@ -156,7 +156,7 @@ struct PongState : public GameState, public KeyDownEvent
     {
         textHandler = new TTFText();
         textHandler->setFont("/home/neon/Documents/projects/myprojects/DOEngine/assets/fonts/NirmalaB.ttf", 18);
-        textHandler->setColor(white);
+        textHandler->setColor(doengine::Colors::white);
         Event::AddKeyPressEventListener(this);
         renderer = Application::getApplication()->getRender();
         ball = new Ball(renderer);
@@ -196,14 +196,14 @@ struct PongState : public GameState, public KeyDownEvent
 
     virtual void Render()
     {
-        renderer->setDrawColor(black);
+        renderer->setDrawColor(doengine::Colors::black);
         renderer->clear();
         textHandler->DrawText(std::to_string(leftScore).c_str(), 100, 0);
         textHandler->DrawText(std::to_string(rightScore).c_str(),Application::getApplication()->getW() / 2 + 40 , 0);
         renderer->DrawLine(Point{Application::getApplication()->getW() / 2, 0},
                            Point{Application::getApplication()->getW() / 2,
                                  Application::getApplication()->getH()},
-                           white);
+                           doengine::Colors::white);
         ball->Render();
         left->Render();
         right->Render();

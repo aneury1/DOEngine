@@ -2,6 +2,7 @@
 
 #include "DOEngine_SDL_includes.h"
 #include <string>
+#include <unordered_map>
 
 #include "Color.h"
 #include "NativeStructs.h"
@@ -15,18 +16,18 @@ namespace doengine
 class SDLTTFText : public NativeTextRenderer
 {
 
+    std::unordered_map<char, GlyphInfo> glyphs;
+    int glyph_height;
     Color bg_color;
     Color fg_color;
     TTF_Font* font;
-    ::std::string path;
+    string path;
+    Texture *glyphTexture = nullptr;
+    SDL_Texture *glyph_texture;
 
   public:
-    SDLTTFText()
-    {
-    }
-    virtual ~SDLTTFText()
-    {
-    }
+    SDLTTFText();
+    virtual ~SDLTTFText();
     virtual void setColor(Color fg, Color bg) override;
     virtual void setColor(Color color) override;
     virtual void setFontSize(int fntSize) override;
@@ -38,6 +39,12 @@ class SDLTTFText : public NativeTextRenderer
     virtual void getTextSize(const std::string& text, int* w, int* h);
     virtual void wrapText(const char* text, int maxWidth, char* wrappedText);
     virtual Texture* createBitmapFont(const std::string& font_path,const doengine::Color& bg,const doengine::Color& fg)override;
+    virtual int getFontHeight() override;
+    virtual Rect getTextSize(const char* str) override;
+
+
+    Texture* createGlyph();
+    bool DrawTextByGlyphs(int x, int y, const std::string& text, int max_width = -1);
 };
 
 }; // namespace doengine

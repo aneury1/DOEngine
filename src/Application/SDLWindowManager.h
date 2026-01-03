@@ -22,9 +22,7 @@ class SDLWindowManager : public WindowManager
     SDL_DisplayMode mode;
 
   public:
-    SDLWindowManager() : WindowManager()
-    {
-    }
+    SDLWindowManager();
     virtual ~SDLWindowManager()
     {
     }
@@ -38,7 +36,7 @@ class SDLWindowManager : public WindowManager
     virtual void setFullScreen() override;
     virtual void setWindowMode() override;
     virtual void setSize(const Rect& rect) override;
-
+    virtual Rect getWindowDisplayMode(int m);
     virtual void* getNativeWindowFormatBuffer() override;
 };
 

@@ -13,6 +13,11 @@ class Renderer;
 class WindowManager
 {
 
+
+  struct GUIManager{
+
+  };
+
   public:
     WindowManager()
     {
@@ -45,7 +50,11 @@ class WindowManager
 
     virtual void* getNativeWindowFormatBuffer() = 0;
 
+    virtual Rect getWindowDisplayMode(int m) = 0;
+    
     static WindowManager* getWindowManager();
+
+
 };
 
 } // namespace doengine

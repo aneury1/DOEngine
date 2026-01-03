@@ -46,4 +46,28 @@ constexpr T clamp(const T v, const T min, const T max)
 {
     return std::min(max, std::max(v, min));
 }
+
+double DegreesToRadians(double degree)
+{
+    return (degree * (M_PI/180.0));
+}
+
+#include <string>
+
+#if defined(_WIN32)
+    #include <direct.h>
+    #define getcwd _getcwd
+    #define PATH_MAX _MAX_PATH
+#else
+    #include <unistd.h>
+    #include <limits.h>
+#endif
+
+static inline std::string getCurrentPath()
+{
+    char buffer[PATH_MAX];
+    return getcwd(buffer, sizeof(buffer)) ? buffer : "";
+}
+
+
 } // namespace doengine

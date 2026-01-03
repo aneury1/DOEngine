@@ -6,7 +6,8 @@ namespace doengine
 class FpsManager
 {
     uint32_t start, elapsed, wait, fps;
-
+    uint64_t lastCounter;
+    uint64_t frequency;
   public:
     FpsManager() : start(0L), elapsed(0L), fps(60L)
     {
@@ -21,6 +22,8 @@ class FpsManager
     virtual void Handle();
     virtual uint32_t getDeltaTime();
     virtual float getElapsedTime();
+    void beginFrame();
+    double endFrame();
 };
 
 } // namespace doengine

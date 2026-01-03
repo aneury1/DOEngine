@@ -19,7 +19,7 @@ const unsigned char* SDLKeyboard::getKeysBitset() const
     return static_cast<const unsigned char*>(SDL_GetKeyboardState(nullptr));
 }
 
-const unsigned char SDLKeyboard::getLastKeyPressed() const
+const unsigned char SDLKeyboard:: getLastKeyPressed() const
 {
     return key;
 }

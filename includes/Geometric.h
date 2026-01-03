@@ -34,6 +34,16 @@ struct Rect
     {
     }
 
+
+    Rect& operator=(const Rect& other)
+    {
+        x= other.x;
+        y= other.y;
+        w= other.w;
+        h= other.h;
+        return (*this);
+    }
+
     inline int left() const
     {
         return x;
@@ -72,4 +82,10 @@ void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
 bool checkCollision(const Rect& rect1, const Rect& rect2);
 bool checkCollisionPointVsRect(const Rect& rect, const Point point);
 bool checkCollisionCircleRec(const Point& cicle, float radius, const Rect& rect );
+bool isPointOnRectBorder(int mx, int my, const doengine::Rect& r, int thickness = 1);
+
+void generateCirclePoints(Point center, double r,
+                            int steps, Point *out);
+
+
 } // namespace doengine
