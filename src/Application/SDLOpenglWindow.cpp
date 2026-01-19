@@ -1,8 +1,7 @@
 #include "Logger.h"
 #include "SDLOpenglWindowManager.h"
 #include "SDLOpenglRenderer.h"
-#include <GL/gl.h>
-//// g++ ./SDL2O.cpp -lSDL2 -lGL
+#include "DOEngine_SDL_includes.h"
 
 namespace doengine
 {
@@ -28,6 +27,15 @@ void SDLOpenglWindowManager::initEngine()
 
     TTF_Init();
 
+    
+    LogOuput(logger_type::Information, "SDL Created Window %s", SDL_GetError());
+    // Set OpenGL version (4.5 Core)
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+
+
     window = SDL_CreateWindow("  ", SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, window_rect.w, window_rect.h,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS |SDL_WINDOW_OPENGL);
@@ -35,21 +43,17 @@ void SDLOpenglWindowManager::initEngine()
     this->support_opengl = true;
        
     this->render = new SDLOpenglRenderer(window);
-    
-    LogOuput(logger_type::Information, "SDL Created Window %s", SDL_GetError());
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-                        SDL_GL_CONTEXT_PROFILE_CORE);
 
 
     LogOuput(logger_type::Information, "SDL Created Window %s", SDL_GetError());
 
 
-    SDLWindowManager::setSize(window_rect);
+    setSize(window_rect);
     
+    // Enable blending for alpha transparency
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    this->createWindow();
     
     LogOuput(logger_type::Information, "SDL Created Window %s", SDL_GetError());
     

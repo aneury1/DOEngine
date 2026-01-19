@@ -1,0 +1,181 @@
+cmake_minimum_required(VERSION 3.18.1)
+
+project(LibDoengine)
+
+# Set C/C++ standards
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Define paths relative to the Android folder
+set(PROJECT_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/..")
+set(INCLUDES_DIR "${PROJECT_ROOT}/includes")
+set(SRC_DIR "${PROJECT_ROOT}/src")
+
+# Option to build as shared or static library
+option(BUILD_SHARED_LIBS "Build shared library instead of static" ON)
+
+# Include FetchContent module for downloading dependencies
+include(FetchContent)
+
+# Set SDL2 build options - disable unnecessary features for mobile
+set(SDL_SHARED ON CACHE BOOL "" FORCE)
+set(SDL_STATIC OFF CACHE BOOL "" FORCE)
+set(SDL_TEST OFF CACHE BOOL "" FORCE)
+set(SDL_TESTS OFF CACHE BOOL "" FORCE)
+
+# Fetch SDL2 from GitHub
+message(STATUS "Fetching SDL2 from GitHub...")
+FetchContent_Declare(
+    SDL2
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+    GIT_TAG release-2.30.10
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
+)
+
+# Fetch SDL2_image from GitHub
+message(STATUS "Fetching SDL2_image from GitHub...")
+FetchContent_Declare(
+    SDL2_image
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
+    GIT_TAG release-2.8.4
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
+)
+
+# Fetch SDL2_mixer from GitHub
+message(STATUS "Fetching SDL2_mixer from GitHub...")
+FetchContent_Declare(
+    SDL2_mixer
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+    GIT_TAG release-2.8.0
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
+)
+
+# Fetch SDL2_ttf from GitHub
+message(STATUS "Fetching SDL2_ttf from GitHub...")
+FetchContent_Declare(
+    SDL2_ttf
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
+    GIT_TAG release-2.22.0
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
+)
+
+# Fetch SDL2_net from GitHub
+message(STATUS "Fetching SDL2_net from GitHub...")
+FetchContent_Declare(
+    SDL2_net
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_net.git
+    GIT_TAG release-2.2.0
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
+)
+
+# Make SDL2 and family available
+message(STATUS "Making SDL2 libraries available...")
+FetchContent_MakeAvailable(SDL2 SDL2_image SDL2_mixer SDL2_ttf SDL2_net)
+
+# Collect all source files
+file(GLOB_RECURSE DOENGINE_SOURCES 
+    "${SRC_DIR}/*.c"
+    "${SRC_DIR}/*.cpp"
+)
+
+# Collect all header files
+file(GLOB_RECURSE DOENGINE_HEADERS 
+    "${INCLUDES_DIR}/*.h"
+    "${INCLUDES_DIR}/*.hpp"
+)
+
+# Create the library target
+if(BUILD_SHARED_LIBS)
+    add_library(${PROJECT_NAME} SHARED ${DOENGINE_SOURCES})
+    message(STATUS "Building LibDoengine as SHARED library")
+else()
+    add_library(${PROJECT_NAME} STATIC ${DOENGINE_SOURCES})
+    message(STATUS "Building LibDoengine as STATIC library")
+endif()
+
+# Include directories
+target_include_directories(${PROJECT_NAME} 
+    PUBLIC 
+        ${INCLUDES_DIR}
+    PRIVATE
+        ${SRC_DIR}
+)
+
+# Link SDL2 libraries
+target_link_libraries(${PROJECT_NAME} 
+    PUBLIC
+        SDL2::SDL2
+        SDL2_image::SDL2_image
+        SDL2_mixer::SDL2_mixer
+        SDL2_ttf::SDL2_ttf
+        SDL2_net::SDL2_net
+)
+
+# Link standard Android libraries
+find_library(LOG_LIBRARY log)
+find_library(ANDROID_LIBRARY android)
+find_library(GLESV2_LIBRARY GLESv2)
+find_library(EGL_LIBRARY EGL)
+
+target_link_libraries(${PROJECT_NAME} 
+    PUBLIC
+        ${LOG_LIBRARY}
+        ${ANDROID_LIBRARY}
+        ${GLESV2_LIBRARY}
+        ${EGL_LIBRARY}
+)
+
+# Set compiler flags for Android
+target_compile_options(${PROJECT_NAME} PRIVATE
+    -Wall
+    -Wextra
+    -fPIC
+)
+
+# Define Android-specific macros
+target_compile_definitions(${PROJECT_NAME} 
+    PRIVATE
+        ANDROID
+        __ANDROID__
+)
+
+# Set output directory
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib/${ANDROID_ABI}"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib/${ANDROID_ABI}"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin/${ANDROID_ABI}"
+)
+
+# Installation rules
+install(TARGETS ${PROJECT_NAME}
+    LIBRARY DESTINATION lib/${ANDROID_ABI}
+    ARCHIVE DESTINATION lib/${ANDROID_ABI}
+)
+
+install(DIRECTORY ${INCLUDES_DIR}/
+    DESTINATION include
+    FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp"
+)
+
+# Install SDL2 libraries as well
+install(TARGETS SDL2 SDL2_image SDL2_mixer SDL2_ttf SDL2_net
+    LIBRARY DESTINATION lib/${ANDROID_ABI}
+    ARCHIVE DESTINATION lib/${ANDROID_ABI}
+)
+
+# Print configuration summary
+message(STATUS "=== LibDoengine Build Configuration ===")
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Android ABI: ${ANDROID_ABI}")
+message(STATUS "Android Platform: ${ANDROID_PLATFORM}")
+message(STATUS "Library Type: ${BUILD_SHARED_LIBS}")
+message(STATUS "Source Directory: ${SRC_DIR}")
+message(STATUS "Include Directory: ${INCLUDES_DIR}")
+message(STATUS "SDL2 Libraries: Fetched from GitHub")
+message(STATUS "========================================")

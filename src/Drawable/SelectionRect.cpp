@@ -7,8 +7,8 @@ namespace doengine
  {
     if(!font)
         font = new doengine::TTFText();
-    if(!fontsrc.empty())
-        font->setFont(fontsrc, 18);
+   /// if(!fontsrc.empty())
+   ////     font->setFont(fontsrc, 18);
  }
 
 SelectionRect::SelectionRect():
@@ -70,10 +70,10 @@ void SelectionRect::render(doengine::Renderer* render)
         int y = rect.y - 32;
         if (y <= 16)
             y = rect.y + 64;
-
+        /*
         font->DrawText(rect.x, y, "(%d,%d, %d, %d)", rect.x, rect.y, rect.w,
-                       rect.h);
-                      if(onSelectionFinished)
+                       rect.h);*/
+        if(onSelectionFinished)
         {
             onSelectionFinished(rect);
         }

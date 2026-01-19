@@ -1,15 +1,17 @@
 #ifndef SDL_OPENGL_WINDOW_MANAGER_H_DEFINED
 #define SDL_OPENGL_WINDOW_MANAGER_H_DEFINED
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 
 #include "SDLOpenglRenderer.h"
 #include "SDLWindowManager.h"
 
 namespace doengine 
 {
-    class  SDLOpenglWindowManager : public SDLWindowManager
+    class  SDLOpenglWindowManager : public WindowManager
     {
+
         private:
+        SDL_Window *window;
         void initEngine();
         public:
         SDLOpenglWindowManager();

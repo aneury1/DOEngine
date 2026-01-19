@@ -10,7 +10,7 @@
 #include "Tile.h"
 #include "TTFText.h"
 #include <vector>
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 #include "DraggableGameObject.h"
 #include "SelectionRect.h"
 

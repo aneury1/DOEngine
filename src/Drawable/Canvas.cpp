@@ -2,6 +2,7 @@
 #include "Geometric.h"
 #include "TTFText.h"
 #include "Window.h"
+#include "DOEngine_SDL_includes.h"
 namespace doengine
 {
 #if 0 
@@ -278,7 +279,7 @@ void DrawRect(SDL_Renderer *render, SDL_Rect rect){
 void DrawRect(Window *window, SDL_Rect rect){
     SDL_RenderDrawRect(static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()), &rect);
 }
-#endif
+
 void DrawSinglePoint(const Rect& rect, const Color& color,
                      doengine::WindowManager* window)
 {
@@ -310,7 +311,7 @@ void DrawFillRect(const Rect& rect, const Color& color,
         &rect);
 }
 
-#if 0 
+
 // Create a gradient color between two colors at a specific position
 SDL_Color GradientColor(SDL_Color startColor, SDL_Color endColor, float position) {
     SDL_Color result;
@@ -357,6 +358,7 @@ void DrawGradientCircle(SDL_Renderer* renderer, int centerX, int centerY, int ra
 }
 #endif
 
+#if 0 
 void FillCircle(int x, int y, int radius, const Color& color,
                 doengine::WindowManager* window)
 {
@@ -536,5 +538,5 @@ Canvas* Canvas::clearCanvas()
     commands_to_draw.clear();
     return this;
 }
-
+#endif
 } // namespace doengine

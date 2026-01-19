@@ -2,8 +2,7 @@
 #include "Mouse.h"
 #include "Application.h"
 
-///Todo refactor...
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 
 namespace doengine
 {
@@ -102,8 +101,6 @@ void UIPanel::Draw()
 void UIPanel::Update()
 {
     mouseOverPanelBorder = false;
-    auto mouse = doengine::devices::Mouse::getMousePosition();
-       
 }
 
 }

@@ -12,7 +12,7 @@ namespace devices
 
 enum class PowerLevel : char
 {
-    Unknown = -1,
+    Unknown = 0,
     Empty,
     Low,
     Medium,

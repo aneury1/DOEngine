@@ -54,9 +54,7 @@ void* OpenGLLoader::loadFunction(const char* name) {
 
 
 #endif
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
+#include "DOEngine_SDL_includes.h"
 
 static PFNGLGENVERTEXARRAYSPROC        glGenVertexArrays;
 static PFNGLBINDVERTEXARRAYPROC        glBindVertexArray;

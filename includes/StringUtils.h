@@ -1,6 +1,6 @@
 #pragma once
 #include "StringUtils.h"
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 #include <sstream>
 #include <fstream>
 #include <iostream>

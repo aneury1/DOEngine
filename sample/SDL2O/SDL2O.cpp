@@ -1,5 +1,4 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
+#include "DOEngine_SDL_includes.h"
 //// g++ ./SDL2O.cpp -lSDL2 -lGL
  
 static PFNGLGENVERTEXARRAYSPROC        glGenVertexArrays;

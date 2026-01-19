@@ -4,7 +4,7 @@
 #include "Grids.h"
 #include <Event.h>
 #include <GameState.h>
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 #include <iostream>
 #include <map>
 #include <memory>

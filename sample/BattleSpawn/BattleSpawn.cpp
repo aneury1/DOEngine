@@ -16,7 +16,7 @@
 #include "UI.h"
 #include "TextField.h"
 #include "TileMapEditor.h"
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 #include <unordered_map>
 #include <vector>
 #include <memory>

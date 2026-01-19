@@ -1,9 +1,6 @@
 #pragma once
 
-extern "C"
-{
-#include <SDL2/SDL.h>
-}
+#include "DOEngine_SDL_includes.h"
 
 #include "Geometric.h"
 #include "Renderer.h"

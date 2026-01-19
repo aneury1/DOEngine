@@ -1,7 +1,7 @@
 
 #include "Geometric.h"
 #include "Texture.h"
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 #include <string>
 
 namespace doengine

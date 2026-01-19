@@ -8,7 +8,7 @@ namespace doengine
 
 WindowManager* WindowManager::getWindowManager()
 {
-    bool opengl_support = true;
+    bool opengl_support = false;
     if(!opengl_support)
     {
         SDLWindowManager* manager = new SDLWindowManager();
@@ -16,7 +16,8 @@ WindowManager* WindowManager::getWindowManager()
     }
     else
     {
-        SDLWindowManager* manager = new SDLOpenglWindowManager(); ///
+        LogOuput(logger_type::Information," Opengl Renderer");
+        WindowManager* manager = new SDLOpenglWindowManager(); ///
         return manager;
     }
 }

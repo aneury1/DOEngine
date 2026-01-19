@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <variant>
+#include <functional>
 
 using std::map;
 using std::string;
@@ -62,6 +63,7 @@ class TextureManager
     void removeTexture(string id);
 
     Texture* getTexture(const std::variant<std::string, int>& id);
+    Texture* getTextureOr(const std::variant<std::string, int>& id, std::function<void()> orCall);
 };
 
 } // namespace doengine

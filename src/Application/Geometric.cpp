@@ -100,14 +100,14 @@ void generateCirclePoints(Point center, double r,
 CircleGenerator::CircleGenerator(float rad, uint32_t quality):
     radius{rad},
     quality{quality},
-    da{(2.0f * M_PI)/static_cast<float>(quality)}
+    da{static_cast<int>(2.0f * M_PI)/static_cast<float>(quality)}
 {
 }
 
 Point CircleGenerator::getPoint(uint32_t i)
 {
     float angle{da  * static_cast<float>(i)};
-    return {(radius * cos(angle)),( radius * sin(angle)) };
+    return {static_cast<int>(radius * cos(angle)),static_cast<int>(radius * sin(angle)) };
 }
 
 

@@ -18,6 +18,8 @@ class SDLJoypad : public Joypad
 
     SDLJoypad(SDL_Joystick* joystick);
 
+    virtual ~SDLJoypad() = default;
+
     virtual int getId() const override;
     virtual void getName(std::string& name) override;
     virtual PowerLevel getPowerLevel() const override;

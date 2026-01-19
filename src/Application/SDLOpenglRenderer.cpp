@@ -2,13 +2,8 @@
 #include "Application.h"
 #include "SDLTTFText.h"
 #include "SDLTexture.h"
-#include <GL/glext.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_opengl.h>
 #include <assert.h>
 #include <cmath>
-#include <GL/glext.h>
-
 #include "opengl_decls.h"
 
 namespace doengine
@@ -21,8 +16,8 @@ SDLOpenglRenderer::SDLOpenglRenderer(SDL_Window* window)
     mgr = Application::getApplication()->getWindow();
     
     context = SDL_GL_CreateContext(window);
-
-    LoadMinimalGL();
+///
+  ///  LoadMinimalGL();
     
     if (!context)
     {
@@ -36,16 +31,16 @@ SDLOpenglRenderer::SDLOpenglRenderer(SDL_Window* window)
     SDL_GL_MakeCurrent(window, context);
     
     
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    ///glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    GLint profile;
+    ///GLint profile;
     
-    glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
+    ////glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
 
     primitiveGLRenderer = new PrimitiveGLRenderer();
-    Mat4 projection = Mat4::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+    ////Mat4 projection = Mat4::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
     LogOuput(logger_type::Information, "GL context created successfully %s", SDL_GetError());
-    primitiveGLRenderer->setProjection(projection);
+    ///primitiveGLRenderer->setProjection(projection);
 }
 
 bool SDLOpenglRenderer::isRenderOk()
@@ -95,36 +90,34 @@ void SDLOpenglRenderer::ResetRenderSetClipRect()
 
 void SDLOpenglRenderer::DrawPoint(const Point& point, const Color& color)
 {
-    LogOuput(logger_type::Information,"IFNO");
     primitiveGLRenderer->drawPoint(point, Colors::green);
 }
 
 void SDLOpenglRenderer::DrawLine(const Point& p1, const Point& p2,
                                  const Color& color)
 {
-   //// primitiveGLRenderer->drawLine(p1,p2,color, 5);
+   primitiveGLRenderer->drawLine(p1,p2,color, 5);
 }
 
 void SDLOpenglRenderer::DrawRect(const Rect& rect, const Color& color)
 {
-    ////primitiveGLRenderer->drawRect(rect,color, false);
+   primitiveGLRenderer->drawRect(rect,color, false);
 }
 
 void SDLOpenglRenderer::DrawRect(const Rect& rect, const Color& color,
                                  int thickness)
 {
- ////   primitiveGLRenderer->drawRect(rect,color, false);
+   primitiveGLRenderer->drawRect(rect,color, false);
 }
 
 void SDLOpenglRenderer::DrawFillRect(const Rect& rect, const Color& color)
 {
-   //// primitiveGLRenderer->drawRect(rect,color, true);
+    primitiveGLRenderer->drawRect(rect,color, true);
 }
 
 void SDLOpenglRenderer::FillCircle(int x, int y, int radius, const Color& color)
 {
-   //// primitiveGLRenderer->drawCircle({x,y}, radius,color,64,true);
-
+    primitiveGLRenderer->drawCircle({x,y}, radius,color,32,true);
 }
 
 void SDLOpenglRenderer::DrawTriangle(int x1, int y1, int x2, int y2, int x3,

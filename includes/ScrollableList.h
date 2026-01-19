@@ -8,7 +8,7 @@
 #include "Renderer.h"
 
 /// Todo remove
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 
 namespace doengine
 {

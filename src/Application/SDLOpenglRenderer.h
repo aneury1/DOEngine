@@ -3,10 +3,9 @@
 #include "Color.h"
 #include "SDLRenderer.h"
 #include "WindowManager.h"
-#include <GL/gl.h>
+
 #include <Renderer.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
+#include "DOEngine_SDL_includes.h"
 #include "opengl_decls.h"
 
 

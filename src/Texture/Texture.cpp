@@ -137,4 +137,10 @@ Texture* TextureManager::getTexture(const std::variant<std::string, int>& id)
     return textures[id];
 }
 
+Texture* TextureManager::getTextureOr(const std::variant<std::string, int>& id, std::function<void()> orCall)
+{
+    return textures[id];
+}
+
+
 } // namespace doengine

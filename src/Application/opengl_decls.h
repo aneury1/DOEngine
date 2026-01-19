@@ -2,19 +2,15 @@
 #define OPENGL_DECL_H_DEFINED
 #include <assert.h>
 #include <cmath>
-#include <GL/gl.h>
-#include <GL/glext.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_opengl.h>
-#include <vector>
-#include <GL/glext.h>
 
+#include <vector>
 #include "Renderer.h"
 #include "Color.h"
 #include "Geometric.h"
 
 namespace doengine
 {
+#ifdef DESKTOP_DEV
 // OpenGL 4.x function pointers
 static PFNGLGENVERTEXARRAYSPROC glGenVertexArrays = nullptr;
 static PFNGLBINDVERTEXARRAYPROC glBindVertexArray = nullptr;
@@ -36,15 +32,13 @@ static PFNGLUSEPROGRAMPROC glUseProgram = nullptr;
 static PFNGLDELETEPROGRAMPROC glDeleteProgram = nullptr;
 static PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation = nullptr;
 static PFNGLUNIFORM4FPROC glUniform4f = nullptr;
-static PFNGLUNIFORM2FPROC glUniform2f = nullptr;
 static PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv = nullptr;
 static PFNGLDELETESHADERPROC glDeleteShader = nullptr;
 static PFNGLGETSHADERIVPROC glGetShaderiv = nullptr;
 static PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLog = nullptr;
 static PFNGLGETPROGRAMIVPROC glGetProgramiv = nullptr;
 static PFNGLGETPROGRAMINFOLOGPROC glGetProgramInfoLog = nullptr;
-
-
+#endif
 struct BaseGLRenderer
 {
     virtual ~BaseGLRenderer() = default;
@@ -58,10 +52,7 @@ bool LoadMinimalGL();
 struct PrimitiveGLRenderer : public BaseGLRenderer
 {
 
-    GLuint vertexArray;
-    GLuint vertexBuffer;
-    GLuint program;
-    std::vector<float> vertices;
+ 
     PrimitiveGLRenderer();
     virtual void init();
     virtual void quit();
@@ -74,7 +65,6 @@ struct PrimitiveGLRenderer : public BaseGLRenderer
 
      void drawRect(const Rect& rect, const Color& color, bool filled = true);
 };
-
 
 }
 

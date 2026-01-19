@@ -1,7 +1,7 @@
 #pragma once
 
-#include "gmock/gmock.h"
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
+
 
 namespace doengine
 {

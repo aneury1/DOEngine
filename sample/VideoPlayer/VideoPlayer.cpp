@@ -4,7 +4,7 @@ extern "C" {
 #include <libswscale/swscale.h>
 }
 
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 #include <iostream>
 int main(int argc, char* argv[])
 {

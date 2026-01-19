@@ -20,7 +20,7 @@
 #include "Utils.h"
 #include "GameObject.h"
 #include "MessageBox.h"
-#include <SDL2/SDL.h>
+#include "DOEngine_SDL_includes.h"
 #include <unordered_map>
 #include <vector>
 #include <memory>
