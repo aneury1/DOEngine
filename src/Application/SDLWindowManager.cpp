@@ -1,6 +1,6 @@
 #include "SDLWindowManager.h"
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
+#include "DOEngine_SDL_includes.h"
+
 namespace doengine
 {
 bool SDLWindowManager::createWindow()

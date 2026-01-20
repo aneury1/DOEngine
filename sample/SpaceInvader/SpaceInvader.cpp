@@ -291,13 +291,13 @@ struct SpacerInvaderState : public doengine::GameState
        float gap = (wscreen - (wobstacle * cnt)) / 5;
        for(int i=0;i<cnt;i++){
           float offset_x = (i + 1) * gap + i * wobstacle;
-          obstacles.push_back(Obstacle{doengine::Rect{offset_x, 400,0,0}});
+          obstacles.push_back(Obstacle{doengine::Rect{static_cast<int>(offset_x), 400,0,0}});
        }
        bool practice_mode = false;
        if(practice_mode){
             for(int i=0;i<cnt;i++){
             float offset_x = (i + 1) * gap + i * wobstacle;
-            obstacles.push_back(Obstacle{doengine::Rect{offset_x, 200,0,0}});
+            obstacles.push_back(Obstacle{doengine::Rect{static_cast<int>(offset_x), 200,0,0}});
         }
        }
     }

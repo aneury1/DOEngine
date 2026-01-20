@@ -17,11 +17,6 @@ set(DOENGINE_PREFERED_LANGUAGE 17)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD ${DOENGINE_PREFERED_LANGUAGE})
 
-set(SDL2IMAGE_INSTALL OFF)
-set(BUILD_SHARED_LIBS FALSE)
-set(SDL2_DISABLE_INSTALL OFF)
-set(SDL2TTF_VENDORED TRUE)
-
 if(FETCH_SDL_FROM_GIT)
    include(cmake-module/fetchSDLProjectFromSource.cmake)
  else()
@@ -29,6 +24,26 @@ if(FETCH_SDL_FROM_GIT)
 endif()
 
 set(ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
+
+set(DOENGINE_LIBRARIES )
+if(FETCH_SDL_FROM_GIT)
+  set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
+        SDL2::SDL2
+        SDL2::SDL2main
+        SDL2_ttf
+        SDL2_image
+        SDL2_mixer
+  )    
+else()
+    set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
+        SDL2
+        SDL2main
+        SDL2_ttf
+        SDL2_image
+        SDL2_mixer
+        GL
+    )  
+endif()
 
 if(DOENGINE_TESTS)
     enable_testing()
@@ -131,103 +146,10 @@ add_library(${PROJECT_NAME}
   ${DOENGINE_SRC}
 )
 
-set(DOENGINE_LIBRARIES )
-if(FETCH_SDL_FROM_GIT)
-  set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
-        SDL2::SDL2
-        SDL2::SDL2main
-        SDL2_ttf
-        SDL2_image
-        SDL2_mixer
-  )    
-else()
-    set(DOENGINE_LIBRARIES ${DOENGINE_LIBRARIES} 
-        SDL2
-        SDL2main
-        SDL2_ttf
-        SDL2_image
-        SDL2_mixer
-        GL
-    )  
-endif()
-
 target_link_libraries(${PROJECT_NAME} PRIVATE ${DOENGINE_LIBRARIES})
 
 message("Copying asssets to buils dir.")
 file(COPY ${ASSETS_DIR}
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 # install(TARGETS ${PROJECT_NAME} DESTINATION /home/afl/Desktop/doengine )
-
-
-#add_executable(${PROJECT_NAME}-sample
-#   sample/ignored_main.cpp 
-#)
-add_executable(${PROJECT_NAME}-pong-sample
-   sample/pong/SimplePong.cpp 
-)
-
-add_executable(${PROJECT_NAME}-SpaceInvader-sample
-   sample/SpaceInvader/SpaceInvader.cpp
-)
-
-add_executable(${PROJECT_NAME}-Tetris-sample
-   sample/tetris/Tetris.cpp
-)
-
-add_executable(${PROJECT_NAME}-MusicPlayer-sample
-   sample/MusicPlayer/MusicPlayer.cpp
-)
-add_executable(BattleSpawn
-   sample/BattleSpawn/BattleSpawn.cpp
-)
-add_executable(PacmanClone
-   sample/Pacman/Pacman.cpp
-)
-
-add_executable(BattleCityRecreation
-   sample/BattleCityRecreation/BattleCityRecreation.cpp
-)
-
-# to build sample needs 
-# Zip support, ubuntu sudo apt-get install libzip-dev
-#target_link_libraries(${PROJECT_NAME}-sample PRIVATE
-#    ${PROJECT_NAME}
-#    ${DOENGINE_LIBRARIES}
-#)
-
-target_link_libraries(${PROJECT_NAME}-pong-sample PRIVATE
-    ${PROJECT_NAME}
-    ${DOENGINE_LIBRARIES}
-)
-
-target_link_libraries(${PROJECT_NAME}-SpaceInvader-sample PRIVATE
-    ${PROJECT_NAME}
-    ${DOENGINE_LIBRARIES}
-)
-
-target_link_libraries(${PROJECT_NAME}-Tetris-sample PRIVATE
-    ${PROJECT_NAME}
-    ${DOENGINE_LIBRARIES}
-)
-
-target_link_libraries(${PROJECT_NAME}-MusicPlayer-sample PRIVATE
-    ${PROJECT_NAME}
-    ${DOENGINE_LIBRARIES}
-)
-
-target_link_libraries(BattleSpawn PRIVATE
-    ${PROJECT_NAME}
-    ${DOENGINE_LIBRARIES}
-)
-
-target_link_libraries(PacmanClone PRIVATE
-    ${PROJECT_NAME}
-    ${DOENGINE_LIBRARIES}
-)
-
-
-target_link_libraries(BattleCityRecreation PRIVATE
-    ${PROJECT_NAME}
-    ${DOENGINE_LIBRARIES}
-)
 
