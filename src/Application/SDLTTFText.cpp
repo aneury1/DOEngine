@@ -1,7 +1,7 @@
 #include "SDLTTFText.h"
 #include "Application.h"
 #include "Logger.h"
-#include <SDL2/SDL_ttf.h>
+#include "DOEngine_SDL_includes.h"
 #include <map>
 #include <string>
 
