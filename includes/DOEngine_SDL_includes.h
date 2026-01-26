@@ -1,11 +1,11 @@
 #ifndef DOENGINE_SDL_INCLUDES_HPP_DEFINED
 #define DOENGINE_SDL_INCLUDES_HPP_DEFINED
 
-#define FETCHED_CONTENT 1
-#warning "Using fetched content"
+//#define FETCHED_CONTENT 0
+//#warning "Using fetched content"
 
 #ifndef FETCHED_CONTENT
-#include "gmock/gmock.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_events.h>

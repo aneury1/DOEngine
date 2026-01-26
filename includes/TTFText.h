@@ -18,6 +18,7 @@ class TTFText
 {
 
     NativeTextRenderer* nativeRenderer;
+    NativeBitmapTextRenderer* nativeBitmapRenderer;
 
   public:
     TTFText();

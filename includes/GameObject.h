@@ -1,11 +1,18 @@
 #pragma once
-
+#include "Application.h"
+#include "Renderer.h"
+#include "Geometric.h"
 #include <string>
 namespace doengine
 {
 class GameObject
 {
   protected:
+    
+    Rect position;
+    Renderer *renderer;
+    
+    
     bool renderable;
     bool solid;
     int layer;
@@ -14,16 +21,12 @@ class GameObject
     std::string texture_id;
 
   public:
-    GameObject()
-    {
-    }
-
-    virtual ~GameObject()
-    {
-    }
+    GameObject();
+    virtual ~GameObject();
     virtual void Update(float timer = 0) = 0;
     virtual void Render() = 0;
-    virtual bool isColliding(GameObject* other);
+    Renderer* getRenderer();
+    Rect getPosition();
 };
 
 } // namespace doengine

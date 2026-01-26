@@ -74,5 +74,69 @@ double FpsManager::getTicks()
     return SDL_GetTicks();
 }
 
+Timer::Timer(float durationSeconds, Callback cb, bool repeat)
+    : m_duration(durationSeconds),
+      m_elapsed(0.0f),
+      m_repeat(repeat),
+      m_active(true),
+      m_callback(std::move(cb)) {}
+
+void Timer::update(float deltaSeconds) {
+    if (!m_active) return;
+
+    m_elapsed += deltaSeconds;
+    if (m_elapsed >= m_duration) {
+        if (m_callback) {
+            m_callback();
+        }
+
+        if (m_repeat) {
+            m_elapsed = 0.0f;
+        } else {
+            m_active = false;
+        }
+    }
+}
+
+void Timer::reset() {
+    m_elapsed = 0.0f;
+    m_active = true;
+}
+
+void Timer::stop() {
+    m_active = false;
+}
+
+bool Timer::isActive() const {
+    return m_active;
+}
+
+Timer& TimerManager::addTimer(float seconds, Timer::Callback cb, bool repeat) {
+    m_timers.push_back(
+        std::make_unique<Timer>(seconds, std::move(cb), repeat)
+    );
+    return *m_timers.back();
+}
+
+void TimerManager::update(float deltaSeconds) {
+    for (auto& timer : m_timers) {
+        timer->update(deltaSeconds);
+    }
+
+    // Optional cleanup of inactive timers
+    m_timers.erase(
+        std::remove_if(
+            m_timers.begin(),
+            m_timers.end(),
+            [](const std::unique_ptr<Timer>& t) {
+                return !t->isActive();
+            }),
+        m_timers.end()
+    );
+}
+
+void TimerManager::clear() {
+    m_timers.clear();
+}
 
 } // namespace doengine

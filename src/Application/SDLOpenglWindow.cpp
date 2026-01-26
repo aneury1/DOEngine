@@ -53,7 +53,7 @@ void SDLOpenglWindowManager::initEngine()
     // Enable blending for alpha transparency
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+    glViewport(0, 0, 500,500);
     
     LogOuput(logger_type::Information, "SDL Created Window %s", SDL_GetError());
     

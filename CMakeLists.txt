@@ -11,7 +11,8 @@ if(DOENGINE_COVERAGE)
 endif()
 
 # set(CMAKE_EXPORT_COMPILE_COMMANDS true)
-
+ 
+set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(FETCH_SDL_FROM_GIT true)
 set(FETCH_GLM_FROM_GIT true)
 set(BUILD_SAMPLE_ACTIVE false)
@@ -94,6 +95,7 @@ set(DOENGINE_SRC
     src/Drawable/TextField.cpp
     src/Application/SDLTexture.cpp
     src/Application/SDLTexture.h
+    src/Drawable/GameObject.cpp
     src/Drawable/Draggable.cpp
     src/Drawable/DraggableGameObject.cpp
     src/Drawable/SelectionRect.cpp

@@ -1,7 +1,7 @@
 #include "SDLTTFText.h"
 #include "Application.h"
-#include "Logger.h"
 #include "DOEngine_SDL_includes.h"
+#include "Logger.h"
 #include <map>
 #include <string>
 
@@ -22,23 +22,20 @@ std::map<int, SDL_Texture*> memoryBitMapFonts;
 int current_index = 0;
 } // namespace
 
-SDLTTFText::SDLTTFText(): 
-    font{nullptr}
+SDLTTFText::SDLTTFText() : font{nullptr}
 {
-
 }
 SDLTTFText::~SDLTTFText()
 {
-    if(glyph_texture)
+    if (glyph_texture)
         SDL_DestroyTexture(glyph_texture);
     glyph_texture = nullptr;
-    if(font)
+    if (font)
         TTF_CloseFont(font);
     font = nullptr;
-    if(this->glyphTexture)
+    if (this->glyphTexture)
         delete glyphTexture;
 }
-
 
 void SDLTTFText::setColor(Color fg, Color bg)
 {
@@ -46,7 +43,6 @@ void SDLTTFText::setColor(Color fg, Color bg)
     this->bg_color = bg;
     SDL_SetTextureColorMod(glyph_texture, fg_color.r, fg_color.g, fg_color.b);
     SDL_SetTextureAlphaMod(glyph_texture, fg_color.a);
-
 }
 void SDLTTFText::setColor(Color color)
 {
@@ -77,16 +73,17 @@ void SDLTTFText::setFont(const std::string& path, int fntsize)
         TTF_CloseFont(font);
         font = nullptr;
     }
-    LogOuput(logger_type::Information,"FontSRc=%s", path.c_str());
+    LogOuput(logger_type::Information, "FontSRc=%s", path.c_str());
     font = TTF_OpenFont(path.c_str(), fntsize);
     if (font)
     {
         this->path = path;
-        this->glyphTexture=createGlyph();
+        this->glyphTexture = createGlyph();
     }
     else
     {
-       LogOuput(logger_type::Error, "font could not be opened %s", SDL_GetError());    
+        LogOuput(logger_type::Error, "font could not be opened %s",
+                 SDL_GetError());
     }
 }
 
@@ -102,7 +99,7 @@ static void drawText(SDL_Renderer* renderer, const std::string& text, int x,
 
         SDL_Rect srcRect = charMap[c];
         SDL_Rect destRect = {x + static_cast<int>(i * CHAR_WIDTH), y,
-                             CHAR_WIDTH , CHAR_HEIGHT*2};
+                             CHAR_WIDTH, CHAR_HEIGHT * 2};
 
         int result = SDL_RenderCopy(renderer, fontTexture, &srcRect, &destRect);
         /// SDL_Log("TRying....%d %s", result, SDL_GetError());
@@ -113,17 +110,17 @@ void SDLTTFText::DrawText(const char* text, int x, int y)
 {
     auto renderer = Application::getApplication()->getRender();
     auto nativeRenderer = (SDL_Renderer*)renderer->getNativeRenderer();
-    ///SDL_Log("Current Index for Drawing=%d", current_index);
+    /// SDL_Log("Current Index for Drawing=%d", current_index);
 
-   /// drawText(nativeRenderer, std::string(text), x, y);
+    /// drawText(nativeRenderer, std::string(text), x, y);
 
-   /// SDL_Log("----XXXXX");
+    /// SDL_Log("----XXXXX");
 
-   /// return;
+    /// return;
 
-    if(DrawTextByGlyphs(x,y,text))
+    if (DrawTextByGlyphs(x, y, text))
         return;
-    LogOuput(logger_type::Information,"Default Behavour");
+    LogOuput(logger_type::Information, "Default Behavour");
     SDL_Color bg;
     bg.a = bg_color.a;
     bg.r = bg_color.r;
@@ -134,8 +131,8 @@ void SDLTTFText::DrawText(const char* text, int x, int y)
     scolor.g = fg_color.g;
     scolor.b = fg_color.b;
     scolor.a = fg_color.a;
-    SDL_Surface* sf =
-        TTF_RenderText(font, text, scolor, toColor<SDL_Color>(doengine::Colors::black));
+    SDL_Surface* sf = TTF_RenderText(
+        font, text, scolor, toColor<SDL_Color>(doengine::Colors::black));
     SDL_Texture* texture = SDL_CreateTextureFromSurface(nativeRenderer, sf);
     if (texture)
     {
@@ -227,8 +224,9 @@ void SDLTTFText::wrapText(const char* text, int maxWidth, char* wrappedText)
     }
 }
 
-
-void replacePixels(SDL_Texture* texture, SDL_Renderer* renderer, int width, int height, SDL_Color newc, SDL_Color bg) {
+void replacePixels(SDL_Texture* texture, SDL_Renderer* renderer, int width,
+                   int height, SDL_Color newc, SDL_Color bg)
+{
     // Allocate memory for pixel data
     Uint32* pixels = new Uint32[width * height];
 
@@ -238,15 +236,18 @@ void replacePixels(SDL_Texture* texture, SDL_Renderer* renderer, int width, int 
     SDL_PixelFormat* mappingFormat = SDL_AllocFormat(format);
 
     // Copy the current pixel data
-    SDL_RenderReadPixels(renderer, NULL, format, pixels, width * sizeof(Uint32));
+    SDL_RenderReadPixels(renderer, NULL, format, pixels,
+                         width * sizeof(Uint32));
 
     // Define the yellow color to replace (0xFFFF00 in RGB)
     Uint32 yellow = SDL_MapRGB(mappingFormat, bg.r, bg.g, bg.b);
     Uint32 newColor = SDL_MapRGB(mappingFormat, newc.r, newc.g, newc.b);
 
     // Modify only yellow pixels
-    for (int i = 0; i < width * height; i++) {
-        if (pixels[i] == yellow) {
+    for (int i = 0; i < width * height; i++)
+    {
+        if (pixels[i] == yellow)
+        {
             pixels[i] = newColor;
         }
     }
@@ -259,14 +260,12 @@ void replacePixels(SDL_Texture* texture, SDL_Renderer* renderer, int width, int 
     SDL_FreeFormat(mappingFormat);
 }
 
-
-
 Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
                                       const doengine::Color& bg,
                                       const doengine::Color& fg)
 {
     int w = 0, h = 0;
-    
+
     SDL_Log("Starting bitmap font creation...");
 
     // Get SDL Renderer
@@ -304,7 +303,7 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
 
     SDL_SetRenderTarget(renderer, texture);
     SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, bg.a);
-   // SDL_SetRenderDrawColor(renderer, 255,255,255,255);
+    // SDL_SetRenderDrawColor(renderer, 255,255,255,255);
     SDL_RenderClear(renderer);
 
     // Render each character to the texture
@@ -315,19 +314,16 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
         char c = static_cast<char>(i);
 
         SDL_Surface* charSurface =
-            ///TTF_RenderGlyph_Solid
-            TTF_RenderGlyph_Blended
-            (font, c, {fg.r, fg.g, fg.b, fg.a});
+            /// TTF_RenderGlyph_Solid
+            TTF_RenderGlyph_Blended(font, c, {fg.r, fg.g, fg.b, fg.a});
         if (!charSurface)
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
                          "Failed to render glyph %c: %s", c, TTF_GetError());
             continue;
         }
-            SDL_SetColorKey(charSurface, SDL_TRUE,
-                            SDL_MapRGB(charSurface->format, 0,
-                                       0,
-                                       0));
+        SDL_SetColorKey(charSurface, SDL_TRUE,
+                        SDL_MapRGB(charSurface->format, 0, 0, 0));
         SDL_Texture* charTexture =
             SDL_CreateTextureFromSurface(renderer, charSurface);
         if (!charTexture)
@@ -370,7 +366,6 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
     SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
     SDL_Log("Created Bitmap Font Texture [%d, %d]", w, h);
 
-
     SDL_Color yellows;
     yellows.r = doengine::Colors::yellow.r;
     yellows.g = doengine::Colors::yellow.g;
@@ -381,7 +376,7 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
     newc.b = 200;
     newc.g = 100;
     newc.a = 100;
-    replacePixels(texture,renderer, w,h, newc, yellows);
+    replacePixels(texture, renderer, w, h, newc, yellows);
     // Assign the texture to a Texture object
     current_index = 1;
     memoryBitMapFonts[1] = texture;
@@ -389,7 +384,9 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
     return ret->setNativeTexture(texture);
 }
 constexpr const char* defaultGlyph =
-" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+    " !\"#$%&'()*+,-./"
+    "0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`"
+    "abcdefghijklmnopqrstuvwxyz{|}~";
 
 Texture* SDLTTFText::createGlyph()
 {
@@ -398,7 +395,7 @@ Texture* SDLTTFText::createGlyph()
     if (!renderer)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer is null!");
-        LogOuput(logger_type::Error,"GlyphTexture is Null");
+        LogOuput(logger_type::Error, "GlyphTexture is Null");
         return nullptr;
     }
     SDL_Color white{255, 255, 255, 255};
@@ -415,15 +412,9 @@ Texture* SDLTTFText::createGlyph()
     }
 
     SDL_Surface* atlas = SDL_CreateRGBSurfaceWithFormat(
-        0,
-        atlas_width,
-        glyph_height,
-        32,
-        SDL_PIXELFORMAT_RGBA32
-    );
+        0, atlas_width, glyph_height, 32, SDL_PIXELFORMAT_RGBA32);
 
-    SDL_FillRect(atlas, nullptr,
-        SDL_MapRGBA(atlas->format, 0, 0, 0, 0));
+    SDL_FillRect(atlas, nullptr, SDL_MapRGBA(atlas->format, 0, 0, 0, 0));
 
     int x_offset = 0;
 
@@ -432,25 +423,20 @@ Texture* SDLTTFText::createGlyph()
     {
         char ch = *c;
 
-        SDL_Surface* glyph_surface =
-            TTF_RenderGlyph_Blended(font, ch, white);
+        SDL_Surface* glyph_surface = TTF_RenderGlyph_Blended(font, ch, white);
 
         if (!glyph_surface)
             continue;
 
-        Rect dst{
-            x_offset,
-            0,
-            glyph_surface->w,
-            glyph_surface->h
-        };
+        Rect dst{x_offset, 0, glyph_surface->w, glyph_surface->h};
 
-        SDL_BlitSurface(glyph_surface, nullptr, atlas, reinterpret_cast<SDL_Rect*>(&dst));
+        SDL_BlitSurface(glyph_surface, nullptr, atlas,
+                        reinterpret_cast<SDL_Rect*>(&dst));
 
         int minx, maxx, miny, maxy, advance;
         TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance);
 
-        glyphs[ch] = { dst, advance };
+        glyphs[ch] = {dst, advance};
 
         x_offset += glyph_surface->w;
         SDL_FreeSurface(glyph_surface);
@@ -461,38 +447,39 @@ Texture* SDLTTFText::createGlyph()
 
     SDL_FreeSurface(atlas);
     Texture* ret = new Texture();
-    if(glyphTexture)
+    if (glyphTexture)
     {
         delete glyphTexture;
         glyphTexture = nullptr;
     }
-        LogOuput(logger_type::Error,"GlyphTexture is Created");
+    LogOuput(logger_type::Error, "GlyphTexture is Created");
 
     glyphTexture = new Texture();
     glyphTexture->setNativeTexture(glyph_texture);
     return ret->setNativeTexture(glyph_texture);
 }
 
-bool SDLTTFText::DrawTextByGlyphs(int x, int y, const std::string& text, int max_width)
+bool SDLTTFText::DrawTextByGlyphs(int x, int y, const std::string& text,
+                                  int max_width)
 {
     auto rrenderer = Application::getApplication()->getRender();
     auto renderer = static_cast<SDL_Renderer*>(rrenderer->getNativeRenderer());
     if (!renderer)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer is null!");
-        LogOuput(logger_type::Error,"GlyphTexture is Null");
+        LogOuput(logger_type::Error, "GlyphTexture is Null");
         return false;
     }
-    if(!glyphTexture)
+    if (!glyphTexture)
     {
-        LogOuput(logger_type::Error,"GlyphTexture is Null");
+        LogOuput(logger_type::Error, "GlyphTexture is Null");
         return false;
     }
     int cursor_x = x;
     int cursor_y = y;
 
     // Apply text color
-     
+
     for (char c : text)
     {
         if (c == '\n')
@@ -515,39 +502,237 @@ bool SDLTTFText::DrawTextByGlyphs(int x, int y, const std::string& text, int max
         }
 
         SDL_Rect src{
-           g.src.x,
-           g.src.y,
-           g.src.w,
-           g.src.h,
-        };
-        SDL_Rect dest{
-            cursor_x,
-            cursor_y,
+            g.src.x,
+            g.src.y,
             g.src.w,
-            g.src.h
+            g.src.h,
         };
+        SDL_Rect dest{cursor_x, cursor_y, g.src.w, g.src.h};
 
         SDL_RenderCopy(renderer, glyph_texture, &src, &dest);
-        ///SDL_RenderCopy(renderer, glyph_texture, &g.src, &dst);
-        ///glyphTexture->Draw(g.src,dest);
+        /// SDL_RenderCopy(renderer, glyph_texture, &g.src, &dst);
+        /// glyphTexture->Draw(g.src,dest);
         cursor_x += g.advance;
     }
     return true;
 }
 
-
 int SDLTTFText::getFontHeight()
 {
-    if(font)
+    if (font)
         return TTF_FontHeight(font);
     return 0;
 }
 
 doengine::Rect SDLTTFText::getTextSize(const char* str)
 {
-     doengine::Rect rect;
-     
-     return rect;
+    doengine::Rect rect;
+
+    return rect;
+}
+
+#include <sstream>
+
+BitmapTextRenderer::BitmapTextRenderer()
+{
+    renderer = (SDL_Renderer*)Application::getApplication()
+                   ->getRender()
+                   ->getNativeRenderer();
+}
+
+BitmapTextRenderer::~BitmapTextRenderer()
+{
+    clearCache();
+    if (font)
+    {
+        TTF_CloseFont(font);
+    }
+}
+
+bool BitmapTextRenderer::setFont(const std::string& fontPath, int fontSize)
+{
+    if (font)
+    {
+        TTF_CloseFont(font);
+    }
+    font = TTF_OpenFont(fontPath.c_str(), fontSize);
+    dirty = true;
+    return font != nullptr;
+}
+
+void BitmapTextRenderer::setColor(SDL_Color color)
+{
+    color = color;
+    dirty = true;
+}
+
+void BitmapTextRenderer::setLineSpacing(int pixels)
+{
+    lineSpacing = pixels;
+    dirty = true;
+}
+
+void BitmapTextRenderer::setAlignment(Alignment align)
+{
+    alignment = align;
+    dirty = true;
+}
+
+void BitmapTextRenderer::setText(const std::string& text)
+{
+    this->text = text;
+    dirty = true;
+}
+
+void BitmapTextRenderer::setConstraints(int maxWidth, int maxHeight)
+{
+    maxWidth = maxWidth;
+    maxHeight = maxHeight;
+    dirty = true;
+}
+
+void BitmapTextRenderer::nextPage()
+{
+    if (currentPage + 1 < pages.size())
+    {
+        currentPage++;
+    }
+}
+
+void BitmapTextRenderer::prevPage()
+{
+    if (currentPage > 0)
+    {
+        currentPage--;
+    }
+}
+
+void BitmapTextRenderer::setPage(size_t page)
+{
+    if (page < pages.size())
+    {
+        currentPage = page;
+    }
+}
+
+size_t BitmapTextRenderer::getCurrentPage() const
+{
+    return currentPage;
+}
+
+size_t BitmapTextRenderer::getTotalPages() const
+{
+    return pages.size();
+}
+
+void BitmapTextRenderer::render(int x, int y)
+{
+    if (dirty)
+    {
+        rebuild();
+    }
+
+    if (pages.empty())
+        return;
+
+    int cursorY = y;
+    for (const auto& line : pages[currentPage])
+    {
+        SDL_Rect dst{x, cursorY, line.width, line.height};
+
+        if (alignment != Alignment::Left)
+        {
+            int offset = maxWidth - line.width;
+            if (alignment == Alignment::Center)
+                offset /= 2;
+            dst.x += offset;
+        }
+
+        SDL_RenderCopy(renderer, line.texture, nullptr, &dst);
+        cursorY += line.height + lineSpacing;
+    }
+}
+
+void BitmapTextRenderer::clearCache()
+{
+    for (auto& page : pages)
+    {
+        for (auto& line : page)
+        {
+            SDL_DestroyTexture(line.texture);
+        }
+    }
+    pages.clear();
+}
+
+std::vector<std::string> BitmapTextRenderer::wordWrap(const std::string& text)
+{
+    std::vector<std::string> lines;
+    std::istringstream words(text);
+    std::string word, line;
+
+    while (words >> word)
+    {
+        std::string test = line.empty() ? word : line + " " + word;
+        int w;
+        TTF_SizeUTF8(font, test.c_str(), &w, nullptr);
+
+        if (w > maxWidth && !line.empty())
+        {
+            lines.push_back(line);
+            line = word;
+        }
+        else
+        {
+            line = test;
+        }
+    }
+    if (!line.empty())
+        lines.push_back(line);
+    return lines;
+}
+
+void BitmapTextRenderer::buildPages(const std::vector<std::string>& lines)
+{
+    std::vector<Line> page;
+    int usedHeight = 0;
+
+    for (const auto& textLine : lines)
+    {
+        SDL_Surface* surface =
+            TTF_RenderUTF8_Blended(font, textLine.c_str(), color);
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+        Line line{texture, surface->w, surface->h};
+        SDL_FreeSurface(surface);
+
+        if (usedHeight + line.height > maxHeight && !page.empty())
+        {
+            pages.push_back(page);
+            page.clear();
+            usedHeight = 0;
+        }
+
+        page.push_back(line);
+        usedHeight += line.height + lineSpacing;
+    }
+
+    if (!page.empty())
+    {
+        pages.push_back(page);
+    }
+}
+
+void BitmapTextRenderer::rebuild()
+{
+    clearCache();
+    if (!font || text.empty())
+        return;
+
+    auto lines = wordWrap(text);
+    buildPages(lines);
+    currentPage = 0;
+    dirty = false;
 }
 
 }; // namespace doengine

@@ -6,8 +6,7 @@
 namespace doengine
 {
 
-
-
+class GameObject;
 typedef std::variant<int, std::string, GameObject *> ArgValue;
 
 class GameState

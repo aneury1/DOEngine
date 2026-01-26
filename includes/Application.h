@@ -8,7 +8,7 @@
 
 namespace doengine
 {
-
+class GameState;
 class FpsManager;
 class GameStateManager;
 class WindowManager;
@@ -60,62 +60,18 @@ class Application
     void Update();
     void Render();
     void Quit();
-
-
-    long getElapsedTime()
-    {
-        return fps_handler->getElapsedTime();
-    }
-
-    uint32_t getDeltaTime()
-    {
-        return fps_handler->getDeltaTime();
-    }
-
-    void setW(int w)
-    {
-        window_rect.w = w;
-        _internalResize();
-    }
-    void setH(int h)
-    {
-        window_rect.h = h;
-        _internalResize();
-    }
-    void setSize(int w, int h)
-    {
-        window_rect.w = w;
-        window_rect.h = h;
-        _internalResize();
-    }
-    int getH()
-    {
-        return window_rect.h;
-    }
-    int getW()
-    {
-        return window_rect.w;
-    }
-
-    Rect getDisplayMode(int m=0)
-    {
-        return windowManager->getWindowDisplayMode(m);
-    }
-
+    long getElapsedTime();
+    uint32_t getDeltaTime();
+    void setW(int w);
+    void setH(int h);
+    void setSize(int w, int h);
+    int getH();
+    int getW();
+    Rect getDisplayMode(int m=0);
     void SetWindowPencilColor(const Color& color);
-
     void clearScreen(const Color& color);
-
-    void addState(GameState* state, int id)
-    {
-        gsm->AddState(id, state);
-    }
-
-    void setState(int id)
-    {
-        gsm->SetState(id);
-    }
-
+    void addState(GameState* state, int id);
+    void setState(int id);
   private:
     void destroy();
 };

@@ -113,6 +113,11 @@ bool SDLMusicHandler::isPlaying(const int) const
     return Mix_PlayingMusic();
 }
 
+std::string SDLMusicHandler::getPlayMusicName()
+{
+    return std::string("X");
+}
+
 void SDLMusicHandler::setRepeat(Repeat repeat)
 {
     repeatTimes = repeat;

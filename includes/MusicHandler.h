@@ -17,7 +17,7 @@ class MusicHandler
     virtual void pause(const int) = 0;
     virtual void stop(const int) = 0;
     virtual bool isPlaying(const int) const = 0;
-    virtual std::string getPlayMusicName() = 0;
+    virtual std::string getPlayMusicName(){return "";}
     enum class Repeat
     {
         OnlyThis = -1,

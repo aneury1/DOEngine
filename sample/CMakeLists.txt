@@ -24,6 +24,10 @@ add_executable(VideoPlayer
     VideoPlayer/VideoPlayer.cpp
 )
 
+add_executable(SnakeGame
+    SnakeGame/SnakeGame.cpp
+)
+
 add_executable(AnnetteWorld
     AnnetteWorld/AnnetteWorld.cpp
 )
@@ -62,6 +66,15 @@ target_link_libraries(Particles PRIVATE
     SDL2main
     SDL2_ttf SDL2_image
     SDL2_mixer)
+
+
+target_link_libraries(SnakeGame PRIVATE
+    DOENGINE
+    SDL2
+    SDL2main
+    SDL2_ttf SDL2_image
+    SDL2_mixer)
+
 
 target_link_libraries(AnnetteWorld PRIVATE
     DOENGINE

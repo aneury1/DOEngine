@@ -69,7 +69,7 @@ void Event::PollEvent()
         }
         break; /**< Keyboard text editing (composition) */
         case SDL_TEXTINPUT: {
-             SDL_Log("SDL_TEXTINPUT");
+           ////  SDL_Log("SDL_TEXTINPUT %s",event.text.text);
                         for(auto events : Event::TextInputList)
             {
                 std::string text = event.text.text;
