@@ -11,13 +11,15 @@ using std::string;
 
 namespace doengine
 {
-
+class NativeBitmapTextRenderer;
+class NativeTextRenderer;
 class Texture;
 class Renderer;
 class TTFText
 {
 
     NativeTextRenderer* nativeRenderer;
+    NativeBitmapTextRenderer* nativeBitmapRenderer;
 
   public:
     TTFText();

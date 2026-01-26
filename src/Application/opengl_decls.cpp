@@ -5,7 +5,7 @@
 #include "Renderer.h"
 namespace doengine
 {
-#if 0
+#ifdef DESKTOP_DEV
 // Shader sources (OpenGL 4.5 Core Profile)
 static const char* VERTEX_SHADER = R"(
 #version 450 core

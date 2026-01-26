@@ -35,10 +35,8 @@ struct NativeTexture
 
 struct NativeTextRenderer
 {
-
     virtual int getFontHeight() = 0;
     virtual Rect getTextSize(const char* str) =0;
-
     virtual void setColor(doengine::Color fg, doengine::Color bg) = 0;
     virtual void setColor(doengine::Color color) = 0;
     virtual void setFont(const std::string& path, int fntsize) = 0;
@@ -51,5 +49,18 @@ struct NativeTextRenderer
     virtual void wrapText(const char* text, int maxWidth, char* wrappedText) =0;
     virtual Texture*  createBitmapFont(const std::string& font_path,const doengine::Color& bg,const doengine::Color& fg)= 0;
 };
+
+struct NativeBitmapTextRenderer
+{
+    enum class Alignment 
+    {
+        Left,
+        Center,
+        Right
+    };
+};
+
+
+
 
 } // namespace doengine

@@ -7,7 +7,7 @@
 #include "Renderer.h"
 #include "Color.h"
 #include "Geometric.h"
-
+///#define DESKTOP_DEV 
 namespace doengine
 {
 #ifdef DESKTOP_DEV

@@ -51,7 +51,7 @@ struct BattleCityMainPlayer :
 {
     virtual void Update(float timer = 0);
     virtual void Render();
-    virtual bool isColliding(GameObject* other);
+  
 };
 
 void BattleCityMainPlayer::Update(float timer)
@@ -64,10 +64,7 @@ void BattleCityMainPlayer::Render()
 
 }
 
-bool BattleCityMainPlayer::isColliding(GameObject* other)
-{
-    return false;
-}
+ 
 
 
 

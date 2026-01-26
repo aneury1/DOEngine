@@ -20,10 +20,12 @@ class SDLMusicHandler : public MusicHandler
     virtual void stop(const int) override;
     virtual void setRepeat(Repeat repeat) override;
     virtual bool isPlaying(const int) const override;
+    virtual std::string getPlayMusicName() override;
     bool setPosition(const double pos);
     int setVolume(const int newVol);
     double getMusicDuration(const unsigned int index) const;
     double getMusicPosition(const unsigned int index) const;
+    
 
   private:
     virtual void setChannel(const int) override {};

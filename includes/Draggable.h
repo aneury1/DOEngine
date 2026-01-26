@@ -10,7 +10,7 @@ struct Draggable{
    Draggable();
    virtual void startDraggingPoint(const doengine::Rect& start)= 0;
    virtual void updateCoords(const doengine::Rect& rect) = 0;
-   virtual void render(doengine::Renderer *render) = 0;
+   virtual void Render() = 0;
 };
 
 }

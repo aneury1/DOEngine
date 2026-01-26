@@ -184,7 +184,6 @@ NativeTextRenderer* SDLRenderer::getTextRenderer()
 {
     auto textRenderer = new doengine::SDLTTFText();
     return textRenderer;
-    /// return nullptr;
 }
 
 void renderFilledCircle(SDL_Renderer* renderer, int x, int y, int radius)

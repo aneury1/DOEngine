@@ -5,6 +5,8 @@
 #include <string>
 namespace doengine
 {
+
+class GameState;
 class GameStateManager
 {
 

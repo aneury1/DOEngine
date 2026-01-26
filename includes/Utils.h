@@ -113,4 +113,59 @@ Rect RectSizeFromPercentageUniform(const Rect& reference,
     return result;
 }
 
+
+// Template function to handle any data type (int, float, double)
+template <typename T>
+T map_value(T value, T in_min, T in_max, T out_min, T out_max) {
+    
+    // Check for division by zero to avoid crashes
+    if (in_min == in_max) {
+        return out_min; // or handle error as needed
+    }
+
+    // The Standard Formula
+    // We cast to double for the calculation to preserve precision, 
+    // then cast back to T (the original type) for the return value.
+    return static_cast<T>(
+        out_min + (static_cast<double>(value) - in_min) * (out_max - out_min) / (in_max - in_min)
+    );
+}
+
+ 
+
+
+#if 0
+template <typename T>
+T map_constrained(T value, T in_min, T in_max, T out_min, T out_max) {
+    
+    // 1. Handle division by zero
+    if (in_min == in_max) {
+        return out_min; 
+    }
+
+    // 2. Perform the standard map calculation
+    // We cast to double for precision, then back to T
+    T result = static_cast<T>(
+        out_min + (static_cast<double>(value) - in_min) * (out_max - out_min) / (in_max - in_min)
+    );
+
+    // 3. Determine the true lower and upper bounds of the output range
+    // We do this because out_min might be larger than out_max (inverted range)
+    T lower_bound = std::min(out_min, out_max);
+    T upper_bound = std::max(out_min, out_max);
+
+    // 4. Clamp the result
+    // If you are using C++17 or newer, you can use: return std::clamp(result, lower_bound, upper_bound);
+    
+    if (result < lower_bound) return lower_bound;
+    if (result > upper_bound) return upper_bound;
+    return result;
+}
+#endif
+template<typename T>
+T Distance(T t1, T t2)
+{
+    return sqrt(t1-t2);
+}
+
 } // namespace doengine

@@ -10,7 +10,7 @@ Texture::Texture()
 
 void Texture::SetTransparentColor(const Color& color)
 {
-  realNativeTexture->SetTransparentColor(color);   
+    realNativeTexture->SetTransparentColor(color);
 }
 
 Texture::Texture(std::string path)
@@ -29,7 +29,7 @@ Texture::~Texture()
 }
 void Texture::Draw(int x, int y)
 {
-    realNativeTexture->Draw(x,y);
+    realNativeTexture->Draw(x, y);
 }
 void Texture::Draw(const Rect& offset)
 {
@@ -75,7 +75,7 @@ Texture* Texture::setNativeTexture(void* t)
 
 TextureManager* TextureManager::instance;
 
-std::map<std::variant<std::string,int>, Texture*> textures;
+std::map<std::variant<std::string, int>, Texture*> textures;
 
 TextureManager* TextureManager::getTextureManager()
 {
@@ -84,10 +84,11 @@ TextureManager* TextureManager::getTextureManager()
     return instance;
 }
 
-void TextureManager::loadTextureFromFile(const std::variant<std::string, int>& id, string src)
+void TextureManager::loadTextureFromFile(
+    const std::variant<std::string, int>& id, string src)
 {
     Texture* texture = new Texture(src);
-    addTexture(id, texture); 
+    addTexture(id, texture);
 }
 
 void TextureManager::loadTextureFromTexture(std::string id, Texture* texture,
@@ -111,14 +112,15 @@ void TextureManager::addTexture(std::string id, Texture* texture)
         }
     }
 }
-void TextureManager::addTexture(const std::variant<std::string, int>& id, Texture* texture)
+void TextureManager::addTexture(const std::variant<std::string, int>& id,
+                                Texture* texture)
 {
     auto it = textures.find(id);
     if (texture->validTexture())
     {
         if (it != textures.end())
         {
-            //removeTexture(id);
+            // removeTexture(id);
         }
         else
         {
@@ -127,20 +129,54 @@ void TextureManager::addTexture(const std::variant<std::string, int>& id, Textur
     }
 }
 
-
 void TextureManager::removeTexture(std::string id)
 {
 }
 
 Texture* TextureManager::getTexture(const std::variant<std::string, int>& id)
 {
-    return textures[id];
+    auto find = textures.find(id);
+    if (find == textures.end())
+        return nullptr;
+    return find->second;
 }
 
-Texture* TextureManager::getTextureOr(const std::variant<std::string, int>& id, std::function<void()> orCall)
+Texture* TextureManager::getTextureOr(const std::variant<std::string, int>& id,
+                                      std::function<void()> orCall)
 {
     return textures[id];
 }
 
+void TextureManager::loadFont(const std::variant<std::string, int>& key,
+                              string src, int pts)
+{
+    auto pf = new TTFText();
+    pf->setFont(src, pts);
+    fonts[key] = pf;
+}
+TTFText* TextureManager::getFont(const std::variant<std::string, int>& id)
+{
+    return fonts[id];
+}
+
+TextureManager::TextureStatus TextureManager::drawTexture(const std::string id,
+                                                          const Rect offset,
+                                                          const Rect clipset)
+{
+    auto text = getTexture(id);
+    if (text == nullptr)
+        return TextureManager::TextureStatus::TextureIdInvalid;
+    text->Draw(offset, clipset);
+    return TextureManager::TextureStatus::Success;
+}
+TextureManager::TextureStatus TextureManager::drawTexture(const std::string id,
+                                                          const Rect offset)
+{
+    auto text = getTexture(id);
+    if (text == nullptr)
+        return TextureManager::TextureStatus::TextureIdInvalid;
+    text->Draw(offset);
+    return TextureManager::TextureStatus::Success;
+}
 
 } // namespace doengine

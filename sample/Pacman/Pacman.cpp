@@ -229,10 +229,7 @@ struct Player :
         font->setColor(doengine::Colors::yellow1);
         font->DrawText(1090,100,"    %d", this->pointGathered);
     }
-    virtual bool isColliding(GameObject* other)
-    {
-        return false;
-    }
+   
     virtual void OnKeydown(const Keyboard& keys)
     {
         auto k = keys.getKeysBitset();
@@ -344,10 +341,7 @@ struct Enemy :
     {
         textureManager->getTexture("pacman_enemy_1")->Draw(offset);
     }
-    virtual bool isColliding(GameObject* other)
-    {
-        return false;
-    }
+ 
 };
 
 

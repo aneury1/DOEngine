@@ -111,10 +111,7 @@ struct Player :
     {
 
     }
-    virtual bool isColliding(GameObject* other)
-    {
-        return false;
-    }
+ 
     virtual void OnKeydown(const Keyboard& keyboard)
     {
 

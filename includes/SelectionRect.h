@@ -20,7 +20,8 @@ namespace doengine
 class SelectionRect : 
     public Draggable,
     public doengine::KeyboardInputhandlingEvent,
-    public doengine::MouseEvent 
+    public doengine::MouseEvent,
+    public doengine::GameObject
 {
    
     private:
@@ -33,22 +34,25 @@ class SelectionRect :
         std::function<void(Rect)> onSelectionFinished;
         void setup();
 
-    public:
-        SelectionRect();
-        doengine::Rect NormalizeRect(const doengine::Rect& a, const doengine::Rect& b);
-        void setFont(const std::string& font);
-        virtual ~SelectionRect();
-        virtual void startDraggingPoint(const doengine::Rect& start);
-        virtual void updateCoords(const doengine::Rect& rect);
-        virtual void render(doengine::Renderer *render);
         virtual void OnKeydown(const Keyboard&keyboard);
         virtual void OnKeyup(const Keyboard&keyboard);
         virtual void MouseMove(const Mouse& mouse);
         virtual void MouseWheel(const Mouse&){}
         virtual void MouseButtonDown(const Mouse& mouse);
         virtual void MouseButtonUp(const Mouse& mouse);
-        void registerSelectionRectFinished(std::function<void(Rect)> fn);
+        virtual void startDraggingPoint(const doengine::Rect& start);
+        virtual void updateCoords(const doengine::Rect& rect);
+
+    public:
+        SelectionRect();
+        doengine::Rect NormalizeRect(const doengine::Rect& a, const doengine::Rect& b);
+        void setFont(const std::string& font);
+        virtual ~SelectionRect();
+        virtual void Render();
+        virtual void Update(float elapsed){}
         void setFontColor(const doengine::Color& color);
+        void registerSelectionRectFinished(std::function<void(Rect)> fn);
+
 };
 
 }

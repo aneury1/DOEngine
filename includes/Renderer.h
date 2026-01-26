@@ -6,7 +6,8 @@
 
 namespace doengine
 {
-
+class NativeTexture;
+class NativeTextRenderer;
 class Renderer
 {
   public:

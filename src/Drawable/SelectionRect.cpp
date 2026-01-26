@@ -7,8 +7,12 @@ namespace doengine
  {
     if(!font)
         font = new doengine::TTFText();
-   /// if(!fontsrc.empty())
-   ////     font->setFont(fontsrc, 18);
+   if(!fontsrc.empty())
+      font->setFont(fontsrc, 18);
+   else
+   {
+      ////
+   }
  }
 
 SelectionRect::SelectionRect():
@@ -35,7 +39,13 @@ doengine::Rect SelectionRect::NormalizeRect(const doengine::Rect& a,
 void SelectionRect::setFont(const std::string& font)
 {
     this->fontsrc = font;
-    setup();
+
+    if(!this->font)
+        setup();
+    else
+    {
+        this->font->setFont(font, 18);
+    }
 }
 
 void SelectionRect::startDraggingPoint(const doengine::Rect& start)
@@ -55,24 +65,22 @@ void SelectionRect::updateCoords(const doengine::Rect& rect)
     }
 }
 
-void SelectionRect::render(doengine::Renderer* render)
+void SelectionRect::Render()
 {
-    if(!render)
-        render = Application::getApplication()->getRender();
     if (!function_active)
     {
         return;
     }
     auto rect = NormalizeRect(start, current);
-    render->DrawRect(rect, doengine::Colors::red);
+    renderer->DrawRect(rect, doengine::Colors::red);
     /// if(active)
     {
         int y = rect.y - 32;
         if (y <= 16)
             y = rect.y + 64;
-        /*
+        
         font->DrawText(rect.x, y, "(%d,%d, %d, %d)", rect.x, rect.y, rect.w,
-                       rect.h);*/
+                       rect.h);
         if(onSelectionFinished)
         {
             onSelectionFinished(rect);

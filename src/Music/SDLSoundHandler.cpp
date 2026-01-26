@@ -65,6 +65,7 @@ int SDLSoundHandler::addToList(const std::string& src)
             return sounds.size() - 1;
         }
     }
+    return -1;
 }
 
 void SDLSoundHandler::playFirst()

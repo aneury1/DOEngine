@@ -1,11 +1,40 @@
 #pragma once
+#include "Application.h"
+#include "Geometric.h"
+#include "Renderer.h"
 
 #include <string>
+#include <variant>
 namespace doengine
 {
+
+class Renderer;
+
+enum ObjecType
+{
+    Player = 0,
+    Level,
+    Tile,
+    AnimateTile,
+    Npc,
+    Ui,
+    DebugObject,
+    UknownObject,
+    LastDefaultUnused
+};
+
+static unsigned long long id_pool = 0;
 class GameObject
 {
+  private:
+    long long id;
+
   protected:
+    bool debuging_enable;
+
+    Rect position;
+    Renderer* renderer;
+
     bool renderable;
     bool solid;
     int layer;
@@ -14,16 +43,17 @@ class GameObject
     std::string texture_id;
 
   public:
-    GameObject()
-    {
-    }
-
-    virtual ~GameObject()
-    {
-    }
+    GameObject();
+    virtual ~GameObject();
     virtual void Update(float timer = 0) = 0;
     virtual void Render() = 0;
-    virtual bool isColliding(GameObject* other);
+    Renderer* getRenderer();
+    Rect getPosition();
+
+    inline const int getId()
+    {
+        return id;
+    }
 };
 
 } // namespace doengine
