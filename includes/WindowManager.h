@@ -64,7 +64,7 @@ class WindowManager
     virtual void setSize(const Rect& rect) = 0;
     virtual void* getNativeWindowFormatBuffer() = 0;
     virtual Rect getWindowDisplayMode(int m) = 0;
-    static WindowManager* getWindowManager();
+    static std::shared_ptr<WindowManager> getWindowManager();
 
   protected:
     Renderer* render;

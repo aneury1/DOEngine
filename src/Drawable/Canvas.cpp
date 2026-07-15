@@ -313,7 +313,7 @@ void DrawRect(Window *window, SDL_Rect rect){
 }
 
 void DrawSinglePoint(const Rect& rect, const Color& color,
-                     doengine::WindowManager* window)
+                     doengine::std::shared_ptr<WindowManager> window)
 {
     SDL_SetRenderDrawColor(
         static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()),
@@ -323,7 +323,7 @@ void DrawSinglePoint(const Rect& rect, const Color& color,
         rect.x, rect.y);
 }
 void DrawNotFillRect(const Rect& rect, const Color& color,
-                     doengine::WindowManager* window)
+                     doengine::std::shared_ptr<WindowManager> window)
 {
     SDL_SetRenderDrawColor(
         static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()),
@@ -333,7 +333,7 @@ void DrawNotFillRect(const Rect& rect, const Color& color,
         &rect);
 }
 void DrawFillRect(const Rect& rect, const Color& color,
-                  doengine::WindowManager* window)
+                  doengine::std::shared_ptr<WindowManager> window)
 {
     SDL_SetRenderDrawColor(
         static_cast<SDL_Renderer*>(window->getRender()->getNativeRenderer()),
@@ -392,7 +392,7 @@ void DrawGradientCircle(SDL_Renderer* renderer, int centerX, int centerY, int ra
 
 #if 0 
 void FillCircle(int x, int y, int radius, const Color& color,
-                doengine::WindowManager* window)
+                doengine::std::shared_ptr<WindowManager> window)
 {
     int x0 = 0;
     int y0 = radius;
@@ -419,12 +419,12 @@ void FillCircle(int x, int y, int radius, const Color& color,
     }
 }
 
-void CanvasCircleCommand::Draw(doengine::WindowManager* window)
+void CanvasCircleCommand::Draw(doengine::std::shared_ptr<WindowManager> window)
 {
     FillCircle(where.x, where.y, radius, color, window);
 }
 
-void CanvasRectCommand::Draw(doengine::WindowManager* window)
+void CanvasRectCommand::Draw(doengine::std::shared_ptr<WindowManager> window)
 {
     // SDL_Log("Render Rect [%ld, %ld, %ld %ld](%02x %02x %02x %02x)", offset.x,
     // offset.y, offset.w, offset.h, color.r, color.g, color.b, color.a);
@@ -437,12 +437,12 @@ void CanvasRectCommand::Draw(doengine::WindowManager* window)
         DrawNotFillRect(offset, color, window);
 }
 
-void CanvasPointDrawCommand::Draw(doengine::WindowManager* window)
+void CanvasPointDrawCommand::Draw(doengine::std::shared_ptr<WindowManager> window)
 {
     DrawSinglePoint(offset, color, window);
 }
 
-void CanvasTextDrawerCommand::Draw(doengine::WindowManager* window)
+void CanvasTextDrawerCommand::Draw(doengine::std::shared_ptr<WindowManager> window)
 {
 
     /// SDL_SetRenderDrawColor(window->getRender(), color.r, color.g, color.b,
@@ -464,7 +464,7 @@ Canvas* Canvas::setCanvasBackgroundColor(SDL_Color color)
 
 const SDL_Color Canvas::black = {0, 0, 0, 255};
 
-Canvas::Canvas(doengine::WindowManager* window)
+Canvas::Canvas(doengine::std::shared_ptr<WindowManager> window)
 {
     this->window = window;
     setCanvasBackgroundColor({255, 255, 255, 255});

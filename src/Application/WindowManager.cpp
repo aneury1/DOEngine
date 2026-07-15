@@ -39,19 +39,19 @@
 namespace doengine
 {
 
-WindowManager* WindowManager::getWindowManager()
+std::shared_ptr<WindowManager> WindowManager::getWindowManager()
 {
     bool opengl_support = false;
     if(!opengl_support)
     {
-        SDLWindowManager* manager = new SDLWindowManager();
+        auto  manager = std::make_shared<WindowManager>(new SDLWindowManager());
         return manager;
     }
     else
     {
         LogOuput(logger_type::Information," Opengl Renderer");
-        SDLWindowManager* manager = new SDLWindowManager();
-        /// WindowManager* manager = new SDLOpenglWindowManager(); ///
+        auto  manager = std::make_shared<WindowManager>(new SDLWindowManager());
+        /// std::shared_ptr<WindowManager> manager = new SDLOpenglWindowManager(); ///
         return manager;
     }
 }

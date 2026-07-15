@@ -9,7 +9,7 @@ namespace doengine::mocks
 class GameObjectMock : public GameObject
 {
   public:
-    GameObjectMock(WindowManager* window = nullptr) : GameObject(window)
+    GameObjectMock(std::shared_ptr<WindowManager> window = nullptr) : GameObject(window)
     {
     }
 

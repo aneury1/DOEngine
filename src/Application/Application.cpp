@@ -102,7 +102,7 @@ void Application::Quit()
     run = false;
     gsm->RemoveState(gsm->GetCurrentState());
 }
-WindowManager* Application::getWindow()
+std::shared_ptr<WindowManager> Application::getWindow()
 {
     return windowManager;
 }

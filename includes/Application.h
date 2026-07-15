@@ -31,11 +31,14 @@
  * ============================================================================
  */
 #pragma once
+
+#include <memory.h>
+
+
 #include "FPSManager.h"
 #include "GameState.h"
 #include "GameStateManager.h"
 #include "WindowManager.h"
-#include <memory.h>
 ///#include "DOEngine.h"
 
 namespace doengine
@@ -48,7 +51,8 @@ class Renderer;
 
 class Application
 {
-    WindowManager* windowManager;
+     
+    std::shared_ptr<WindowManager> windowManager;
 
     Renderer* render;
 
@@ -81,7 +85,7 @@ class Application
     bool IsRunning() const;
 
     Renderer* getRender() const;
-    WindowManager* getWindow();
+    std::shared_ptr<WindowManager> getWindow();
 
     void createWindow(const Rect& rect);
 

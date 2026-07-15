@@ -49,7 +49,8 @@ struct SDLOpenglRenderer : Renderer
 {
     PrimitiveGLRenderer *primitiveGLRenderer;
 
-    WindowManager* mgr;
+    SDL_GLContext context;
+    std::shared_ptr<WindowManager> mgr;
     Color current_color;
     SDL_Window* window;
     SDL_GLContext context;

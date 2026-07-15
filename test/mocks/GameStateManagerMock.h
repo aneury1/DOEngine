@@ -9,7 +9,7 @@ namespace doengine::mocks
 class GameStateManagerMock : public GameStateManager
 {
   public:
-    GameStateManagerMock(WindowManager* window = nullptr)
+    GameStateManagerMock(std::shared_ptr<WindowManager> window = nullptr)
         : GameStateManager(window)
     {
     }
