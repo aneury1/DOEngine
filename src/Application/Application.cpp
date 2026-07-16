@@ -40,13 +40,12 @@
 
 namespace doengine
 {
-Application* Application::applicationObject = nullptr;
 
 Application::Application()
 {
     windowManager = WindowManager::getWindowManager();
-    gsm = new GameStateManager();
-    fps_handler = new FpsManager();
+    gsm = std::make_shared<GameStateManager>();
+    fps_handler = std::make_shared<FpsManager>();
     fps_handler->setFPS(60);
 }
 
@@ -65,36 +64,59 @@ Application::~Application()
 
 void Application::_internalResize()
 {
-    windowManager->setSize(Rect{window_rect.w, window_rect.h});
+    if (windowManager)
+        windowManager->setSize(Rect{window_rect.w, window_rect.h});
+    else
+        LogOuput(logger_type::Error, "Window Manager is nullptr");
 }
 
 void Application::setFullScreen()
 {
-    windowManager->setFullScreen();
+    if (windowManager)
+        windowManager->setFullScreen();
+    else
+        LogOuput(logger_type::Error, "Window Manager is nullptr");
 }
 
 void Application::setWindowMode()
 {
-    windowManager->setWindowMode();
+    if (windowManager)
+        windowManager->setWindowMode();
+    else
+        LogOuput(logger_type::Error, "Window Manager is nullptr");
 }
 void Application::PollEvent()
 {
-    fps_handler->Start();
-    fps_handler->beginFrame();
+    if (fps_handler)
+    {
+        fps_handler->Start();
+        fps_handler->beginFrame();
+    }
+    else
+    {
+        LogOuput(logger_type::Error, "Fps Handler is nullptr");
+    }
     Event::PollEvent();
 }
 
 void Application::Update()
 {
-    auto deltaTime = fps_handler->endFrame();
-    gsm->Update(deltaTime);
+    if (fps_handler)
+    {
+        auto deltaTime = fps_handler->endFrame();
+        gsm->Update(deltaTime);
+    }
+    else
+    {
+        LogOuput(logger_type::Error, "Fps Handler is nullptr");
+    }
 }
 
 void Application::Render()
 {
-    gsm->Render();
-    windowManager->updateScreen();
-    fps_handler->Handle();
+    /// gsm->Render();
+    /// windowManager->updateScreen();
+    /// fps_handler->Handle();
 }
 
 void Application::Quit()
@@ -113,7 +135,7 @@ std::shared_ptr<doengine::Renderer> Application::getRender() const
 
 bool Application::IsRunning() const
 {
-    /// LogOuput(logger_type::Information, "Is running %d", run);
+    LogOuput(logger_type::Information, "Is running %d", run);
     return run;
 }
 
@@ -171,16 +193,17 @@ void Application::createWindow(const Rect& rect)
     this->setW(rect.w);
     this->setH(rect.h);
     run = windowManager->createWindow(rect);
+    LogOuput(logger_type::Information, "CREATE WINDOW SUCCESS.");
 }
 
 void Application::addState(GameState* state, int id)
 {
-    gsm->AddState(id, state);
+  ////  gsm->AddState(id, state);
 }
 
 void Application::setState(int id)
 {
-    gsm->SetState(id);
+ /////   gsm->SetState(id);
 }
 
 } // namespace doengine

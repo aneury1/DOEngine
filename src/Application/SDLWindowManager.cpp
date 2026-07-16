@@ -39,19 +39,25 @@ namespace doengine
 bool SDLWindowManager::createWindow()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
+
     int img_flags =     IMG_INIT_JPG | IMG_INIT_PNG     | IMG_INIT_TIF     | IMG_INIT_WEBP   |  IMG_INIT_JXL  | IMG_INIT_AVIF;
+    
     IMG_Init(img_flags);
+    
     SDL_DisplayMode mode;
 
     SDL_GetCurrentDisplayMode(0, &mode);
+    SDL_Log("created render"); 
 
     window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, mode.w, mode.h,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
+    SDL_Log("created render"); 
 
     render = std::make_shared<SDLRenderer>(SDL_CreateRenderer(
         window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED));
 
+    SDL_Log("created render"); 
     run = render->isRenderOk();
 
     window_rect.w = mode.w;
@@ -73,12 +79,13 @@ SDLWindowManager::SDLWindowManager() : WindowManager()
     SDL_Init(SDL_INIT_EVERYTHING);
         int img_flags =     IMG_INIT_JPG | IMG_INIT_PNG     | IMG_INIT_TIF     | IMG_INIT_WEBP   |  IMG_INIT_JXL  | IMG_INIT_AVIF;
     IMG_Init(img_flags);
+    LogOuput(logger_type::Information, "Simple SDL Window Created");
 }
 
 bool SDLWindowManager::createWindow(const Rect& rect)
 {
 
-
+LogOuput(logger_type::Information, "Simple SDL Window Created Rect %d %d %d %d", rect.w, rect.h, rect.x, rect.y);
     SDL_GetCurrentDisplayMode(0, &mode);
 
     window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,

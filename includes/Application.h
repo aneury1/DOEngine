@@ -56,9 +56,9 @@ class Application
 
     std::shared_ptr<doengine::Renderer> render;
 
-    GameStateManager* gsm;
+    std::shared_ptr<GameStateManager> gsm;
 
-    FpsManager* fps_handler;
+    std::shared_ptr<FpsManager> fps_handler;
 
     Rect window_rect;
 
@@ -66,20 +66,21 @@ class Application
 
     bool dirty;
 
-    static Application* applicationObject;
-
-    Application();
-
-    ~Application();
+  
 
     void _internalResize();
 
   public:
-    static Application* getApplication()
+    ~Application();
+
+      Application();
+
+    static std::shared_ptr<Application> getApplication()
     {
-        if (applicationObject == nullptr)
-            applicationObject = new Application();
-        return applicationObject;
+        static std::shared_ptr<Application> application =
+            std::make_shared<Application>();
+
+        return application;
     }
 
     bool IsRunning() const;
