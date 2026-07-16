@@ -42,12 +42,12 @@ using std::string;
 
 namespace doengine
 {
-static const int CHAR_WIDTH = 16; // Width of each character in the sprite sheet
-static const int CHAR_HEIGHT =
+static const int CharWidth = 16; // Width of each character in the sprite sheet
+static const int CharHeight =
     16; // Height of each character in the sprite sheet
-static const int CHARS_PER_ROW =
+static const int CharsPerRow =
     16; // How many characters are in one row of the sprite sheet
-static const int CHARSET_SIZE = 96;
+static const int CharsetSize = 96;
 namespace
 {
 std::map<char, SDL_Rect> charMap;
@@ -138,8 +138,8 @@ void SDLTTFText::setFont(const std::string& path, int fntsize)
             continue;
 
         SDL_Rect srcRect = charMap[c];
-        SDL_Rect destRect = {x + static_cast<int>(i * CHAR_WIDTH), y,
-                             CHAR_WIDTH, CHAR_HEIGHT * 2};
+        SDL_Rect destRect = {x + static_cast<int>(i * CharWidth), y,
+                             CharWidth, CharHeight * 2};
 
         SDL_RenderCopy(renderer, fontTexture, &srcRect, &destRect);
         /// SDL_Log("TRying....%d %s", result, SDL_GetError());
@@ -358,7 +358,7 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
     }
 
     // Load TTF Font
-    TTF_Font* font = TTF_OpenFont(font_path.c_str(), CHAR_HEIGHT);
+    TTF_Font* font = TTF_OpenFont(font_path.c_str(), CharHeight);
     if (!font)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load font: %s",
@@ -367,8 +367,8 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
     }
 
     // Create texture to store characters
-    int textureWidth = doengine::CHAR_WIDTH * CHARS_PER_ROW;
-    int textureHeight = ((CHARSET_SIZE / CHARS_PER_ROW) + 1) * CHAR_HEIGHT;
+    int textureWidth = CharWidth* CharsPerRow;
+    int textureHeight = ((CharsetSize / CharsPerRow) + 1) * CharHeight;
 
     SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
                                              SDL_TEXTUREACCESS_TARGET,
@@ -389,7 +389,7 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
     // Render each character to the texture
     int x = 0, y = 0;
 
-    for (int i = 32; i < 32 + CHARSET_SIZE; i++)
+    for (int i = 32; i < 32 + CharsetSize; i++)
     { // ASCII printable range
         char c = static_cast<char>(i);
 
@@ -416,7 +416,7 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
         }
 
         SDL_Rect srcRect = {0, 0, charSurface->w, charSurface->h};
-        SDL_Rect dstRect = {x, y, CHAR_WIDTH, CHAR_HEIGHT};
+        SDL_Rect dstRect = {x, y, CharWidth, CharHeight};
 
         if (SDL_RenderCopy(renderer, charTexture, &srcRect, &dstRect) != 0)
         {
@@ -429,11 +429,11 @@ Texture* SDLTTFText::createBitmapFont(const std::string& font_path,
             charMap[c] = dstRect;
         }
 
-        x += CHAR_WIDTH;
-        if (x + CHAR_WIDTH > textureWidth)
+        x += CharWidth;
+        if (x + CharWidth > textureWidth)
         {
             x = 0;
-            y += CHAR_HEIGHT;
+            y += CharHeight;
         }
 
         SDL_FreeSurface(charSurface);
