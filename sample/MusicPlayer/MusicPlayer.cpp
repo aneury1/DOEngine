@@ -26,7 +26,7 @@ const std::vector<std::string> music = {
 struct MusicPlayerState : public doengine::GameState
 {
   
-    Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
     TTFText*  text;
     
     Texture* ps = nullptr;

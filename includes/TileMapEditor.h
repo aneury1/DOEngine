@@ -73,7 +73,7 @@ struct TileMapEditor : public doengine::MouseEvent,
     bool visible = true;
     doengine::Texture* saveIcon = nullptr;
     doengine::Texture* mapTexture = nullptr;
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
     std::unordered_map<char, TileCharTextureOffset> offset_of_drawing;
     std::vector<doengine::Rect> tiles;
     doengine::Rect panelPosition;

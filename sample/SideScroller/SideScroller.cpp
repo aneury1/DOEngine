@@ -32,7 +32,7 @@ struct Player :
     public doengine::KeyboardInputhandlingEvent
 {
    doengine::Application *app;
-   doengine::Renderer *renderer;
+   std::shared_ptr<doengine::Renderer> renderer;
    doengine::Rect offset;
    double speedx   = 0;
    double speedy   = 0;

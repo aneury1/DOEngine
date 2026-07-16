@@ -65,7 +65,7 @@ struct PlayState :
 
     }
    
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
    
     virtual void OnEnter()
     {

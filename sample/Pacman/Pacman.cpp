@@ -82,7 +82,7 @@ struct Player :
 {
     doengine::Rect position;
     doengine::Rect clipset;
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
     int pointGathered = 0;
     doengine::TTFText *font;
@@ -350,7 +350,7 @@ struct PlayState : public doengine::GameState,
                    public doengine::KeyboardInputhandlingEvent,
                    public doengine::MouseEvent
 {
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
     doengine::TextureManager *textureManager = nullptr;
 

@@ -129,7 +129,7 @@ struct PlayState : public doengine::GameState,
                    public doengine::KeyboardInputhandlingEvent,
                    public doengine::MouseEvent
 {
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
     doengine::SelectionRect recti;
 

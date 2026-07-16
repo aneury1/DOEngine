@@ -128,7 +128,7 @@ Color GradientColor(Color startColor, Color endColor, float position)
 }
 
 // Draw a horizontal line on the renderer with a gradient
-void DrawGradientHorizontalLine(Renderer* renderer, int x, int y, int width,
+void DrawGradientHorizontalLine(std::shared_ptr<doengine::Renderer> renderer, int x, int y, int width,
                                 Color startColor, Color endColor)
 {
     for (int i = 0; i < width; i++)
@@ -143,7 +143,7 @@ void DrawGradientHorizontalLine(Renderer* renderer, int x, int y, int width,
 }
 
 // Draw a gradient-filled rectangle on the renderer
-void DrawGradientRect(Renderer* renderer, int x, int y, int width, int height,
+void DrawGradientRect(std::shared_ptr<doengine::Renderer> renderer, int x, int y, int width, int height,
                       Color startColor, Color endColor)
 {
     for (int i = 0; i < height; i++)
@@ -158,7 +158,7 @@ void DrawGradientRect(Renderer* renderer, int x, int y, int width, int height,
 }
 
 // Draw a gradient-filled circle on the renderer
-void DrawGradientCircle(Renderer* renderer, int centerX, int centerY,
+void DrawGradientCircle(std::shared_ptr<doengine::Renderer> renderer, int centerX, int centerY,
                         int radius, Color startColor, Color endColor)
 {
     for (int y = centerY - radius; y <= centerY + radius; y++)

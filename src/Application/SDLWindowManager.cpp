@@ -49,8 +49,8 @@ bool SDLWindowManager::createWindow()
                               SDL_WINDOWPOS_CENTERED, mode.w, mode.h,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
 
-    render = (new SDLRenderer(SDL_CreateRenderer(
-        window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED)));
+    render = std::make_shared<SDLRenderer>(SDL_CreateRenderer(
+        window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED));
 
     run = render->isRenderOk();
 
@@ -85,8 +85,8 @@ bool SDLWindowManager::createWindow(const Rect& rect)
                               SDL_WINDOWPOS_CENTERED, rect.w, rect.h,
                               SDL_WINDOW_SHOWN /*| SDL_WINDOW_BORDERLESS*/);
 
-    render = (new SDLRenderer(SDL_CreateRenderer(
-        window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED)));
+    render = std::make_shared<SDLRenderer>(SDL_CreateRenderer(
+        window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED));
 
     TTF_Init();
  
@@ -121,7 +121,7 @@ void SDLWindowManager::updateScreen()
 {
     SDL_RenderPresent((SDL_Renderer*)render->getNativeRenderer());
 }
-Renderer* SDLWindowManager::getRenderer()
+std::shared_ptr<Renderer> SDLWindowManager::getRenderer()
 {
     return render;
 }

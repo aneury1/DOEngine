@@ -46,7 +46,7 @@ namespace doengine
 
     std::string fontsrc;
     TTFText* font;
-    Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 TextField::TextField(int x, int y, int w, int h, const std::string& font)
     : rect{x, y, w, h}, focused(false), fontsrc(font),  renderer(nullptr)
 {

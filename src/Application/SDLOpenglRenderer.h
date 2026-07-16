@@ -29,10 +29,10 @@
  *
  * ============================================================================
  */
-
-
 #ifndef SDLOPENGL_RENDERER_H_DEFINED
 #define SDLOPENGL_RENDERER_H_DEFINED
+
+
 #include "Color.h"
 #include "SDLRenderer.h"
 #include "WindowManager.h"
@@ -48,40 +48,36 @@ namespace doengine
 struct SDLOpenglRenderer : Renderer
 {
     PrimitiveGLRenderer *primitiveGLRenderer;
-
     SDL_GLContext context;
     std::shared_ptr<WindowManager> mgr;
     Color current_color;
     SDL_Window* window;
-    SDL_GLContext context;
-
-
   public:
     SDLOpenglRenderer(SDL_Window* window);
-    virtual bool isRenderOk();
-    virtual void* getNativeRenderer();
-    virtual void destroy();
-    virtual void clear();
-    virtual void setDrawColor(const Color&);
-    virtual void updateScreen();
+    virtual bool isRenderOk() override;
+    virtual void* getNativeRenderer() override;
+    virtual void destroy() override;
+    virtual void clear() override;
+    virtual void setDrawColor(const Color&) override;
+    virtual void updateScreen() override;
 
-    virtual void RenderSetClipRect(const Rect&);
-    virtual void ResetRenderSetClipRect();
-    virtual void DrawPoint(const Point& point, const Color& color);
-    virtual void DrawLine(const Point& p1, const Point& p2, const Color& color);
-    virtual void DrawRect(const Rect& rect, const Color& color);
-    virtual void DrawRect(const Rect& rect, const Color& color, int thickness);
-    virtual void DrawFillRect(const Rect& rect, const Color& color);
-    virtual void FillCircle(int x, int y, int radius, const Color& color);
+    virtual void RenderSetClipRect(const Rect&) override;
+    virtual void ResetRenderSetClipRect() override;
+    virtual void DrawPoint(const Point& point, const Color& color) override;
+    virtual void DrawLine(const Point& p1, const Point& p2, const Color& color) override;
+    virtual void DrawRect(const Rect& rect, const Color& color) override;
+    virtual void DrawRect(const Rect& rect, const Color& color, int thickness) override;
+    virtual void DrawFillRect(const Rect& rect, const Color& color) override;
+    virtual void FillCircle(int x, int y, int radius, const Color& color) override;
     virtual void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
-                              const Color& p);
+                              const Color& p) override;
     virtual void DrawRoundedRect(int x, int y, int w, int h, int cornerRadius,
-                                 Color color);
+                                 Color color) override;
     virtual NativeTexture* loadTextureFromImageFile(const char* src,
-                                                    Color color);
-    virtual NativeTexture* loadTextureFromImageFile(const char* src);
-    virtual NativeTextRenderer* getTextRenderer();
-    virtual NativeTexture* createTexture();
+                                                    Color color) override;
+    virtual NativeTexture* loadTextureFromImageFile(const char* src) override;
+    virtual NativeTextRenderer* getTextRenderer() override;
+    virtual NativeTexture* createTexture() override;
     virtual void DrawTexture(const std::variant<std::string, int> &,int , int ){}
     virtual void DrawTexture(const std::variant<std::string, int> &,const Rect& ){}
     virtual void DrawTexture(const std::variant<std::string, int>&,const Rect&, const Rect& ){}

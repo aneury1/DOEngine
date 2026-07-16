@@ -75,8 +75,7 @@ void SDLOpenglWindowManager::initEngine()
 
     this->support_opengl = true;
        
-    this->render = new SDLOpenglRenderer(window);
-
+    this->render = std::make_shared<SDLOpenglRenderer>(window);
 
     LogOuput(logger_type::Information, "SDL Created Window %s", SDL_GetError());
 
@@ -112,7 +111,7 @@ bool SDLOpenglWindowManager::createWindow()
     return run;
 }
 
-Renderer* SDLOpenglWindowManager::getRenderer()
+std::shared_ptr<doengine::Renderer>  SDLOpenglWindowManager::getRenderer()
 {
     return render;
 }

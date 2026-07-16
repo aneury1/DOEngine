@@ -24,7 +24,7 @@ enum class AlienType{
 };
 
 struct Alien {
-   doengine::Renderer *renderer;
+   std::shared_ptr<doengine::Renderer> renderer;
    doengine::Rect offset;
    doengine::Texture *texture;
    AlienType type;
@@ -134,12 +134,12 @@ std::vector<std::vector<int>> Obstacle::grid = {
 
 struct Laser
 {
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
     doengine::Rect offset;
     int speed;
     bool active;
 
-    Laser(doengine::Renderer* render, doengine::Rect o, int s)
+    Laser(std::shared_ptr<doengine::Renderer> render, doengine::Rect o, int s)
     {
         speed = s;
         offset = o;
@@ -170,12 +170,12 @@ struct Laser
 
 struct Spacership
 {
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
     doengine::Texture* texture;
     doengine::Rect offset;
     std::vector<Laser*> firebeam;
     double lastFireTime = 0;
-    Spacership(doengine::Renderer* r);
+    Spacership(std::shared_ptr<doengine::Renderer> r);
     void Draw();
     void Update();
     void MoveLeft();
@@ -183,7 +183,7 @@ struct Spacership
     void FireLaser();
 };
 
-Spacership::Spacership(doengine::Renderer* r)
+Spacership::Spacership(std::shared_ptr<doengine::Renderer> r)
 {
     texture = nullptr;
     renderer = r;
@@ -244,7 +244,7 @@ void Spacership::Update()
 
 struct SpacerInvaderState : public doengine::GameState
 {
-    doengine::Renderer* render;
+    std::shared_ptr<doengine::Renderer> render;
     Spacership* ship;
     std::vector<Obstacle> obstacles;
     std::vector<Alien> aliens;

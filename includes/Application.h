@@ -54,7 +54,7 @@ class Application
      
     std::shared_ptr<WindowManager> windowManager;
 
-    Renderer* render;
+    std::shared_ptr<doengine::Renderer> render;
 
     GameStateManager* gsm;
 
@@ -84,7 +84,7 @@ class Application
 
     bool IsRunning() const;
 
-    Renderer* getRender() const;
+    std::shared_ptr<doengine::Renderer>  getRender() const;
     std::shared_ptr<WindowManager> getWindow();
 
     void createWindow(const Rect& rect);

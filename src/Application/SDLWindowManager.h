@@ -52,7 +52,7 @@ class SDLWindowManager : public WindowManager
     virtual ~SDLWindowManager();
     virtual bool createWindow(const Rect& rect) override;
     virtual bool createWindow() override;
-    virtual Renderer* getRenderer() override;
+    virtual std::shared_ptr<Renderer> getRenderer() override;
     virtual bool isValid() override;
     virtual void clearScreen(const Color& color) override;
     virtual void setPincelColor(const Color& color) override;

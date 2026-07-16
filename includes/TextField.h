@@ -78,7 +78,7 @@ class TextField : public MouseEvent,
 
     std::string fontsrc;
     TTFText* font;
-    Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
     std::function<void(const std::string&)> onEnterPressed;
 };

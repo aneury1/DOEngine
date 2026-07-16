@@ -106,7 +106,7 @@ std::shared_ptr<WindowManager> Application::getWindow()
 {
     return windowManager;
 }
-Renderer* Application::getRender() const
+std::shared_ptr<doengine::Renderer> Application::getRender() const
 {
     return windowManager->getRenderer();
 }
