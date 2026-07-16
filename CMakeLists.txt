@@ -6,6 +6,8 @@ project(doengine VERSION 1.0 LANGUAGES C CXX)
 # Global options
 # ------------------------------------------------------------
 
+option(DOENGINE_DEBUG_ASAN "Enable Debug ASAN" OFF)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -20,13 +22,18 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_options(
         -g3
         -O0
-        -fno-omit-frame-pointer
-        -fsanitize=address
     )
 
-    add_link_options(
-        -fsanitize=address
-    )
+    if(DOENGINE_DEBUG_ASAN)
+        add_compile_options(
+            -fno-omit-frame-pointer
+            -fsanitize=address
+        )
+
+        add_link_options(
+            -fsanitize=address
+        )
+    endif()
 endif()
 
 
