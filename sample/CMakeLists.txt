@@ -38,53 +38,62 @@ file(COPY ${ASSETS_DIR}
 
 
 target_link_libraries(DoSample PRIVATE
-    DOENGINE
-    SDL2
-    SDL2main
-    SDL2_ttf SDL2_image
-    SDL2_mixer)
+    doengine
+    SDL2-static
+    SDL2_image
+    SDL2_ttf
+    SDL2_mixer
+    
+    )
 
 target_link_libraries(Music PRIVATE
-    DOENGINE
-    SDL2
-    SDL2main
-    SDL2_ttf SDL2_image
-    SDL2_mixer)
+    doengine
+    SDL2-static
+    SDL2_image
+    SDL2_ttf
+    SDL2_mixer
+    
+    )
 
 target_link_libraries(Sound PRIVATE
-    DOENGINE
-    SDL2
-    SDL2main
-    SDL2_ttf SDL2_image
-    SDL2_mixer)
+    doengine
+    SDL2-static
+    SDL2_image
+    SDL2_ttf
+    SDL2_mixer
+    
+    )
 
 target_link_libraries(Particles PRIVATE
-    DOENGINE
-    SDL2
-    SDL2main
-    SDL2_ttf SDL2_image
-    SDL2_mixer)
+    doengine
+    SDL2-static
+    SDL2_image
+    SDL2_ttf
+    SDL2_mixer
+    )
 
 
 target_link_libraries(SnakeGame PRIVATE
-    DOENGINE
-    SDL2
-    SDL2main
-    SDL2_ttf SDL2_image
-    SDL2_mixer)
+    doengine
+    SDL2-static
+    SDL2_image
+    SDL2_ttf
+    SDL2_mixer
+    )
 target_link_libraries(Collector PRIVATE
-    DOENGINE
-    SDL2
-    SDL2main
-    SDL2_ttf SDL2_image
-    SDL2_mixer)
+    doengine
+    SDL2-static
+    SDL2_image
+    SDL2_ttf
+    SDL2_mixer
+    
+    )
 # sudo apt install libsdl2-dev libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
 target_link_libraries(VideoPlayer PRIVATE
-    DOENGINE
-    SDL2
-    SDL2main
-    SDL2_ttf 
+    doengine
+    SDL2-static
     SDL2_image
+    SDL2_ttf
     SDL2_mixer
     avformat 
     avcodec 
