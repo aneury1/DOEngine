@@ -29,9 +29,10 @@
  *
  * ============================================================================
  */
-
-#include "Logger.h"
+#include <format>
 #include <iostream>
+#include <string_view>
+#include "Logger.h"
 #include <stdarg.h>
 namespace doengine
 {
@@ -89,6 +90,67 @@ void LogOuput(const logger_type& type,const char* msg, ...)
     //std::cout << prefix << buffer << std::endl;
     const char* color_code = GetColorCode(type);
     std::cout << color_code << prefix << buffer << "\033[0m" << std::endl; 
+}
+
+
+template<typename... Args>
+void LogOuputF(logger_type type,
+              std::format_string<Args...> fmt,
+              Args&&... args)
+{
+    const char* prefix;
+
+    switch (type)
+    {
+    case logger_type::Information:
+        prefix = "[INFO] ";
+        break;
+
+    case logger_type::Warning:
+        prefix = "[WARNING] ";
+        break;
+
+    case logger_type::Error:
+        prefix = "[ERROR] ";
+        break;
+
+    default:
+        prefix = "[LOG] ";
+        break;
+    }
+
+    const char* color = GetColorCode(type);
+
+    std::cout
+        << color
+        << prefix
+        << std::format(fmt, std::forward<Args>(args)...)
+        << "\033[0m\n";
+}
+
+
+template<typename... Args>
+void LogInfo(std::format_string<Args...> fmt, Args&&... args)
+{
+    LogOutput(logger_type::Information,
+              fmt,
+              std::forward<Args>(args)...);
+}
+
+template<typename... Args>
+void LogWarning(std::format_string<Args...> fmt, Args&&... args)
+{
+    LogOutput(logger_type::Warning,
+              fmt,
+              std::forward<Args>(args)...);
+}
+
+template<typename... Args>
+void LogError(std::format_string<Args...> fmt, Args&&... args)
+{
+    LogOutput(logger_type::Error,
+              fmt,
+              std::forward<Args>(args)...);
 }
 
 }; // namespace doengine

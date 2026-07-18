@@ -118,5 +118,5 @@ PUBLIC
     SDL2_mixer
 )
 
-target_compile_features(doengine PUBLIC cxx_std_17)
+target_compile_features(doengine PUBLIC cxx_std_20)
 
