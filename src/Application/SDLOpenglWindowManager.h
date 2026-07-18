@@ -47,6 +47,7 @@ namespace doengine
         SDL_Window *window;
         void initEngine();
         public:
+        virtual bool Quit()override;
         SDLOpenglWindowManager();
         virtual ~SDLOpenglWindowManager();
         virtual bool createWindow(const Rect& rect) override;

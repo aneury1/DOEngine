@@ -44,6 +44,17 @@ SDLOpenglWindowManager::SDLOpenglWindowManager()
     
 }
 
+bool SDLOpenglWindowManager::Quit(){
+
+    if(render)
+        render.reset();
+    if(window)
+      SDL_DestroyWindow(window);
+    SDL_Quit();
+    run = false;
+    return true;
+}
+
 void SDLOpenglWindowManager::initEngine()
 {
     window = nullptr;

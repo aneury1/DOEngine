@@ -30,7 +30,6 @@
  * ============================================================================
  */
 
-
 #include "SDLWindowManager.h"
 #include "Logger.h"
 
@@ -39,25 +38,25 @@ namespace doengine
 bool SDLWindowManager::createWindow()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
+    int img_flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP |
+                    IMG_INIT_JXL | IMG_INIT_AVIF;
 
-    int img_flags =     IMG_INIT_JPG | IMG_INIT_PNG     | IMG_INIT_TIF     | IMG_INIT_WEBP   |  IMG_INIT_JXL  | IMG_INIT_AVIF;
-    
     IMG_Init(img_flags);
-    
+
     SDL_DisplayMode mode;
 
     SDL_GetCurrentDisplayMode(0, &mode);
-    SDL_Log("created render"); 
+    SDL_Log("created render");
 
     window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, mode.w, mode.h,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
-    SDL_Log("created render"); 
+    SDL_Log("created render");
 
     render = std::make_shared<SDLRenderer>(SDL_CreateRenderer(
         window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED));
 
-    SDL_Log("created render"); 
+    SDL_Log("created render");
     run = render->isRenderOk();
 
     window_rect.w = mode.w;
@@ -67,9 +66,23 @@ bool SDLWindowManager::createWindow()
     return run;
 }
 
+bool SDLWindowManager::Quit() {
+   
+    if(render)
+    {
+        render->destroy();
+        render.reset();
+    }
+
+    if(window)
+       SDL_DestroyWindow(window);
+    IMG_Quit();
+    SDL_Quit();
+    return true;
+}
+
 SDLWindowManager::~SDLWindowManager()
 {
-
 }
 
 SDLWindowManager::SDLWindowManager() : WindowManager()
@@ -77,7 +90,8 @@ SDLWindowManager::SDLWindowManager() : WindowManager()
     support_opengl = false;
     LogOuput(logger_type::Information, "Simple SDL Window Not Opengl Support");
     SDL_Init(SDL_INIT_EVERYTHING);
-        int img_flags =     IMG_INIT_JPG | IMG_INIT_PNG     | IMG_INIT_TIF     | IMG_INIT_WEBP   |  IMG_INIT_JXL  | IMG_INIT_AVIF;
+    int img_flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF | IMG_INIT_WEBP |
+                    IMG_INIT_JXL | IMG_INIT_AVIF;
     IMG_Init(img_flags);
     LogOuput(logger_type::Information, "Simple SDL Window Created");
 }
@@ -85,7 +99,9 @@ SDLWindowManager::SDLWindowManager() : WindowManager()
 bool SDLWindowManager::createWindow(const Rect& rect)
 {
 
-LogOuput(logger_type::Information, "Simple SDL Window Created Rect %d %d %d %d", rect.w, rect.h, rect.x, rect.y);
+    LogOuput(logger_type::Information,
+             "Simple SDL Window Created Rect %d %d %d %d", rect.w, rect.h,
+             rect.x, rect.y);
     SDL_GetCurrentDisplayMode(0, &mode);
 
     window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
@@ -96,7 +112,7 @@ LogOuput(logger_type::Information, "Simple SDL Window Created Rect %d %d %d %d",
         window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED));
 
     TTF_Init();
- 
+
     run = render->isRenderOk();
 
     window_rect.w = rect.w;
@@ -113,12 +129,15 @@ bool SDLWindowManager::isValid()
 
 void SDLWindowManager::setPincelColor(const Color& color)
 {
+    if(!render)return;
     SDL_SetRenderDrawColor((SDL_Renderer*)render->getNativeRenderer(), color.r,
                            color.g, color.b, 255);
 }
 
 void SDLWindowManager::clearScreen(const Color& color)
 {
+    if(!render)return;
+
     SDL_SetRenderDrawColor((SDL_Renderer*)render->getNativeRenderer(), color.r,
                            color.g, color.b, 255);
     SDL_RenderClear((SDL_Renderer*)render->getNativeRenderer());
@@ -126,6 +145,8 @@ void SDLWindowManager::clearScreen(const Color& color)
 
 void SDLWindowManager::updateScreen()
 {
+    if(!render)return;
+
     SDL_RenderPresent((SDL_Renderer*)render->getNativeRenderer());
 }
 std::shared_ptr<Renderer> SDLWindowManager::getRenderer()
@@ -135,15 +156,18 @@ std::shared_ptr<Renderer> SDLWindowManager::getRenderer()
 
 void SDLWindowManager::setFullScreen()
 {
+    if(!window)return;
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 }
 
 void SDLWindowManager::setWindowMode()
 {
+    if(!window)return;
     SDL_SetWindowFullscreen(window, 0);
 }
 void SDLWindowManager::setSize(const Rect& rect)
 {
+    if(!window)return;
     SDL_SetWindowSize(window, rect.w, rect.h);
     window_rect.w = rect.w;
     window_rect.h = rect.h;
@@ -154,30 +178,29 @@ void* SDLWindowManager::getNativeWindowFormatBuffer()
     return (void*)window;
 }
 
-Rect SDLWindowManager::getWindowDisplayMode(int  )
+Rect SDLWindowManager::getWindowDisplayMode(int)
 {
-   /*int w, h;
-   ///// SDL_GetDesktopDisplayMode(m, &(SDL_DisplayMode){});
+ 
 
-    SDL_DisplayMode dm;
-    if (SDL_GetDesktopDisplayMode(m, &dm) == 0)
-    {
-        w = dm.w;
-        h = dm.h;
-    }
-    return Rect{
-        0,0,w,h
-    };*/ 
+    /*int w, h;
+    ///// SDL_GetDesktopDisplayMode(m, &(SDL_DisplayMode){});
+
+     SDL_DisplayMode dm;
+     if (SDL_GetDesktopDisplayMode(m, &dm) == 0)
+     {
+         w = dm.w;
+         h = dm.h;
+     }
+     return Rect{
+         0,0,w,h
+     };*/
 
     SDL_Rect usable;
     SDL_GetDisplayUsableBounds(0, &usable);
 
     int usableW = usable.w;
     int usableH = usable.h;
-         return Rect{
-        0,0,usableW,usableH-100
-    };
+    return Rect{0, 0, usableW, usableH - 100};
 }
-
 
 } // namespace doengine

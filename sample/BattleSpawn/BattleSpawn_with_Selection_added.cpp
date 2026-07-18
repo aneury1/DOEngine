@@ -47,8 +47,8 @@ struct PlayState :
 {
     
     std::vector<doengine::DraggableGameObject *> gamesamples;
-    doengine::Texture *bg;
-    doengine::Texture *stuff1;
+    std::shared_ptr<doengine::Texture>bg;
+    std::shared_ptr<doengine::Texture>stuff1;
 
   
     doengine::SelectionRect *selected;

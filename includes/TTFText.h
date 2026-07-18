@@ -51,7 +51,7 @@ class Renderer;
 class TTFText
 {
 
-    NativeTextRenderer* nativeRenderer;
+    std::shared_ptr<NativeTextRenderer> nativeRenderer;
     NativeBitmapTextRenderer* nativeBitmapRenderer;
 
   public:
@@ -61,9 +61,9 @@ class TTFText
     void setFont(const std::string& path, int fntsize);
     void DrawText(const char* text, int x, int y);
     void DrawText(int x, int y, const char *fmt, ...);
-    Texture* createText(const std::string& text);
+    std::shared_ptr<Texture> createText(const std::string& text);
     void   wrapText(const char* text, int maxWidth, char* wrappedText);
-    Texture*  createBitmapFont(const std::string& font_path,const doengine::Color& bg,const doengine::Color& fg);
+    std::shared_ptr<Texture>  createBitmapFont(const std::string& font_path,const doengine::Color& bg,const doengine::Color& fg);
 
     int getFontHeight();
 };

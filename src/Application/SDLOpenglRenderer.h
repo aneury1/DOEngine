@@ -40,14 +40,14 @@
 #include <Renderer.h>
 #include "DOEngine_SDL_includes.h"
 #include "opengl_decls.h"
-
+#include <memory>
 
 namespace doengine
 {
  
 struct SDLOpenglRenderer : Renderer
 {
-    PrimitiveGLRenderer *primitiveGLRenderer;
+    std::shared_ptr<PrimitiveGLRenderer>primitiveGLRenderer;
     SDL_GLContext context;
     std::shared_ptr<WindowManager> mgr;
     Color current_color;
@@ -73,11 +73,11 @@ struct SDLOpenglRenderer : Renderer
                               const Color& p) override;
     virtual void DrawRoundedRect(int x, int y, int w, int h, int cornerRadius,
                                  Color color) override;
-    virtual NativeTexture* loadTextureFromImageFile(const char* src,
+    virtual std::shared_ptr<NativeTexture> loadTextureFromImageFile(const char* src,
                                                     Color color) override;
-    virtual NativeTexture* loadTextureFromImageFile(const char* src) override;
-    virtual NativeTextRenderer* getTextRenderer() override;
-    virtual NativeTexture* createTexture() override;
+    virtual std::shared_ptr<NativeTexture> loadTextureFromImageFile(const char* src) override;
+    virtual std::shared_ptr<NativeTextRenderer> getTextRenderer() override;
+    virtual std::shared_ptr<NativeTexture> createTexture() override;
     virtual void DrawTexture(const std::variant<std::string, int> &,int , int ){}
     virtual void DrawTexture(const std::variant<std::string, int> &,const Rect& ){}
     virtual void DrawTexture(const std::variant<std::string, int>&,const Rect&, const Rect& ){}

@@ -45,7 +45,7 @@ namespace doengine
     bool focused;
 
     std::string fontsrc;
-    TTFText* font;
+    std::shared_ptr<TTFText> font;
     std::shared_ptr<doengine::Renderer> renderer;
 TextField::TextField(int x, int y, int w, int h, const std::string& font)
     : rect{x, y, w, h}, focused(false), fontsrc(font),  renderer(nullptr)
@@ -54,7 +54,7 @@ TextField::TextField(int x, int y, int w, int h, const std::string& font)
     bgColor = {255, 255, 255, 255}; // White background
     borderColor = {0, 0, 0, 255};   // Black border
     text = "";
-    this->font = new TTFText();
+    this->font =std::make_shared<TTFText>();
     this->font->setFont(font, 19);
     this->font->setColor(textColor);
     renderer = Application::getApplication()->getRender();

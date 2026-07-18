@@ -18,7 +18,7 @@ class GameStateManagerMock : public GameStateManager
     {
     }
 
-    MOCK_METHOD(void, AddState, (int, GameState*), (override));
+    MOCK_METHOD(void, AddState, (int, std::shared_ptr<GameState>), (override));
     MOCK_METHOD(void, RemoveState, (int), (override));
     MOCK_METHOD(void, SetState, (int), (override));
     MOCK_METHOD(void, Update, (float), (override));

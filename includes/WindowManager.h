@@ -52,6 +52,7 @@ class WindowManager
     virtual ~WindowManager()
     {
     }
+    virtual bool Quit() = 0;
     virtual bool createWindow(const Rect& rect) = 0;
     virtual bool createWindow() = 0;
     virtual std::shared_ptr<doengine::Renderer>  getRenderer() = 0;

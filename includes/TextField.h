@@ -77,7 +77,7 @@ class TextField : public MouseEvent,
     bool focused;
 
     std::string fontsrc;
-    TTFText* font;
+    std::shared_ptr<doengine::TTFText> font;
     std::shared_ptr<doengine::Renderer> renderer;
 
     std::function<void(const std::string&)> onEnterPressed;

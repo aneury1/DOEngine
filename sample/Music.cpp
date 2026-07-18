@@ -14,7 +14,7 @@
 
 using namespace doengine;
 
-class MusicState : public GameState, public KeyDownEvent
+class MusicState : public GameState, public KeyboardInputhandlingEvent
 {
   public:
     virtual void OnEnter()
@@ -23,7 +23,7 @@ class MusicState : public GameState, public KeyDownEvent
         musicNum = 0;
 
         auto app = doengine::Application::getApplication();
-        doengine::Event::AddKeyPressEventListener(this);
+        doengine::Event::AddKeyboardEvent(this);
 
         const std::string MUSIC_NAME_1 =
             "assets/sounds/gymnopedie-1-erik-satie.mp3";
@@ -108,6 +108,7 @@ class MusicState : public GameState, public KeyDownEvent
             break;
         }
     }
+     virtual void OnKeyup(const Keyboard&) {}
 
   private:
     SDLMusicHandler* musicHandler;
@@ -126,7 +127,7 @@ int main(int argc, char* argv[])
 {
     auto app = Application::getApplication();
     app->createWindow(Rect{800, 600});
-    auto pongState = new MusicState();
+    auto pongState = std::make_shared< MusicState>();
     app->addState(pongState, StateId);
     app->setState(StateId);
     while (app->IsRunning())

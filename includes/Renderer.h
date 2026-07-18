@@ -72,12 +72,12 @@ class Renderer
                               const Color& p) = 0;
     virtual void DrawRoundedRect(int x, int y, int w, int h, int cornerRadius,
                                  Color color) = 0;
-    virtual NativeTexture* loadTextureFromImageFile(const char* src,
+    virtual std::shared_ptr<NativeTexture> loadTextureFromImageFile(const char* src,
                                                     Color color) = 0;
-    virtual NativeTexture* loadTextureFromImageFile(const char* src) = 0;
-    virtual NativeTextRenderer* getTextRenderer() = 0;
+    virtual std::shared_ptr<NativeTexture> loadTextureFromImageFile(const char* src) = 0;
+    virtual std::shared_ptr<NativeTextRenderer> getTextRenderer() = 0;
 
-    virtual NativeTexture* createTexture() =0;
+    virtual std::shared_ptr<NativeTexture> createTexture() =0;
 };
 
 } // namespace doengine

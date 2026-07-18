@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
 {
     auto app = doengine::Application::getApplication();
     // app->setSize(800, 600);
-    auto soundState = new MusicState();
+    auto soundState = std::make_shared<MusicState>();
     app->addState(soundState, soundStateID);
     app->setState(soundStateID);
     while (app->IsRunning())

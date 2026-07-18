@@ -49,6 +49,19 @@ struct Color
     ColorT g;
     ColorT b;
     ColorT a;
+
+
+    [[nodiscard]]
+    static Color opposite(const Color& color) noexcept
+    {
+        return Color{
+            static_cast<ColorT>(255 - color.r),
+            static_cast<ColorT>(255 - color.g),
+            static_cast<ColorT>(255 - color.b),
+            color.a
+        };
+    }
+
 };
 
 namespace Colors{

@@ -154,7 +154,7 @@ struct PongState : public GameState, public KeyDownEvent
 
     virtual void OnEnter()
     {
-        textHandler = new TTFText();
+        textHandler =std::make_shared<TTFText>();
         textHandler->setFont("/home/neon/Documents/projects/myprojects/DOEngine/assets/fonts/NirmalaB.ttf", 18);
         textHandler->setColor(doengine::Colors::white);
         Event::AddKeyPressEventListener(this);

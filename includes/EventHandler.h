@@ -52,17 +52,6 @@ struct KeyboardInputhandlingEvent
    virtual void OnKeyup(const Keyboard&) = 0;
 };
 
-
-class KeyDownEvent
-{
-  public:
-    ~KeyDownEvent()
-    {
-    }
-
-    virtual void OnKeydown(const Keyboard&) = 0;
-};
-
 class KeyUpEvent
 {
   public:

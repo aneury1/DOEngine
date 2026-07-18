@@ -71,8 +71,8 @@ struct TileMapEditor : public doengine::MouseEvent,
     std::vector<std::function<void(char)>> selected_type_for_char_type;
 
     bool visible = true;
-    doengine::Texture* saveIcon = nullptr;
-    doengine::Texture* mapTexture = nullptr;
+    std::shared_ptr<doengine::Texture> saveIcon = nullptr;
+    std::shared_ptr<doengine::Texture> mapTexture = nullptr;
     std::shared_ptr<doengine::Renderer> renderer;
     std::unordered_map<char, TileCharTextureOffset> offset_of_drawing;
     std::vector<doengine::Rect> tiles;
@@ -93,7 +93,7 @@ struct TileMapEditor : public doengine::MouseEvent,
     /// Debug Options
     bool mousePositionDebug = false;
     doengine::Rect mouseDebugText;
-    doengine::TTFText* font;
+    std::shared_ptr<doengine::TTFText> font;
 
     TileMapEditor(const std::string& fontsrc);
     TileCharTextureOffset getSelectedEditorTileTextureOffset();

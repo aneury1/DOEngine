@@ -36,6 +36,7 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <memory>
 #include "GameObject.h"
 #include "Event.h"
 #include "TTFText.h"
@@ -46,7 +47,7 @@ struct MenuStringList : std::vector<std::string>,
                         public GameObject,
                         public KeyboardInputhandlingEvent
 {
-    doengine::TTFText* text;
+    std::shared_ptr<doengine::TTFText> text;
 
     std::string font_id;
 
@@ -79,13 +80,13 @@ struct MenuStringList : std::vector<std::string>,
     MenuStringList(std::initializer_list<std::string> str)
         : std::vector<std::string>(str)
     {
-        text = new doengine::TTFText();
+        text = std::make_shared<doengine::TTFText>();
         text->setFont(
             "/home/neonland/Documents/DOEngine/assets/fonts/DroidSans.ttf", 18);
         position.x = Application::getApplication()->getW() / 2 - 100;
         position.y = Application::getApplication()->getH() / 2 - 100;
         createOffsetVector();
-       // bg = new MenuPanelBackground(this);
+ 
     }
     virtual ~MenuStringList()
     {

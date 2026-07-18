@@ -23,7 +23,7 @@ struct TileMap
 
     struct TilemapTexturePainter
     {
-        Texture* texture;
+        std::shared_ptr<Texture> texture;
         std::shared_ptr<doengine::Renderer> render;
         Rect offset;
         int tsize;

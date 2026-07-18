@@ -1,5 +1,5 @@
 /*
- 
+
 WIP: Create MainScreen State.
 TODO: Change Graphics Depends on Seasons and Having Fallback
 
@@ -56,13 +56,14 @@ enum class Movement
     Up,
     Down
 };
-constexpr int MAP_COLUMN_COUNT =16;
-constexpr int MAP_ROW_COUNT =16;
+constexpr int MAP_COLUMN_COUNT = 16;
+constexpr int MAP_ROW_COUNT = 16;
 constexpr int SCALE_FACTOR_PER_SIZE = 32;
 
 Rect getRandomPos()
 {
-    Rect rect{(rand() % MAP_COLUMN_COUNT + 0) * 32, (rand() % MAP_ROW_COUNT + 0) * 32, 32, 32};
+    Rect rect{(rand() % MAP_COLUMN_COUNT + 0) * 32,
+              (rand() % MAP_ROW_COUNT + 0) * 32, 32, 32};
     return rect;
 }
 
@@ -77,11 +78,13 @@ struct Snake : public GameObject, public KeyboardInputhandlingEvent
     int score = 0;
     Snake()
     {
-        doengine::TextureManager::getTextureManager()->loadTextureFromFile("snake", "/home/neonland/Documents/DOEngine/assets/gfx/sprites/snake1b.png");
+        doengine::TextureManager::getTextureManager()->loadTextureFromFile(
+            "snake",
+            "/home/neonland/Documents/DOEngine/assets/gfx/sprites/snake1b.png");
         snake.push_back(getRandomPos());
         fruit = getRandomPos();
         score++;
-        if((score%3)==0)
+        if ((score % 3) == 0)
         {
             speed--;
         }
@@ -90,9 +93,9 @@ struct Snake : public GameObject, public KeyboardInputhandlingEvent
     void checkCollisionItSelf()
     {
         auto head = snake[0];
-        for(size_t i = 1;i<snake.size();i++)
+        for (size_t i = 1; i < snake.size(); i++)
         {
-            if(checkCollision(head, snake[i]))
+            if (checkCollision(head, snake[i]))
             {
                 snake.clear();
                 snake.push_back(getRandomPos());
@@ -148,8 +151,8 @@ struct Snake : public GameObject, public KeyboardInputhandlingEvent
         renderer->DrawRect(fruit, doengine::Colors::white, 2);
         for (auto segment : snake)
         {
-            segment.w =SCALE_FACTOR_PER_SIZE; 
-            segment.h =SCALE_FACTOR_PER_SIZE; 
+            segment.w = SCALE_FACTOR_PER_SIZE;
+            segment.h = SCALE_FACTOR_PER_SIZE;
             renderer->DrawFillRect(segment, doengine::Colors::red);
         }
     }
@@ -183,10 +186,9 @@ struct Snake : public GameObject, public KeyboardInputhandlingEvent
     {
     }
 
-
     virtual void Update(float elapsed)
     {
-        accum += elapsed+0.1f;
+        accum += elapsed + 0.1f;
         if (accum < speed)
             return;
         Move();
@@ -194,11 +196,9 @@ struct Snake : public GameObject, public KeyboardInputhandlingEvent
     }
 };
 
-struct SnakeState : public GameState,
-                                public KeyboardInputhandlingEvent
+struct SnakeState : public GameState, public KeyboardInputhandlingEvent
 {
 
-    
     Snake snake;
     virtual void OnEnter();
     virtual void OnExit();
@@ -210,7 +210,6 @@ struct SnakeState : public GameState,
 
 void SnakeState::OnEnter()
 {
- 
 }
 void SnakeState::OnExit()
 {
@@ -226,11 +225,12 @@ void SnakeState::Render()
     {
         for (int c = 0; c < 16; c++)
         {
-            Rect rect{c * SCALE_FACTOR_PER_SIZE, r * SCALE_FACTOR_PER_SIZE, SCALE_FACTOR_PER_SIZE, SCALE_FACTOR_PER_SIZE};
+            Rect rect{c * SCALE_FACTOR_PER_SIZE, r * SCALE_FACTOR_PER_SIZE,
+                      SCALE_FACTOR_PER_SIZE, SCALE_FACTOR_PER_SIZE};
             snake.getRenderer()->DrawRect(rect, doengine::Colors::white, 1);
         }
     }
-  
+
     snake.Render();
 }
 void SnakeState::OnKeydown(const Keyboard&)
@@ -249,16 +249,16 @@ int main(int argc, char* argv[])
     app->createWindow(rect);
     app->setSize(rect.w, rect.h);
 
-    auto playstate = new SnakeState();
+    auto playstate = std::make_shared<SnakeState>();
     app->addState(playstate, 1);
     app->setState(1);
 
     while (app->IsRunning())
     {
-        app->PollEvent();
-        app->Update();
-        app->clearScreen(doengine::Colors::black1);
-        app->Render();
+       app->PollEvent();
+       app->Update();
+       app->clearScreen(doengine::Colors::black1);
+       app->Render();
     }
     app->Quit();
     return 0;

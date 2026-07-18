@@ -29,6 +29,8 @@
  *
  * ============================================================================
  */
+#pragma once
+#include <memory>
 
 #include "Geometric.h"
 #include "Texture.h"
@@ -38,7 +40,7 @@
 namespace doengine
 {
 
-struct SDLTexture : public NativeTexture
+struct SDLTexture : public NativeTexture ,std::enable_shared_from_this<SDLTexture>
 {
     int texture = -1;
     std::string path;
@@ -47,9 +49,10 @@ struct SDLTexture : public NativeTexture
     SDL_Texture* this_texture;
     Point size;
     SDL_Color originalColor;
+    
     virtual ~SDLTexture();
     SDLTexture();
-    virtual SDLTexture* loadFromFile(const char* src)override;
+    virtual std::shared_ptr<NativeTexture> loadFromFile(const char* src) override;
     virtual void SetTransparentColor(const Color& color)override;
     virtual bool validTexture() override;
     virtual void Draw(int x, int y) override;
@@ -63,8 +66,8 @@ struct SDLTexture : public NativeTexture
     virtual void Destroy() override;
     virtual int getWidth() override;
     virtual int getHeight() override;
-    virtual NativeTexture* subTexture(Rect clipset) override;
-    virtual NativeTexture* setNativeTexture(void *text)override;
+    virtual std::shared_ptr<NativeTexture> subTexture(Rect clipset) override;
+    virtual std::shared_ptr<NativeTexture> setNativeTexture(void *text)override;
     virtual void *getNativeBuffer() override;
    
 };

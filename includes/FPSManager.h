@@ -35,14 +35,15 @@
 #include <functional>
 #include <memory>
 #include <vector>
+#include <atomic>
 
 namespace doengine
 {
 class FpsManager
 {
-    uint32_t start, elapsed, wait, fps, last_elapsed;
-    uint64_t lastCounter;
-    uint64_t frequency;
+    std::atomic<uint32_t> start, elapsed, wait, fps, last_elapsed;
+    std::atomic<uint64_t> lastCounter;
+    std::atomic<uint64_t> frequency;
   public:
     FpsManager() : start(0L), elapsed(0L), fps(60L), last_elapsed(0.0f)
     {

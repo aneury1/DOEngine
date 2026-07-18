@@ -33,8 +33,6 @@
 #pragma once
 
 #include <memory.h>
-
-
 #include "FPSManager.h"
 #include "GameState.h"
 #include "GameStateManager.h"
@@ -66,8 +64,6 @@ class Application
 
     bool dirty;
 
-  
-
     void _internalResize();
 
   public:
@@ -75,13 +71,7 @@ class Application
 
       Application();
 
-    static std::shared_ptr<Application> getApplication()
-    {
-        static std::shared_ptr<Application> application =
-            std::make_shared<Application>();
-
-        return application;
-    }
+   static std::shared_ptr<Application> getApplication();
 
     bool IsRunning() const;
 
@@ -107,8 +97,11 @@ class Application
     Rect getDisplayMode(int m=0);
     void SetWindowPencilColor(const Color& color);
     void clearScreen(const Color& color);
-    void addState(GameState* state, int id);
+    void addState(std::shared_ptr<GameState> state, int id);
     void setState(int id);
+
+    std::string getEngineVersion();
+
   private:
     void destroy();
 };

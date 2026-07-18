@@ -41,6 +41,14 @@
 namespace doengine
 {
 
+std::shared_ptr<Application> Application::getApplication()
+{
+    static std::shared_ptr<Application> application =
+        std::make_shared<Application>();
+
+    return application;
+}
+
 Application::Application()
 {
     windowManager = WindowManager::getWindowManager();
@@ -51,15 +59,12 @@ Application::Application()
 
 void Application::destroy()
 {
-    // render->destroy();
-    // SDL_DestroyWindow(window);
-    // render = nullptr;
-    // window = nullptr;
+ 
 }
 
 Application::~Application()
 {
-    destroy();
+     
 }
 
 void Application::_internalResize()
@@ -104,7 +109,8 @@ void Application::Update()
     if (fps_handler)
     {
         auto deltaTime = fps_handler->endFrame();
-        gsm->Update(deltaTime);
+        if(gsm)
+            gsm->Update(deltaTime);
     }
     else
     {
@@ -114,13 +120,25 @@ void Application::Update()
 
 void Application::Render()
 {
-    /// gsm->Render();
-    /// windowManager->updateScreen();
-    /// fps_handler->Handle();
+    if (gsm)
+        gsm->Render();
+
+    windowManager->updateScreen();
+
+    if (fps_handler)
+        fps_handler->Handle();
 }
 
 void Application::Quit()
 {
+    TextureManager::getTextureManager()->destroyAll();
+    if(gsm)
+        gsm->clearAllState();
+    
+    fps_handler.reset();
+    Event::RemoveAllEvent();
+    if(windowManager)
+        windowManager->Quit();
     run = false;
     gsm->RemoveState(gsm->GetCurrentState());
 }
@@ -135,7 +153,6 @@ std::shared_ptr<doengine::Renderer> Application::getRender() const
 
 bool Application::IsRunning() const
 {
-    LogOuput(logger_type::Information, "Is running %d", run);
     return run;
 }
 
@@ -146,7 +163,9 @@ long Application::getElapsedTime()
 
 uint32_t Application::getDeltaTime()
 {
-    return fps_handler->getDeltaTime();
+    if(fps_handler)
+        return fps_handler->getDeltaTime();
+    return 0;
 }
 
 void Application::setW(int w)
@@ -176,34 +195,57 @@ int Application::getW()
 
 Rect Application::getDisplayMode(int m)
 {
-    return windowManager->getWindowDisplayMode(m);
+    if(windowManager)
+        return windowManager->getWindowDisplayMode(m);
+    return Rect{0,0,0,0};
 }
 
 void Application::SetWindowPencilColor(const Color& color)
 {
-    windowManager->setPincelColor(color);
+    if(windowManager)
+        windowManager->setPincelColor(color);
 }
 void Application::clearScreen(const Color& color)
 {
-    windowManager->clearScreen(color);
+    if(windowManager)
+        windowManager->clearScreen(color);
 }
 
 void Application::createWindow(const Rect& rect)
 {
+    if(!windowManager){
+        createWindow(rect);
+        return;
+    }
     this->setW(rect.w);
     this->setH(rect.h);
+    LogOuput(logger_type::Information, "PRE CREATE WINDOW SUCCESS.");
     run = windowManager->createWindow(rect);
-    LogOuput(logger_type::Information, "CREATE WINDOW SUCCESS.");
+    LogOuput(logger_type::Information, "POST CREATE WINDOW SUCCESS.");
 }
 
-void Application::addState(GameState* state, int id)
+void Application::addState(std::shared_ptr<GameState> state, int id)
 {
-  ////  gsm->AddState(id, state);
+    if (gsm)
+        gsm->AddState(id, state);
 }
 
 void Application::setState(int id)
 {
- /////   gsm->SetState(id);
+    if (gsm)
+        gsm->SetState(id);
+}
+
+std::string Application::getEngineVersion()
+{
+    std::stringstream stream;
+#if defined(DOENGINE_GIT_REVISION) && defined(DOENGINE_GIT_BRANCH)
+    stream << "doengine-" << DOENGINE_GIT_BRANCH << "-hash-"
+           << DOENGINE_GIT_REVISION << "-" << __DATE__ << __TIME__;
+#else
+    stream << "doengine-" << "-" << __DATE__ << __TIME__;
+#endif
+    return stream.str();
 }
 
 } // namespace doengine

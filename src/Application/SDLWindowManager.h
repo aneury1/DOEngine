@@ -50,6 +50,7 @@ class SDLWindowManager : public WindowManager
   public:
     SDLWindowManager();
     virtual ~SDLWindowManager();
+    virtual bool Quit() override;
     virtual bool createWindow(const Rect& rect) override;
     virtual bool createWindow() override;
     virtual std::shared_ptr<Renderer> getRenderer() override;

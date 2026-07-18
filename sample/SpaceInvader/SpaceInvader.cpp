@@ -26,7 +26,7 @@ enum class AlienType{
 struct Alien {
    std::shared_ptr<doengine::Renderer> renderer;
    doengine::Rect offset;
-   doengine::Texture *texture;
+   std::shared_ptr<doengine::Texture>texture;
    AlienType type;
 
    
@@ -171,7 +171,7 @@ struct Laser
 struct Spacership
 {
     std::shared_ptr<doengine::Renderer> renderer;
-    doengine::Texture* texture;
+    std::shared_ptr<doengine::Texture> texture;
     doengine::Rect offset;
     std::vector<Laser*> firebeam;
     double lastFireTime = 0;
