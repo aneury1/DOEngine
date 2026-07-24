@@ -195,7 +195,7 @@ Texture* TextureManager::getTexture(const std::variant<std::string, int>& id)
 
     auto find = textures.find(id);
     if (find == textures.end())
-        return nullptr;
+        return new Texture();
     return find->second;
 }
 

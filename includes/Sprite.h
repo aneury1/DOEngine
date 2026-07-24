@@ -63,6 +63,11 @@ class Sprite
            const ClipType = ClipType::Contiguous, const size_t spriteCount = 1,
            const Direction direction = Direction::None);
 
+    Sprite(int textureId, const std::vector<Rect>& frames,
+           const Point& offset = Point(0, 0),
+           const ClipType = ClipType::Contiguous, const size_t spriteCount = 1,
+           const Direction direction = Direction::None);
+
     ~Sprite();
 
     void Draw(const Rect& dstRect);
