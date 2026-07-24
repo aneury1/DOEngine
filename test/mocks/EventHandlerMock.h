@@ -74,6 +74,7 @@ class OnMessageQueueMock : public OnMessageQueue
 struct MouseEventMock : public MouseEvent
 {
   public:
+    MOCK_METHOD(void, MouseWheel, (const Mouse&), (override));
     MOCK_METHOD(void, MouseMove, (const Mouse&), (override));
     MOCK_METHOD(void, MouseButtonDown, (const Mouse&), (override));
     MOCK_METHOD(void, MouseButtonUp, (const Mouse&), (override));

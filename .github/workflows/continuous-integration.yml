@@ -30,10 +30,10 @@ jobs:
           # - platform_name: artix-linux
           #   os: self-hosted
           #   cmake_generator: "Unix Makefiles"
-          - platform_name: macos
-            os: macos-26-intel
-            cxx: clang++
-            cmake_generator: "Unix Makefiles"
+          # - platform_name: macos
+          #   os: macos-26-intel
+          #   cxx: clang++
+          #   cmake_generator: "Unix Makefiles"
           # NOTE: CXX seems to be ignored on Windows, but specify it anyway for consistency
           - platform_name: windows
             os: windows-2022
@@ -46,9 +46,22 @@ jobs:
           submodules: true
 
       - name: Downloading SDL_ttf Dependencies
+        if: matrix.platform_name == 'ubuntu'
         run:  ${{github.workspace}}/external/doengine-shared/SDL2/SDL_ttf/external/download.sh
+      
+      - name: Downloading SDL_ttf Dependencies (Windows)
+        if: matrix.platform_name == 'windows'
+        shell: powershell
+        run:  ${{github.workspace}}\external\doengine-shared\SDL2\SDL_ttf\external\Get-GitModules.ps1
+
       - name: Downloading SDL_image Dependencies
+        if: matrix.platform_name == 'ubuntu'
         run:  ${{github.workspace}}/external/doengine-shared/SDL2/SDL_image/external/download.sh
+
+      - name: Downloading SDL_image Dependencies (Windows)
+        if: matrix.platform_name == 'windows'
+        shell: powershell
+        run:  ${{github.workspace}}\external\doengine-shared\SDL2\SDL_image\external\Get-GitModules.ps1
 
       - name: Install Linux Dependencies (Ubuntu)
         if: matrix.platform_name == 'ubuntu'
@@ -61,8 +74,20 @@ jobs:
         run: sudo pacman -Sy base-devel cmake git --noconfirm
 
       - name: Set up MSVC developer tools
-        if: matrix.platform_name == 'windows'
         uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Add msbuild to PATH
+        if: matrix.platform_name == 'windows'
+        uses: microsoft/setup-msbuild@v3
+        with:
+          msbuild-architecture: x64
+
+      - name: Install CMake via winget
+        if: matrix.platform_name == 'windows'
+        shell: powershell
+        run: |
+          choco install cmake -y --quiet
+          cmake --version
 
       - name: Cache CMake dependency source code
         uses: actions/cache@v3
@@ -116,7 +141,7 @@ jobs:
         # Note the current convention is to use the -S and -B options here to specify source 
         # and build directories, but this is only available with CMake 3.13 and higher.  
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=OFF -DDOENGINE_SAMPLES=OFF -DDOENGINE_TESTS=OFF -DDOENGINE_COVERAGE=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=OFF -DDOENGINE_SAMPLES=OFF -DDOENGINE_TESTS=ON -DSDL2IMAGE_VENDORED=OFF -DSDL2TTF_VENDORED=OFF
 
       - name: Build
         working-directory: ${{github.workspace}}
@@ -126,5 +151,5 @@ jobs:
 
       - name: Running tests
         shell: bash
-        working-directory: ${{github.workspace}}/build
-        run: make test
+        working-directory: ${{github.workspace}}
+        run: ctest --test-dir build

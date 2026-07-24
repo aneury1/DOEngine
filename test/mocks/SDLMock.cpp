@@ -1,6 +1,5 @@
 #include "SDLMock.h"
-#include <cstddef>
-#ifdef SDL_MOCKS_ACTIVE
+
 using namespace doengine::mocks;
 
 SDLMock* sdlMock = nullptr;
@@ -68,12 +67,12 @@ void SDL_Log(const char* fmt, ...)
 
 int SDL_PollEvent(SDL_Event* event)
 {
-    return sdlMock->SDL_PollEvent(event);
+    return sdlMock->SDL_PollEvent_REAL(event);
 }
 
 Uint32 SDL_GetMouseState(int* x, int* y)
 {
-    return sdlMock->SDL_GetMouseState(x, y);
+    return sdlMock->SDL_GetMouseState_REAL(x, y);
 }
 
 const Uint8* SDL_GetKeyboardState(int* numkeys)
@@ -160,17 +159,17 @@ const char* SDL_JoystickName(SDL_Joystick* joystick)
 
 SDL_Joystick* SDL_JoystickOpen(int device_index)
 {
-    return sdlMock->SDL_JoystickOpen(device_index);
+    return sdlMock->SDL_JoystickOpen_REAL(device_index);
 }
 
 void SDL_JoystickClose(SDL_Joystick* joystick)
 {
-    return sdlMock->SDL_JoystickClose(joystick);
+    return sdlMock->SDL_JoystickClose_REAL(joystick);
 }
 
 const char* SDL_GetError(void)
 {
-    return sdlMock->SDL_GetError();
+    return sdlMock->SDL_GetError_REAL();
 }
 
 int SDL_RenderCopyEx(SDL_Renderer* renderer, SDL_Texture* texture,
@@ -304,4 +303,167 @@ int TTF_SizeText(TTF_Font* font, const char* text, int* w, int* h)
 {
     return sdlMock->TTF_SizeText(font, text, w, h);
 }
-#endif
+
+Uint64 SDL_GetPerformanceCounter()
+{
+    return sdlMock->SDL_GetPerformanceCounter();
+}
+
+Uint64 SDL_GetPerformanceFrequency()
+{
+    return sdlMock->SDL_GetPerformanceFrequency();
+}
+
+int SDL_SetTextureBlendMode(SDL_Texture* tex, SDL_BlendMode blendMode)
+{
+    return sdlMock->SDL_SetTextureBlendMode(tex, blendMode);
+}
+
+int SDL_GetTextureBlendMode(SDL_Texture* tex, SDL_BlendMode* blendMode)
+{
+    return sdlMock->SDL_GetTextureBlendMode(tex, blendMode);
+}
+
+int SDL_GetTextureAlphaMod(SDL_Texture* a, Uint8* b)
+{
+    return sdlMock->SDL_GetTextureAlphaMod(a, b);
+}
+
+int SDL_SetTextureColorMod(SDL_Texture* a, Uint8 b, Uint8 c, Uint8 d)
+{
+    return sdlMock->SDL_SetTextureColorMod(a, b, c, d);
+}
+
+int SDL_SetTextureAlphaMod(SDL_Texture* a, Uint8 b)
+{
+    return sdlMock->SDL_SetTextureAlphaMod(a, b);
+}
+
+Uint32 SDL_MapRGB(const SDL_PixelFormat* a, Uint8 b, Uint8 c, Uint8 d)
+{
+    return sdlMock->SDL_MapRGB(a, b, c, d);
+}
+
+Uint32 SDL_MapRGBA(const SDL_PixelFormat* a, Uint8 b, Uint8 c, Uint8 d, Uint8 e)
+{
+    return sdlMock->SDL_MapRGBA(a, b, c, d, e);
+}
+
+int SDL_SetColorKey(SDL_Surface* a, int b, Uint32 c)
+{
+    return sdlMock->SDL_SetColorKey(a, b, c);
+}
+
+int SDL_RenderReadPixels(SDL_Renderer* a, const SDL_Rect* b, Uint32 c, void* d,
+                         int e)
+{
+    return sdlMock->SDL_RenderReadPixels(a, b, c, d, e);
+}
+
+int SDL_UpdateTexture(SDL_Texture* a, const SDL_Rect* b, const void* c, int d)
+{
+    return sdlMock->SDL_UpdateTexture(a, b, c, d);
+}
+
+SDL_PixelFormat* SDL_AllocFormat(Uint32 a)
+{
+    return sdlMock->SDL_AllocFormat(a);
+}
+
+void SDL_FreeFormat(SDL_PixelFormat* a)
+{
+    return sdlMock->SDL_FreeFormat(a);
+}
+
+int IMG_Init(int flag)
+{
+    return sdlMock->IMG_Init(flag);
+}
+void IMG_Quit()
+{
+    sdlMock->IMG_Quit();
+}
+
+SDL_Surface* IMG_Load(const char* path)
+{
+    return sdlMock->IMG_Load(path);
+}
+
+void SDL_StartTextInput()
+{
+    sdlMock->SDL_StartTextInput();
+}
+
+int SDL_GetDisplayUsableBounds(int a, SDL_Rect* b)
+{
+    return sdlMock->SDL_GetDisplayUsableBounds(a, b);
+}
+
+int SDL_RenderSetClipRect(SDL_Renderer* a, const SDL_Rect* b)
+{
+    return sdlMock->SDL_RenderSetClipRect(a, b);
+}
+
+SDL_Surface* TTF_RenderGlyph_Blended(TTF_Font* font, Uint16 ch, SDL_Color fg)
+{
+    return sdlMock->TTF_RenderGlyph_Blended(font, ch, fg);
+}
+
+int TTF_FontHeight(const TTF_Font* font)
+{
+    return sdlMock->TTF_FontHeight(font);
+}
+
+SDL_Surface* SDL_CreateRGBSurfaceWithFormat(Uint32 a, int b, int c, int d,
+                                            Uint32 e)
+{
+    return sdlMock->SDL_CreateRGBSurfaceWithFormat(a, b, c, d, e);
+}
+
+int SDL_FillRect(SDL_Surface* a, const SDL_Rect* b, Uint32 c)
+{
+    return sdlMock->SDL_FillRect(a, b, c);
+}
+
+int SDL_UpperBlit(SDL_Surface* a, const SDL_Rect* b, SDL_Surface* c,
+                  SDL_Rect* d)
+{
+    return sdlMock->SDL_UpperBlit(a, b, c, d);
+}
+
+int TTF_GlyphMetrics(TTF_Font* font, Uint16 ch, int* minx, int* maxx, int* miny,
+                     int* maxy, int* advance)
+{
+    return sdlMock->TTF_GlyphMetrics(font, ch, minx, maxx, miny, maxy, advance);
+}
+
+int TTF_SizeUTF8(TTF_Font* font, const char* text, int* w, int* h)
+{
+    return sdlMock->TTF_SizeUTF8(font, text, w, h);
+}
+
+SDL_Surface* TTF_RenderUTF8_Blended(TTF_Font* font, const char* text,
+                                    SDL_Color fg)
+{
+    return sdlMock->TTF_RenderUTF8_Blended(font, text, fg);
+}
+
+SDL_Window* SDL_RenderGetWindow(SDL_Renderer* a)
+{
+    return sdlMock->SDL_RenderGetWindow(a);
+}
+
+SDL_Texture* SDL_GetRenderTarget(SDL_Renderer* a)
+{
+    return sdlMock->SDL_GetRenderTarget(a);
+}
+
+void SDL_LogError(SDL_LogCategory a, const char* b)
+{
+    sdlMock->SDL_LogError(a, b);
+}
+
+void SDL_LogError(SDL_LogCategory a, const char* b, const char* c)
+{
+    sdlMock->SDL_LogError(a, b, c);
+}
