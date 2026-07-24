@@ -30,15 +30,14 @@
  * ============================================================================
  */
 
-
 #include "SDLTTFText.h"
 #include "Application.h"
 #include "DOEngine_SDL_includes.h"
 #include "Logger.h"
-#include <map>
-#include <string>
 #include <cstring>
+#include <map>
 #include <sstream>
+#include <string>
 
 using std::string;
 
@@ -57,13 +56,16 @@ std::map<int, SDL_Texture*> memoryBitMapFonts;
 int current_index = 0;
 } // namespace
 
-SDLTTFText::SDLTTFText() : glyph_height{0}, font{nullptr}, glyph_texture{nullptr}
+SDLTTFText::SDLTTFText()
+    : glyph_height{0}, font{nullptr}, glyph_texture{nullptr}
 {
     app = doengine::Application::getApplication();
 }
 
-bool SDLTTFText::checkAppIsRunning(){
-    if(auto locked = app.lock()){
+bool SDLTTFText::checkAppIsRunning()
+{
+    if (auto locked = app.lock())
+    {
         return locked->IsRunning();
     }
     return false;
@@ -83,7 +85,8 @@ SDLTTFText::~SDLTTFText()
 
 void SDLTTFText::setColor(Color fg, Color bg)
 {
-    if(!checkAppIsRunning())return;
+    if (!checkAppIsRunning())
+        return;
     this->fg_color = fg;
     this->bg_color = bg;
     SDL_SetTextureColorMod(glyph_texture, fg_color.r, fg_color.g, fg_color.b);
@@ -91,7 +94,8 @@ void SDLTTFText::setColor(Color fg, Color bg)
 }
 void SDLTTFText::setColor(Color color)
 {
-    if(!checkAppIsRunning())return;
+    if (!checkAppIsRunning())
+        return;
     this->fg_color = color;
     // createGlyph() rebuilds the glyph atlas and already updates
     // this->glyph_texture / this->glyphTexture (freeing the previous
@@ -103,7 +107,8 @@ void SDLTTFText::setColor(Color color)
 
 void SDLTTFText::setForegroundColor(Color color)
 {
-    if(!checkAppIsRunning())return;
+    if (!checkAppIsRunning())
+        return;
 
     this->fg_color = color;
     SDL_SetTextureColorMod(glyph_texture, fg_color.r, fg_color.g, fg_color.b);
@@ -111,14 +116,16 @@ void SDLTTFText::setForegroundColor(Color color)
 }
 void SDLTTFText::setBackgroundColor(Color color)
 {
-    if(!checkAppIsRunning())return;
+    if (!checkAppIsRunning())
+        return;
 
     this->bg_color = color;
 }
 
 void SDLTTFText::setFontSize(int fntSize)
 {
-    if(!checkAppIsRunning())return;
+    if (!checkAppIsRunning())
+        return;
 
     if (font)
         TTF_SetFontSize(font, fntSize);
@@ -126,7 +133,8 @@ void SDLTTFText::setFontSize(int fntSize)
 
 void SDLTTFText::setFont(const std::string& path, int fntsize)
 {
-    if(!checkAppIsRunning())return;
+    if (!checkAppIsRunning())
+        return;
 
     if (font != nullptr)
     {
@@ -147,11 +155,12 @@ void SDLTTFText::setFont(const std::string& path, int fntsize)
     }
 }
 
-[[maybe_unused]]static void drawText(SDL_Renderer* renderer, const std::string& text, int x,
-                     int y)
+[[maybe_unused]] static void drawText(SDL_Renderer* renderer,
+                                      const std::string& text, int x, int y)
 {
     ////if(!checkAppIsRunning())return;
-    if(renderer == nullptr) return;
+    if (renderer == nullptr)
+        return;
 
     auto fontTexture = memoryBitMapFonts[1];
     for (size_t i = 0; i < text.length(); i++)
@@ -161,8 +170,8 @@ void SDLTTFText::setFont(const std::string& path, int fntsize)
             continue;
 
         SDL_Rect srcRect = charMap[c];
-        SDL_Rect destRect = {x + static_cast<int>(i * CharWidth), y,
-                             CharWidth, CharHeight * 2};
+        SDL_Rect destRect = {x + static_cast<int>(i * CharWidth), y, CharWidth,
+                             CharHeight * 2};
 
         SDL_RenderCopy(renderer, fontTexture, &srcRect, &destRect);
         /// SDL_Log("TRying....%d %s", result, SDL_GetError());
@@ -171,7 +180,8 @@ void SDLTTFText::setFont(const std::string& path, int fntsize)
 
 void SDLTTFText::DrawText(const char* text, int x, int y)
 {
-    if(!checkAppIsRunning())return;
+    if (!checkAppIsRunning())
+        return;
 
     auto renderer = Application::getApplication()->getRender();
     auto nativeRenderer = (SDL_Renderer*)renderer->getNativeRenderer();
@@ -191,7 +201,8 @@ void SDLTTFText::DrawText(const char* text, int x, int y)
         font, text, scolor, toColor<SDL_Color>(doengine::Colors::black));
     if (!sf)
     {
-        LogOuput(logger_type::Error, "TTF_RenderText failed: %s", TTF_GetError());
+        LogOuput(logger_type::Error, "TTF_RenderText failed: %s",
+                 TTF_GetError());
         return;
     }
 
@@ -209,8 +220,8 @@ void SDLTTFText::DrawText(const char* text, int x, int y)
     }
     else
     {
-        LogOuput(logger_type::Error, "cannot create texture from font surface: %s",
-                 SDL_GetError());
+        LogOuput(logger_type::Error,
+                 "cannot create texture from font surface: %s", SDL_GetError());
     }
 
     // sf must be freed regardless of whether texture creation succeeded -
@@ -224,25 +235,25 @@ void SDLTTFText::getTextSize(const std::string& text, int* w, int* h)
         TTF_SizeText(font, text.c_str(), w, h);
 }
 
-std::shared_ptr<Texture> SDLTTFText::createText(const std::string&  )
+std::shared_ptr<Texture> SDLTTFText::createText(const std::string&)
 {
     return nullptr;
 }
 
-void SDLTTFText::wrapText(const char* text, int maxWidth, char* wrappedTextOutput)
+void SDLTTFText::wrapText(const char* text, int maxWidth,
+                          char* wrappedTextOutput)
 {
     std::string wrappedText;
     std::string line;
     std::string word;
 
     std::istringstream stream(text);
-    if(!checkAppIsRunning()|| !font)return;
+    if (!checkAppIsRunning() || !font)
+        return;
 
     while (stream >> word)
     {
-        std::string testLine = line.empty()
-            ? word
-            : line + " " + word;
+        std::string testLine = line.empty() ? word : line + " " + word;
 
         int width = 0;
         TTF_SizeText(font, testLine.c_str(), &width, nullptr);
@@ -279,8 +290,9 @@ void SDLTTFText::wrapText(const char* text, int maxWidth, char* wrappedTextOutpu
 void replacePixels(SDL_Texture* texture, SDL_Renderer* renderer, int width,
                    int height, SDL_Color newc, SDL_Color bg)
 {
-    if(!texture || !renderer )return;
-    
+    if (!texture || !renderer)
+        return;
+
     // Reading pixels via SDL_RenderReadPixels reads from whatever texture is
     // currently bound as the render target, NOT the `texture` argument.
     // Previously this function was called after the render target had
@@ -326,9 +338,9 @@ void replacePixels(SDL_Texture* texture, SDL_Renderer* renderer, int width,
     SDL_SetRenderTarget(renderer, previousTarget);
 }
 
-std::shared_ptr<Texture> SDLTTFText::createBitmapFont(const std::string& font_path,
-                                      const doengine::Color& bg,
-                                      const doengine::Color& fg)
+std::shared_ptr<Texture> SDLTTFText::createBitmapFont(
+    const std::string& font_path, const doengine::Color& bg,
+    const doengine::Color& fg)
 {
     int w = 0, h = 0;
 
@@ -339,7 +351,7 @@ std::shared_ptr<Texture> SDLTTFText::createBitmapFont(const std::string& font_pa
     auto renderer = static_cast<SDL_Renderer*>(rrenderer->getNativeRenderer());
     if (!renderer)
     {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer is null!");
+        // SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer is null!");
         return std::make_shared<Texture>();
     }
 
@@ -347,13 +359,13 @@ std::shared_ptr<Texture> SDLTTFText::createBitmapFont(const std::string& font_pa
     TTF_Font* font = TTF_OpenFont(font_path.c_str(), CharHeight);
     if (!font)
     {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load font: %s",
-                     TTF_GetError());
+        /*SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load font: %s",
+                     TTF_GetError());*/
         return std::make_shared<Texture>();
     }
 
     // Create texture to store characters
-    int textureWidth = CharWidth* CharsPerRow;
+    int textureWidth = CharWidth * CharsPerRow;
     int textureHeight = ((CharsetSize / CharsPerRow) + 1) * CharHeight;
 
     SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
@@ -361,8 +373,8 @@ std::shared_ptr<Texture> SDLTTFText::createBitmapFont(const std::string& font_pa
                                              textureWidth, textureHeight);
     if (!texture)
     {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                     "Failed to create texture: %s", SDL_GetError());
+        // SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+        //              "Failed to create texture: %s", SDL_GetError());
         TTF_CloseFont(font);
         return std::make_shared<Texture>();
     }
@@ -382,8 +394,8 @@ std::shared_ptr<Texture> SDLTTFText::createBitmapFont(const std::string& font_pa
             TTF_RenderGlyph_Blended(font, c, {fg.r, fg.g, fg.b, fg.a});
         if (!charSurface)
         {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                         "Failed to render glyph %c: %s", c, TTF_GetError());
+            // SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+            //              "Failed to render glyph %c: %s", c, TTF_GetError());
             continue;
         }
         SDL_SetColorKey(charSurface, SDL_TRUE,
@@ -392,9 +404,9 @@ std::shared_ptr<Texture> SDLTTFText::createBitmapFont(const std::string& font_pa
             SDL_CreateTextureFromSurface(renderer, charSurface);
         if (!charTexture)
         {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                         "Failed to create texture for character %c: %s", c,
-                         SDL_GetError());
+            // SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+            //              "Failed to create texture for character %c: %s", c,
+            //              SDL_GetError());
             SDL_FreeSurface(charSurface);
             continue;
         }
@@ -404,9 +416,9 @@ std::shared_ptr<Texture> SDLTTFText::createBitmapFont(const std::string& font_pa
 
         if (SDL_RenderCopy(renderer, charTexture, &srcRect, &dstRect) != 0)
         {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                         "SDL_RenderCopy failed for character %c: %s", c,
-                         SDL_GetError());
+            // SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+            //              "SDL_RenderCopy failed for character %c: %s", c,
+            //              SDL_GetError());
         }
         else
         {
@@ -462,16 +474,18 @@ constexpr const char* defaultGlyph =
 
 std::shared_ptr<Texture> SDLTTFText::createGlyph()
 {
-    if(!checkAppIsRunning())return std::make_shared<Texture>();
+    if (!checkAppIsRunning())
+        return std::make_shared<Texture>();
     auto rrenderer = Application::getApplication()->getRender();
-    if(!rrenderer){
+    if (!rrenderer)
+    {
         return std::make_shared<Texture>();
     }
 
     auto renderer = static_cast<SDL_Renderer*>(rrenderer->getNativeRenderer());
     if (!renderer)
     {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer is null!");
+        // SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer is null!");
         LogOuput(logger_type::Error, "GlyphTexture is Null");
         return std::make_shared<Texture>();
     }
@@ -492,8 +506,8 @@ std::shared_ptr<Texture> SDLTTFText::createGlyph()
         0, atlas_width, glyph_height, 32, SDL_PIXELFORMAT_RGBA32);
     if (!atlas)
     {
-        LogOuput(logger_type::Error, "Failed to allocate glyph atlas surface: %s",
-                 SDL_GetError());
+        LogOuput(logger_type::Error,
+                 "Failed to allocate glyph atlas surface: %s", SDL_GetError());
         return std::make_shared<Texture>();
     }
 
@@ -554,12 +568,13 @@ std::shared_ptr<Texture> SDLTTFText::createGlyph()
 bool SDLTTFText::DrawTextByGlyphs(int x, int y, const std::string& text,
                                   int max_width)
 {
-    if(!checkAppIsRunning())return false;
+    if (!checkAppIsRunning())
+        return false;
     auto rrenderer = Application::getApplication()->getRender();
     auto renderer = static_cast<SDL_Renderer*>(rrenderer->getNativeRenderer());
     if (!renderer)
     {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer is null!");
+        // SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer is null!");
         LogOuput(logger_type::Error, "GlyphTexture is Null");
         return false;
     }
@@ -616,40 +631,42 @@ bool SDLTTFText::DrawTextByGlyphs(int x, int y, const std::string& text,
 
 int SDLTTFText::getFontHeight()
 {
-    if(!checkAppIsRunning())return -1;
+    if (!checkAppIsRunning())
+        return -1;
     if (font)
         return TTF_FontHeight(font);
     return 0;
 }
 
-doengine::Rect SDLTTFText::getTextSize(const char*  )
+doengine::Rect SDLTTFText::getTextSize(const char*)
 {
     doengine::Rect rect;
 
     return rect;
 }
 
-bool BitmapTextRenderer::checkAppIsRunning(){
-    if(app.expired())
-      app = Application::getApplication();
-    if(auto locked = app.lock()){
+bool BitmapTextRenderer::checkAppIsRunning()
+{
+    if (app.expired())
+        app = Application::getApplication();
+    if (auto locked = app.lock())
+    {
         return locked->IsRunning();
     }
     return false;
 }
 
-
 BitmapTextRenderer::BitmapTextRenderer()
 {
-    if(checkAppIsRunning())
-    renderer = (SDL_Renderer*)Application::getApplication()
-                   ->getRender()
-                   ->getNativeRenderer();
+    if (checkAppIsRunning())
+        renderer = (SDL_Renderer*)Application::getApplication()
+                       ->getRender()
+                       ->getNativeRenderer();
 }
 
 BitmapTextRenderer::~BitmapTextRenderer()
 {
-    
+
     clearCache();
     if (font)
     {
@@ -659,7 +676,8 @@ BitmapTextRenderer::~BitmapTextRenderer()
 
 bool BitmapTextRenderer::setFont(const std::string& fontPath, int fontSize)
 {
-    if(!checkAppIsRunning())return false;
+    if (!checkAppIsRunning())
+        return false;
 
     if (font)
     {
@@ -672,7 +690,8 @@ bool BitmapTextRenderer::setFont(const std::string& fontPath, int fontSize)
 
 void BitmapTextRenderer::setColor(SDL_Color color)
 {
-    if(!checkAppIsRunning())return ;
+    if (!checkAppIsRunning())
+        return;
 
     // Previously this self-assigned the parameter ("color = color;") and
     // never touched the member, so setColor() had no effect at all.
@@ -682,7 +701,8 @@ void BitmapTextRenderer::setColor(SDL_Color color)
 
 void BitmapTextRenderer::setLineSpacing(int pixels)
 {
-    if(!checkAppIsRunning())return ;
+    if (!checkAppIsRunning())
+        return;
 
     lineSpacing = pixels;
     dirty = true;
@@ -690,7 +710,8 @@ void BitmapTextRenderer::setLineSpacing(int pixels)
 
 void BitmapTextRenderer::setAlignment(Alignment align)
 {
-    if(!checkAppIsRunning())return ;
+    if (!checkAppIsRunning())
+        return;
 
     alignment = align;
     dirty = true;
@@ -698,7 +719,8 @@ void BitmapTextRenderer::setAlignment(Alignment align)
 
 void BitmapTextRenderer::setText(const std::string& text)
 {
-    if(!checkAppIsRunning())return ;
+    if (!checkAppIsRunning())
+        return;
 
     this->text = text;
     dirty = true;
@@ -706,7 +728,8 @@ void BitmapTextRenderer::setText(const std::string& text)
 
 void BitmapTextRenderer::setConstraints(int maxWidth, int maxHeight)
 {
-    if(!checkAppIsRunning())return ;
+    if (!checkAppIsRunning())
+        return;
 
     // Previously this self-assigned the parameters, so setConstraints() had
     // no effect and word-wrap silently used maxWidth == 0 forever.
@@ -717,7 +740,8 @@ void BitmapTextRenderer::setConstraints(int maxWidth, int maxHeight)
 
 void BitmapTextRenderer::nextPage()
 {
-    if(!checkAppIsRunning())return ;
+    if (!checkAppIsRunning())
+        return;
 
     if (currentPage + 1 < pages.size())
     {
@@ -727,7 +751,8 @@ void BitmapTextRenderer::nextPage()
 
 void BitmapTextRenderer::prevPage()
 {
-    if(!checkAppIsRunning())return ;
+    if (!checkAppIsRunning())
+        return;
 
     if (currentPage > 0)
     {
@@ -737,7 +762,8 @@ void BitmapTextRenderer::prevPage()
 
 void BitmapTextRenderer::setPage(size_t page)
 {
-    if(!checkAppIsRunning())return ;
+    if (!checkAppIsRunning())
+        return;
 
     if (page < pages.size())
     {
@@ -757,7 +783,8 @@ size_t BitmapTextRenderer::getTotalPages() const
 
 void BitmapTextRenderer::render(int x, int y)
 {
-    if(!checkAppIsRunning()|| !renderer)return ;
+    if (!checkAppIsRunning() || !renderer)
+        return;
 
     if (dirty)
     {
@@ -787,7 +814,7 @@ void BitmapTextRenderer::render(int x, int y)
 
 void BitmapTextRenderer::clearCache()
 {
-    ///if(!checkAppIsRunning()||! line.texture)return ;
+    /// if(!checkAppIsRunning()||! line.texture)return ;
 
     for (auto& page : pages)
     {
@@ -805,7 +832,8 @@ std::vector<std::string> BitmapTextRenderer::wordWrap(const std::string& text)
     std::istringstream words(text);
     std::string word, line;
 
-    if(!font)return lines;
+    if (!font)
+        return lines;
 
     while (words >> word)
     {
@@ -835,7 +863,8 @@ void BitmapTextRenderer::buildPages(const std::vector<std::string>& lines)
 {
     std::vector<Line> page;
     int usedHeight = 0;
-    if(!font||!renderer) return;
+    if (!font || !renderer)
+        return;
 
     for (const auto& textLine : lines)
     {
@@ -879,7 +908,8 @@ void BitmapTextRenderer::buildPages(const std::vector<std::string>& lines)
 
 void BitmapTextRenderer::rebuild()
 {
-    if(!checkAppIsRunning()||!renderer)return ;
+    if (!checkAppIsRunning() || !renderer)
+        return;
 
     clearCache();
     if (!font || text.empty())

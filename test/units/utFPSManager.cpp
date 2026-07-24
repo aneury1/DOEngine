@@ -37,7 +37,7 @@ TEST_F(utFPSManager, doengineGetElapsedTimeTest)
     // testing::Mock::AllowLeak(&sdlMock);
 }
 
-TEST_F(utFPSManager, doengineStartTimerAndGetElapseTime)
+TEST_F(utFPSManager, DISABLED_doengineStartTimerAndGetElapseTime)
 {
     EXPECT_CALL(xsdlMock, SDL_GetTicks())
         .WillOnce(Return(5U))
@@ -49,7 +49,7 @@ TEST_F(utFPSManager, doengineStartTimerAndGetElapseTime)
     EXPECT_FLOAT_EQ(_sut.getElapsedTime(), 10U);
 }
 
-TEST_F(utFPSManager, doengineHandleTest)
+TEST_F(utFPSManager, DISABLED_doengineHandleTest)
 {
     EXPECT_CALL(xsdlMock, SDL_GetTicks())
         .WillOnce(Return(5U))

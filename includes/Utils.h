@@ -30,12 +30,23 @@
  * ============================================================================
  */
 
-
 #pragma once
 
+#include "Geometric.h"
 #include <algorithm>
 #include <limits>
 #include <random>
+#include <string>
+
+#if defined(_WIN32)
+#include <direct.h>
+#define getcwd _getcwd
+#define PATH_MAX _MAX_PATH
+#else
+#include <limits.h>
+#include <unistd.h>
+#endif
+
 namespace doengine
 {
 template <typename V1, typename V2>
@@ -85,29 +96,17 @@ double DegreesToRadians(double degree)
     return (degree * (M_PI/180.0));
 }
 
-#include <string>
-
-#if defined(_WIN32)
-    #include <direct.h>
-    #define getcwd _getcwd
-    #define PATH_MAX _MAX_PATH
-#else
-    #include <unistd.h>
-    #include <limits.h>
-#endif
-
 static inline std::string getCurrentPath()
 {
     char buffer[PATH_MAX];
     return getcwd(buffer, sizeof(buffer)) ? buffer : "";
 }
 
-
-template<class T>
+template <class T>
 bool isItemInGroup(const T type, std::vector<T> f)
 {
-    for(auto i : f)
-        if( i == type)
+    for (auto i : f)
+        if (i == type)
             return true;
     return false;
 }
@@ -146,7 +145,6 @@ Rect RectSizeFromPercentageUniform(const Rect& reference,
     return result;
 }
 
-
 // Template function to handle any data type (int, float, double)
 template <typename T>
 T map_value(T value, T in_min, T in_max, T out_min, T out_max) {
@@ -163,9 +161,6 @@ T map_value(T value, T in_min, T in_max, T out_min, T out_max) {
         out_min + (static_cast<double>(value) - in_min) * (out_max - out_min) / (in_max - in_min)
     );
 }
-
- 
-
 
 #if 0
 template <typename T>

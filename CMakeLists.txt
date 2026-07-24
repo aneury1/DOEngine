@@ -7,7 +7,8 @@ project(doengine VERSION 1.0 LANGUAGES C CXX)
 # ------------------------------------------------------------
 
 option(DOENGINE_DEBUG_ASAN "Enable Debug ASAN" OFF)
- 
+option(DOENGINE_TESTS "Compiles and runs tests" OFF)
+option(DOENGINE_SAMPLES "Compiles samples" ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -122,6 +123,8 @@ add_library(doengine STATIC
     ${DOENGINE_SOURCES}
 )
 
+target_compile_features(doengine PUBLIC cxx_std_20)
+
 target_include_directories(doengine
 PUBLIC
     includes
@@ -133,8 +136,6 @@ target_compile_definitions(doengine
         DOENGINE_GIT_BRANCH="${GIT_BRANCH}"
 )
 
-add_subdirectory(sample)
-
 target_link_libraries(doengine
 PUBLIC
     SDL2-static
@@ -144,7 +145,9 @@ PUBLIC
     GL
 )
 
-target_compile_features(doengine PUBLIC cxx_std_20)
+if(DOENGINE_SAMPLES)
+    add_subdirectory(sample)
+endif()
 
 include(GNUInstallDirs)
 
@@ -169,3 +172,8 @@ install(TARGETS doengine
 install(DIRECTORY includes/
     DESTINATION include/DOEngine
 )
+if(DOENGINE_TESTS)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(test)
+endif()

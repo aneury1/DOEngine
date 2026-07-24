@@ -50,7 +50,7 @@ class utSDLMouse : public DoEngineFixture
 
 TEST_F(utSDLMouse, isRightClickedTest)
 {
-    ON_CALL(_sdlMock, SDL_GetMouseState(_, _))
+    ON_CALL(_sdlMock, SDL_GetMouseState_REAL(_, _))
         .WillByDefault(Return(SDL_BUTTON_RMASK));
     _sut.updateValues();
     EXPECT_TRUE(_sut.isRightClick());
@@ -58,7 +58,7 @@ TEST_F(utSDLMouse, isRightClickedTest)
 
 TEST_F(utSDLMouse, isLeftClickedTest)
 {
-    ON_CALL(_sdlMock, SDL_GetMouseState(_, _))
+    ON_CALL(_sdlMock, SDL_GetMouseState_REAL(_, _))
         .WillByDefault(Return(SDL_BUTTON_LMASK));
     _sut.updateValues();
     EXPECT_TRUE(_sut.isLeftClick());
@@ -66,7 +66,7 @@ TEST_F(utSDLMouse, isLeftClickedTest)
 
 TEST_F(utSDLMouse, isMiddleClickedTest)
 {
-    ON_CALL(_sdlMock, SDL_GetMouseState(_, _))
+    ON_CALL(_sdlMock, SDL_GetMouseState_REAL(_, _))
         .WillByDefault(Return(SDL_BUTTON_MMASK));
     _sut.updateValues();
     EXPECT_TRUE(_sut.isMiddleClick());
@@ -78,7 +78,7 @@ TEST_F(utSDLMouse, getMousePositionTest)
     const int expectedX = 25;
     const int expectedY = 52;
 
-    ON_CALL(_sdlMock, SDL_GetMouseState(_, _))
+    ON_CALL(_sdlMock, SDL_GetMouseState_REAL(_, _))
         .WillByDefault(DoAll(SetArgPointee<0>(expectedX),
                              SetArgPointee<1>(expectedY),
                              Return(SDL_BUTTON_MMASK)));
@@ -110,7 +110,8 @@ TEST_P(utSDLMouseBitmapTest, getMouseButtonsBitmapTest)
     auto mouseButtonPressed = std::get<0>(GetParam());
     auto bitsetIdx = static_cast<std::size_t>(mouseButtonPressed);
 
-    ON_CALL(_sdlMock, SDL_GetMouseState(_, _)).WillByDefault(Return(sdlValue));
+    ON_CALL(_sdlMock, SDL_GetMouseState_REAL(_, _))
+        .WillByDefault(Return(sdlValue));
     _sut.updateValues();
     _sut.getButtonStateBitset(result);
 

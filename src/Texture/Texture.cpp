@@ -66,10 +66,14 @@ Texture::Texture(std::string path, const Color& color)
 {
     this->realNativeTexture = nullptr;
 
-    
     auto render = Application::getApplication()->getRender();
     this->realNativeTexture =
         render->loadTextureFromImageFile(path.c_str(), color);
+}
+
+Texture::Texture(std::string path, doengine::NativeTexture* realNativeTexture)
+    : realNativeTexture(realNativeTexture)
+{
 }
 
 Texture::~Texture()
@@ -142,7 +146,8 @@ bool Texture::validTexture()
 
 void Texture::LoadTexture(const std::string& file, const Color& color)
 {
-    if(!Application::getApplication()->IsRunning())return;
+    if (!Application::getApplication()->IsRunning())
+        return;
     if (!realNativeTexture)
     {
         auto render = Application::getApplication()->getRender();
