@@ -81,10 +81,10 @@ struct Player :
 {
     doengine::Rect position;
     doengine::Rect clipset;
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
     int pointGathered = 0;
-    doengine::TTFText *font;
+    std::shared_ptr<TTFText>font;
 
 
 
@@ -99,7 +99,7 @@ struct Player :
     {
         renderer = doengine::Application::getApplication()->getRender();
         textureManager = doengine::TextureManager::getTextureManager();
-        font = new doengine::TTFText();
+        font = std::make_shared<doengine::TTFText>();
         font->setFont("./assets/fonts/NirmalaB.ttf",20);
         font->setColor(doengine::Colors::red);
     }
@@ -264,7 +264,7 @@ struct PlayState : public doengine::GameState,
                    public doengine::KeyboardInputhandlingEvent,
                    public doengine::MouseEvent
 {
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
     doengine::TextureManager *textureManager = nullptr;
 

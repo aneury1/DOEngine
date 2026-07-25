@@ -30,7 +30,7 @@ struct Paddle : public GameObject
         Down
     };
 
-    Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
     Rect position;
     double spy = 0;
     PaddleWhere where;
@@ -70,7 +70,7 @@ struct Paddle : public GameObject
         }
     }
 
-    Paddle(const PaddleWhere& where, Renderer* renderer)
+    Paddle(const PaddleWhere& where, std::shared_ptr<doengine::Renderer> renderer)
     {
         this->renderer = renderer;
         this->where = where;
@@ -99,7 +99,7 @@ struct Ball : public GameObject
     Point point;
     Point speed;
     double radius;
-    Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
 
     void reset()
@@ -111,7 +111,7 @@ struct Ball : public GameObject
         speed.y = 7;
     }
 
-    Ball(Renderer* render)
+    Ball(std::shared_ptr<doengine::Renderer> render)
     {
         renderer = render;
         reset();
@@ -144,7 +144,7 @@ struct PongState : public GameState, public KeyDownEvent
     Ball* ball;
     Paddle* left;
     Paddle* right;
-    Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
     TTFText *textHandler;
 
     int leftScore = 0;
@@ -154,7 +154,7 @@ struct PongState : public GameState, public KeyDownEvent
 
     virtual void OnEnter()
     {
-        textHandler = new TTFText();
+        textHandler =std::make_shared<TTFText>();
         textHandler->setFont("/home/neon/Documents/projects/myprojects/DOEngine/assets/fonts/NirmalaB.ttf", 18);
         textHandler->setColor(doengine::Colors::white);
         Event::AddKeyPressEventListener(this);

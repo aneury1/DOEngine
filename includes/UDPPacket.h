@@ -33,6 +33,7 @@
 
 #pragma once
 #include <cstddef>
+#include <vector>
 #include <string>
 
 #define NETWORK
@@ -53,7 +54,7 @@ class UDPPacket
                            const std::string& url, short port);
 
   protected:
-    packet* packet_buffer;
+    std::vector<packet> packet_buffer;
     int length;
     int socket_option;
 };

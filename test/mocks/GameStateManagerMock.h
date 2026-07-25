@@ -9,7 +9,7 @@ namespace doengine::mocks
 class GameStateManagerMock : public GameStateManager
 {
   public:
-    GameStateManagerMock(WindowManager* window = nullptr)
+    GameStateManagerMock(std::shared_ptr<WindowManager> window = nullptr)
         : GameStateManager(window)
     {
     }
@@ -18,7 +18,7 @@ class GameStateManagerMock : public GameStateManager
     {
     }
 
-    MOCK_METHOD(void, AddState, (int, GameState*), (override));
+    MOCK_METHOD(void, AddState, (int, std::shared_ptr<GameState>), (override));
     MOCK_METHOD(void, RemoveState, (int), (override));
     MOCK_METHOD(void, SetState, (int), (override));
     MOCK_METHOD(void, Update, (float), (override));

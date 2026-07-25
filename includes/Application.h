@@ -31,11 +31,12 @@
  * ============================================================================
  */
 #pragma once
+
+#include <memory.h>
 #include "FPSManager.h"
 #include "GameState.h"
 #include "GameStateManager.h"
 #include "WindowManager.h"
-#include <memory.h>
 ///#include "DOEngine.h"
 
 namespace doengine
@@ -48,13 +49,14 @@ class Renderer;
 
 class Application
 {
-    WindowManager* windowManager;
+     
+    std::shared_ptr<WindowManager> windowManager;
 
-    Renderer* render;
+    std::shared_ptr<doengine::Renderer> render;
 
-    GameStateManager* gsm;
+    std::shared_ptr<GameStateManager> gsm;
 
-    FpsManager* fps_handler;
+    std::shared_ptr<FpsManager> fps_handler;
 
     Rect window_rect;
 
@@ -62,26 +64,19 @@ class Application
 
     bool dirty;
 
-    static Application* applicationObject;
-
-    Application();
-
-    ~Application();
-
     void _internalResize();
 
   public:
-    static Application* getApplication()
-    {
-        if (applicationObject == nullptr)
-            applicationObject = new Application();
-        return applicationObject;
-    }
+    ~Application();
+
+      Application();
+
+   static std::shared_ptr<Application> getApplication();
 
     bool IsRunning() const;
 
-    Renderer* getRender() const;
-    WindowManager* getWindow();
+    std::shared_ptr<doengine::Renderer>  getRender() const;
+    std::shared_ptr<WindowManager> getWindow();
 
     void createWindow(const Rect& rect);
 
@@ -102,8 +97,11 @@ class Application
     Rect getDisplayMode(int m=0);
     void SetWindowPencilColor(const Color& color);
     void clearScreen(const Color& color);
-    void addState(GameState* state, int id);
+    void addState(std::shared_ptr<GameState> state, int id);
     void setState(int id);
+
+    std::string getEngineVersion();
+
   private:
     void destroy();
 };

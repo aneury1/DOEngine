@@ -49,7 +49,7 @@ Rect GameObject::getPosition()
     return position;
 }
     
-Renderer* GameObject::getRenderer()
+std::shared_ptr<doengine::Renderer> GameObject::getRenderer()
 {
     return renderer;
 }

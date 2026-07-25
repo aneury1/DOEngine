@@ -48,7 +48,7 @@ class ScrollableContainer : public MouseEvent
 {
   private:
 
-    Renderer* renderer = nullptr;
+    std::shared_ptr<doengine::Renderer> renderer = nullptr;
     Rect containerRect;      // The visible container area
     std::vector<Rect> items; // List of items to display
 

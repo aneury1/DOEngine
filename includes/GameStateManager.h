@@ -43,7 +43,7 @@ class GameState;
 class GameStateManager
 {
 
-    std::map<int, GameState*> states;
+    std::map<int, std::shared_ptr<GameState>> states;
     int current_state;
 
   public:
@@ -55,7 +55,7 @@ class GameStateManager
     {
     }
 
-    virtual void AddState(int state_id, GameState* object);
+    virtual void AddState(int state_id, std::shared_ptr<GameState> object);
     virtual void RemoveState(int state_id);
     virtual void SetState(int state_id);
 
@@ -66,5 +66,7 @@ class GameStateManager
     {
         return current_state;
     }
+
+    virtual void clearAllState();
 };
 } // namespace doengine

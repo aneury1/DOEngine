@@ -23,13 +23,13 @@ struct TileMap
 
     struct TilemapTexturePainter
     {
-        Texture* texture;
-        Renderer* render;
+        std::shared_ptr<Texture> texture;
+        std::shared_ptr<doengine::Renderer> render;
         Rect offset;
         int tsize;
         
 
-        TilemapTexturePainter(Renderer* render, int tisize)
+        TilemapTexturePainter(std::shared_ptr<doengine::Renderer> render, int tisize)
         {
             offset.x = 20;
             offset.y = 20;
@@ -70,7 +70,7 @@ struct TileMap
     int padding_left = 0;
     int padding_top = 0;
 
-    Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
     TilemapTexturePainter* mapTexturePainter = nullptr;
 
@@ -135,7 +135,7 @@ struct TileMap
             filled = f;
             tilemap_ref = m;
         }
-        void Draw(Renderer* render, const Color& color)
+        void Draw(std::shared_ptr<doengine::Renderer> render, const Color& color)
         {
             render->DrawRect(offset, color);
             if (filled)
@@ -199,7 +199,7 @@ void TileMap::render()
 
 struct PongState : public doengine::GameState
 {
-    doengine::Renderer* render;
+    std::shared_ptr<doengine::Renderer> render;
     doengine::TileMap* map; //(32,32);
     virtual void OnEnter()
     {

@@ -56,11 +56,12 @@ void* SDLRenderer::getNativeRenderer()
 
 void SDLRenderer::destroy()
 {
-    if (isRenderOk())
+    if (isRenderOk() || renderer)
     {
         SDL_DestroyRenderer(renderer);
         renderer = nullptr;
     }
+
 }
 
 void SDLRenderer::clear()
@@ -195,27 +196,27 @@ void SDLRenderer::DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3,
     DrawLine({x3, y3}, {x1, y1}, p);
 }
 
-NativeTexture* SDLRenderer::loadTextureFromImageFile(const char* src,
+std::shared_ptr<NativeTexture> SDLRenderer::loadTextureFromImageFile(const char* src,
                                                      Color  )
 {
-    auto texture = new SDLTexture();
+    auto texture = std::make_shared<SDLTexture>();
     return texture->loadFromFile(src);
 }
 
-NativeTexture* SDLRenderer::loadTextureFromImageFile(const char* src)
+std::shared_ptr<NativeTexture> SDLRenderer::loadTextureFromImageFile(const char* src)
 {
-    auto texture = new SDLTexture();
+    auto texture = std::make_shared<SDLTexture>();
     return texture->loadFromFile(src);
 }
  
-NativeTexture* SDLRenderer::createTexture()
+std::shared_ptr<NativeTexture> SDLRenderer::createTexture()
 {
-    return new SDLTexture();   
+    return std::make_shared<SDLTexture>();   
 }
 
-NativeTextRenderer* SDLRenderer::getTextRenderer()
+std::shared_ptr<NativeTextRenderer> SDLRenderer::getTextRenderer()
 {
-    auto textRenderer = new doengine::SDLTTFText();
+    auto textRenderer = std::make_shared<doengine::SDLTTFText>();
     return textRenderer;
 }
 void SDLRenderer::DrawTexture(const std::variant<std::string, int> &id,int x, int y)

@@ -58,7 +58,7 @@ enum class Direction
 class Sprite
 {
   public:
-    Sprite(Texture* texture, const std::vector<Rect>& frames,
+    Sprite(std::shared_ptr<Texture> texture, const std::vector<Rect>& frames,
            const Point& offset = Point(0, 0),
            const ClipType = ClipType::Contiguous, const size_t spriteCount = 1,
            const Direction direction = Direction::None);
@@ -79,14 +79,14 @@ class Sprite
     void setFrameId(const size_t frameId);
 
     ClipType getClipType() const;
-    Texture* getTexture() const;
+    std::shared_ptr<Texture> getTexture() const;
     size_t getSpriteCount() const;
     size_t getFrameId() const;
     Direction getDirection() const;
 
   protected:
     const std::vector<Rect> frames;
-    Texture* texture;
+    std::shared_ptr<Texture> texture;
     Point offset;
     float duration;
     float startTime;

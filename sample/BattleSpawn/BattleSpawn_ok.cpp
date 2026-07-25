@@ -91,7 +91,7 @@ struct Player :
 {
     doengine::Rect playerPos;
     doengine::Color playerColor;
-    doengine::Texture *sprite;
+    std::shared_ptr<doengine::Texture>sprite;
     
     Player()
     {
@@ -129,7 +129,7 @@ struct PlayState : public doengine::GameState,
                    public doengine::KeyboardInputhandlingEvent,
                    public doengine::MouseEvent
 {
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
     doengine::SelectionRect recti;
 
@@ -142,7 +142,7 @@ struct PlayState : public doengine::GameState,
     doengine::MessageBox* msgBox;
 
 
-    doengine::TTFText *textCoords;
+    std::shared_ptr<TTFText>textCoords;
     doengine::Rect clipped;
 
     PlayState()
@@ -163,7 +163,7 @@ struct PlayState : public doengine::GameState,
             doengine::TextureManager::getTextureManager()->loadTextureFromFile(
             "battle_city_sprites", 
             "./assets/gfx/sprites/battle_city.jpg");
-        textCoords = new doengine::TTFText();
+        textCoords = std::make_shared<doengine::TTFText>();
         textCoords->setFont("/home/neonland/Documents/DOEngine/build/assets/fonts/NirmalaB.ttf", 20);
         ////home/neonland/Documents/DOEngine/assets/fonts/NirmalaB.ttf
         recti.setFont("/home/neonland/Documents/DOEngine/build/assets/fonts/NirmalaB.ttf");

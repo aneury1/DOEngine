@@ -52,9 +52,10 @@ class WindowManager
     virtual ~WindowManager()
     {
     }
+    virtual bool Quit() = 0;
     virtual bool createWindow(const Rect& rect) = 0;
     virtual bool createWindow() = 0;
-    virtual Renderer* getRenderer() = 0;
+    virtual std::shared_ptr<doengine::Renderer>  getRenderer() = 0;
     virtual bool isValid() = 0;
     virtual void clearScreen(const Color& color) = 0;
     virtual void setPincelColor(const Color& color) = 0;
@@ -64,10 +65,10 @@ class WindowManager
     virtual void setSize(const Rect& rect) = 0;
     virtual void* getNativeWindowFormatBuffer() = 0;
     virtual Rect getWindowDisplayMode(int m) = 0;
-    static WindowManager* getWindowManager();
+    static std::shared_ptr<WindowManager> getWindowManager();
 
   protected:
-    Renderer* render;
+    std::shared_ptr<doengine::Renderer>  render;
     
     bool run;
     Rect window_rect;

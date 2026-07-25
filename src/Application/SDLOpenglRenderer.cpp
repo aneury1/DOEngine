@@ -66,7 +66,7 @@ SDLOpenglRenderer::SDLOpenglRenderer(SDL_Window* window)
 
     ////glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
 
-    primitiveGLRenderer = new PrimitiveGLRenderer();
+    primitiveGLRenderer = std::make_shared<PrimitiveGLRenderer>();
     ////Mat4 projection = Mat4::ortho(0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f);
     LogOuput(logger_type::Information, "GL context created successfully %s",
              SDL_GetError());
@@ -159,7 +159,7 @@ void SDLOpenglRenderer::DrawRoundedRect(int , int , int , int ,
 {
 }
 
-NativeTexture* SDLOpenglRenderer::loadTextureFromImageFile(const char* src,
+std::shared_ptr<NativeTexture> SDLOpenglRenderer::loadTextureFromImageFile(const char* src,
                                                            Color color)
 {
     SDL_Surface* surface = IMG_Load(src);
@@ -180,14 +180,14 @@ NativeTexture* SDLOpenglRenderer::loadTextureFromImageFile(const char* src,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    SDLTexture* texture = new SDLTexture();
+    auto texture = std::make_shared<SDLTexture>();
     texture->id = textureID;
 
     SDL_FreeSurface(surface);
     return texture;
 }
 
-NativeTexture* SDLOpenglRenderer::loadTextureFromImageFile(const char* src)
+std::shared_ptr<NativeTexture> SDLOpenglRenderer::loadTextureFromImageFile(const char* src)
 {
     SDL_Surface* surface = IMG_Load(src);
     if (!surface)
@@ -204,21 +204,21 @@ NativeTexture* SDLOpenglRenderer::loadTextureFromImageFile(const char* src)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    SDLTexture* texture = new SDLTexture();
+    auto texture = std::make_shared<SDLTexture>();
     texture->id = textureID;
 
     SDL_FreeSurface(surface);
     return texture;
 }
 
-NativeTextRenderer* SDLOpenglRenderer::getTextRenderer()
+std::shared_ptr<NativeTextRenderer> SDLOpenglRenderer::getTextRenderer()
 {
-    return new SDLTTFText();
+    return  std::make_shared<SDLTTFText>();
 }
 
-NativeTexture* SDLOpenglRenderer::createTexture()
+std::shared_ptr<NativeTexture> SDLOpenglRenderer::createTexture()
 {
-    return new SDLTexture();
+    return std::make_shared<SDLTexture>();
 }
 
 } // namespace doengine

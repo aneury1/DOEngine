@@ -37,7 +37,7 @@
 #include "Logger.h"
 namespace doengine
 {
-void GameStateManager::AddState(int state_id, GameState* object)
+void GameStateManager::AddState(int state_id, std::shared_ptr<GameState> object)
 {
     if (object)
     {
@@ -73,4 +73,17 @@ void GameStateManager::Render()
     if (states[current_state])
         states[current_state]->Render();
 }
+
+void GameStateManager::clearAllState()
+{
+    if(states.size()<=0){
+        LogOuput(logger_type::Information, "No States to Del");
+        return ;
+    }
+    for(auto it : states){
+        if(it.second)
+            it.second->OnExit();
+    }
+}
+
 } // namespace doengine

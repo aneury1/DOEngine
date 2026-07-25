@@ -47,7 +47,7 @@ class GameState
 {
   protected:
     std::vector<GameObject*> registered_game_object;
-    Renderer *renderer;
+    std::shared_ptr<Renderer> renderer;
   public:
     GameState();
     virtual ~GameState();

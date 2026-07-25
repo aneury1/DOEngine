@@ -7,6 +7,7 @@ project(doengine VERSION 1.0 LANGUAGES C CXX)
 # ------------------------------------------------------------
 
 option(DOENGINE_DEBUG_ASAN "Enable Debug ASAN" OFF)
+ 
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -35,6 +36,22 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         )
     endif()
 endif()
+
+# Create Git revision
+find_package(Git REQUIRED)
+
+execute_process(
+    COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_REVISION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+execute_process(
+    COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_BRANCH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
 
 # Never search system packages
@@ -108,6 +125,12 @@ PUBLIC
     includes
 )
 
+target_compile_definitions(doengine
+    PUBLIC
+        DOENGINE_GIT_REVISION="${GIT_REVISION}"
+        DOENGINE_GIT_BRANCH="${GIT_BRANCH}"
+)
+
 add_subdirectory(sample)
 
 target_link_libraries(doengine
@@ -116,7 +139,31 @@ PUBLIC
     SDL2_image
     SDL2_ttf
     SDL2_mixer
+    GL
 )
 
 target_compile_features(doengine PUBLIC cxx_std_20)
 
+include(GNUInstallDirs)
+
+if(SDL_INSTALL_LIBRARIES)
+    install(TARGETS
+        SDL2-static
+        SDL2_image
+        SDL2_ttf
+        SDL2_mixer
+        EXPORT doengineTargets
+    )
+else()
+    message(WARNING "SDL_INSTALL_LIBRARIES is OFF, SDL libraries will not be installed.")
+endif()
+
+install(TARGETS doengine
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+)
+
+install(DIRECTORY includes/
+    DESTINATION include/DOEngine
+)

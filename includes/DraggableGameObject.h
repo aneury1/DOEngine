@@ -37,6 +37,7 @@
 #include "Geometric.h"
 #include "Renderer.h"
 #include "Event.h"
+#include <memory>
 #include <functional>
 #include <vector>
 namespace doengine
@@ -57,7 +58,7 @@ class DraggableObject :
    protected:
         virtual void startDraggingPoint(const doengine::Rect& start);
         virtual void updateCoords(const doengine::Rect& rect);
-        virtual void render(doengine::Renderer *render);
+        virtual void render(std::shared_ptr<doengine::Renderer> render);
         virtual void MouseMove(const Mouse&);
         virtual void MouseButtonDown(const Mouse&);
         virtual void MouseButtonUp(const Mouse&);
@@ -102,7 +103,7 @@ class DraggableGameObject :
         void setSelected(bool selected);
         virtual void startDraggingPoint(const doengine::Rect& start);
         virtual void updateCoords(const doengine::Rect& o);
-        virtual void render(doengine::Renderer *render);
+        virtual void render(std::shared_ptr<doengine::Renderer> render);
 
 };
 }
