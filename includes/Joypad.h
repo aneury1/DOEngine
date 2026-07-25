@@ -30,7 +30,6 @@
  * ============================================================================
  */
 
-
 #pragma once
 
 #include "Color.h"
@@ -45,7 +44,7 @@ namespace devices
 
 enum class PowerLevel : char
 {
-    Unknown = 0,
+    Unknown = -1,
     Empty,
     Low,
     Medium,

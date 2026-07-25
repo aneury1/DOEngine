@@ -7,6 +7,8 @@ project(doengine VERSION 1.0 LANGUAGES C CXX)
 # ------------------------------------------------------------
 
 option(DOENGINE_DEBUG_ASAN "Enable Debug ASAN" OFF)
+option(DOENGINE_TESTS "Compiles and runs tests" OFF)
+option(DOENGINE_SAMPLES "Compiles samples" ON)
  
 
 set(CMAKE_CXX_STANDARD 17)
@@ -77,6 +79,8 @@ set(SDL2IMAGE_INSTALL OFF CACHE BOOL "" FORCE)
 set(SDL2TTF_SAMPLES OFF CACHE BOOL "" FORCE)
 set(SDL2TTF_TESTS OFF CACHE BOOL "" FORCE)
 set(SDL2TTF_INSTALL OFF CACHE BOOL "" FORCE)
+set(SDL2TTF_VENDORED TRUE)
+set(SDL2MIXER_WAVPACK OFF CACHE BOOL "" FORCE)
 
 set(SDL2MIXER_SAMPLES OFF CACHE BOOL "" FORCE)
 set(SDL2MIXER_INSTALL OFF CACHE BOOL "" FORCE)
@@ -125,6 +129,7 @@ PUBLIC
     includes
 )
 
+target_compile_features(doengine PUBLIC cxx_std_20)
 target_compile_definitions(doengine
     PUBLIC
         DOENGINE_GIT_REVISION="${GIT_REVISION}"
@@ -142,8 +147,15 @@ PUBLIC
     GL
 )
 
-target_compile_features(doengine PUBLIC cxx_std_20)
+if(DOENGINE_SAMPLES)
+    add_subdirectory(sample)
+endif()
 
+if(DOENGINE_TESTS)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(test)
+endif()
 include(GNUInstallDirs)
 
 if(SDL_INSTALL_LIBRARIES)

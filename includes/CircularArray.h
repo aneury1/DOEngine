@@ -61,13 +61,13 @@ class CircularArray
         return v;
     }
 
-    T operator[](const IndexType& index)
+    T& operator[](const IndexType& index)
     {
-      if(index > _array.size())
-      {
-         return _array[0];
-      }
-      return _array[index];
+        if (index > _array.size())
+        {
+            return _array[0];
+        }
+        return _array[index];
     }
 };
 

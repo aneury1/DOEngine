@@ -31,7 +31,7 @@
  */
 
 #include "Event.h"
-#include "DOEngine_SDL_includes.h"
+#include "Application.h"
 #include "EventHandler.h"
 #include "SDLJoypad.h"
 #include "SDLKeyboard.h"
@@ -113,8 +113,8 @@ void Event::PollEvent()
         }
         break; /**< Keyboard text editing (composition) */
         case SDL_TEXTINPUT: {
-           ////  SDL_Log("SDL_TEXTINPUT %s",event.text.text);
-                        for(auto events : Event::TextInputList)
+            ////  SDL_Log("SDL_TEXTINPUT %s",event.text.text);
+            for (auto events : Event::TextInputList)
             {
                 std::string text = event.text.text;
                 events->OnTextInput(text);
@@ -129,9 +129,9 @@ void Event::PollEvent()
             doengine::Rect mouseOffset{mousePos.x, mousePos.y, 1,1};
             mouse.motion.x = event.motion.x;
             mouse.motion.y = event.motion.y;
-            ///SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mousePos.x, mousePos.y);
+            /// SDL_Log("SDL_MOUSEMOTION x: %ld,  y:%ld", mousePos.x,
+            /// mousePos.y);
             /////SDL_Log("Mouse Count = %ld", Event::mouseEvent.size());
-           
 
             for (auto itMouse : Event::mouseEvent)
             {
@@ -279,7 +279,6 @@ bool Event::getLastKeyPressed(int scancode)
 {
     return keys_pressed[scancode];
 }
-
 
 void Event::RemoveKeyboardEvent(KeyboardInputhandlingEvent* ev)
 {

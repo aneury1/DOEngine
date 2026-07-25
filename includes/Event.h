@@ -31,13 +31,11 @@
  * ============================================================================
  */
 #pragma once
-#include <vector>
-#include <unordered_map>
-#include <stdint.h>
 #include <functional>
+#include <stdint.h>
+#include <unordered_map>
+#include <vector>
 
-// #include "DOEngine.h"
-#include "Application.h"
 #include "EventHandler.h"
 #include "Geometric.h"
 namespace doengine
@@ -476,16 +474,5 @@ typedef enum Scancode
     NUM_SCANCODES = 512 /**< not a key, just marks the number of scancodes
                                  for array bounds */
 } Scancode;
-
-
-
-
-
-
-
-
-
-
-
 
 } // namespace doengine

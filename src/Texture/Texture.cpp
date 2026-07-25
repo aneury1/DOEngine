@@ -32,6 +32,7 @@
 
 #include "Texture.h"
 #include "Application.h"
+#include "NativeStructs.h"
 #include "Logger.h"
 #include <variant>
 namespace doengine
@@ -70,6 +71,11 @@ Texture::Texture(std::string path, const Color& color)
     auto render = Application::getApplication()->getRender();
     this->realNativeTexture =
         render->loadTextureFromImageFile(path.c_str(), color);
+}
+
+Texture::Texture(std::string path, doengine::NativeTexture* realNativeTexture)
+    : realNativeTexture(realNativeTexture)
+{
 }
 
 Texture::~Texture()

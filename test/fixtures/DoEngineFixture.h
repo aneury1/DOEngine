@@ -49,11 +49,13 @@ namespace fixture
 class DoEngineFixture : public testing::Test
 {
   public:
-    DoEngineFixture() : _sdlMock() ///, _windowMock()
+    DoEngineFixture() : _sdlMock()
     {
         SetSDLMock(&_sdlMock);
 
-        ON_CALL(_sdlMock, SDL_GetMouseState(_, _)).WillByDefault(Return(0u));
+        ON_CALL(_sdlMock, SDL_GetMouseState_REAL(_, _))
+            .WillByDefault(Return(0u));
+        ON_CALL(_sdlMock, SDL_Init(_)).WillByDefault(Return(0u));
     }
     void SetUp() override
     {
