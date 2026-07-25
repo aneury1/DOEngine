@@ -3,7 +3,7 @@
 namespace doengine
 {
 
-Sprite::Sprite(Texture* texture, const std::vector<Rect>& frames,
+Sprite::Sprite(std::shared_ptr<Texture> texture, const std::vector<Rect>& frames,
                const Point& offset, const ClipType type,
                const size_t spritesCount, const Direction direction)
     : texture(texture), frames(frames), offset(offset), duration(0.0f),
@@ -16,9 +16,18 @@ Sprite::Sprite(Texture* texture, const std::vector<Rect>& frames,
     }
 }
 
+Sprite::Sprite(int textureId, const std::vector<Rect>& frames,
+               const Point& offset, const ClipType type,
+               const size_t spritesCount, const Direction direction)
+    : texture(texture), frames(frames), offset(offset), duration(0.0f),
+      startTime(0.0f), clipType(type), animId(0U), spriteCount(spritesCount),
+      direction(direction)
+{
+    texture = TextureManager::getTextureManager()->getTexture(textureId);
+}
+
 Sprite::~Sprite()
 {
-    texture = nullptr;
 }
 
 void Sprite::Draw(const Rect& dstRect)
@@ -110,7 +119,7 @@ ClipType Sprite::getClipType() const
     return clipType;
 }
 
-Texture* Sprite::getTexture() const
+std::shared_ptr<Texture> Sprite::getTexture() const
 {
     return texture;
 }

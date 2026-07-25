@@ -58,7 +58,7 @@ class SelectionRect :
    
     private:
         std::string fontsrc;
-        doengine::TTFText *font;
+        std::shared_ptr<TTFText>font;
         bool function_active = true;
         bool active = false;
         doengine::Rect start{};

@@ -44,7 +44,7 @@ using doengine::devices::SDLKeyboard;
 using doengine::devices::SDLMouse;
 namespace doengine
 {
-std::vector<KeyDownEvent*> Event::keydown;
+ 
 std::vector<KeyUpEvent*> Event::keyup;
 std::vector<MouseEvent*> Event::mouseEvent;
 std::vector<TextInputEvent*> Event::TextInputList;
@@ -56,6 +56,20 @@ std::map<int, Joypad*> Event::joypadsConnected;
 std::unordered_map<unsigned char, bool> Event::keys_pressed;
 
 uint32_t Event::timeElapsed = 0;
+
+void Event::RemoveAllEvent(){
+ 
+  keyup.clear();
+  mouseEvent.clear();
+  TextInputList.clear();
+  joyButtonUpList.clear();
+  joyButtonDownList.clear();
+  joyButtonTriggerList.clear();
+  keyboardHandlingEventList.clear();
+  joypadsConnected.clear();
+  keys_pressed.clear();
+}
+
 
 void Event::PollEvent()
 {
@@ -75,20 +89,19 @@ void Event::PollEvent()
  
         case SDL_KEYDOWN: {
             ////SDL_Log("SDL_KEYDOWN %ld",event.key.keysym.scancode);
-            keys_pressed[event.key.keysym.scancode] =
-                true; ///(event.key.keysym.scancode);
+            keys_pressed[event.key.keysym.scancode] = true; ///(event.key.keysym.scancode);
             SDLKeyboard keyboard(event.key.keysym.scancode);
+            
+            
             for(auto keyboardPressed : Event::keyboardHandlingEventList)
                 keyboardPressed->OnKeydown(keyboard);
-            
-            for (auto itKeyboard : Event::keydown)
-                itKeyboard->OnKeydown(keyboard);
+ 
             
         }
         break;
         case SDL_KEYUP: {
             ///// SDL_Log("SDL_KEYUP");
-           /// keys_pressed[event.key.keysym.scancode] = false;
+            keys_pressed[event.key.keysym.scancode] = false;
             SDLKeyboard keyboard;
 
             for (auto itKeyboard : Event::keyup)
@@ -257,11 +270,6 @@ void Event::AddKeyPressEventListener(KeyUpEvent* ev)
     Event::keyup.push_back(ev);
 }
 
-void Event::AddKeyPressEventListener(KeyDownEvent* ev)
-{
-    Event::keydown.push_back(ev);
-}
-
 void Event::AddKeyboardEvent(KeyboardInputhandlingEvent* ev)
 {
     Event::keyboardHandlingEventList.push_back(ev);
@@ -287,18 +295,6 @@ void Event::RemoveKeyboardEvent(KeyboardInputhandlingEvent* ev)
 void Event::RemoveKeyPressEventListener(KeyUpEvent* ev)
 {
     auto& evts = Event::keyup;
-    for (auto it = evts.begin(); it != evts.end();)
-    {
-        if (*it == ev)
-            it = evts.erase(it);
-        else
-            ++it;
-    }
-}
-
-void Event::RemoveKeyPressEventListener(KeyDownEvent* ev)
-{
-    auto& evts = Event::keydown;
     for (auto it = evts.begin(); it != evts.end();)
     {
         if (*it == ev)
@@ -337,6 +333,7 @@ void Event::RemoveTextInputEvent(TextInputEvent* event)
             ++it;
     }
 }
+
 
 void Event::AddTextInputEvent(TextInputEvent *event)
 {

@@ -43,7 +43,7 @@ namespace doengine
         panelPosition.y = 0;
         panelPosition.w = 600;
         panelPosition.h = 1000;
-        font = new doengine::TTFText();
+        font = std::make_shared<doengine::TTFText>();
         font->setFont(fontsrc, 20);
         font->setColor(doengine::Colors::yellow1);
         /// font->(doengine::Colors::yellow1);

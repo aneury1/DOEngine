@@ -33,6 +33,7 @@
 #include "Texture.h"
 #include "Application.h"
 #include "NativeStructs.h"
+#include "Logger.h"
 #include <variant>
 namespace doengine
 {
@@ -43,11 +44,15 @@ Texture::Texture()
 
 void Texture::SetTransparentColor(const Color& color)
 {
-    realNativeTexture->SetTransparentColor(color);
+    if (realNativeTexture)
+        realNativeTexture->SetTransparentColor(color);
 }
 
 Texture::Texture(std::string path)
 {
+    this->realNativeTexture = nullptr;
+    if (!Application::getApplication()->IsRunning())
+        return;
     auto render = Application::getApplication()->getRender();
     Color color;
     color.r = 0;
@@ -60,6 +65,9 @@ Texture::Texture(std::string path)
 
 Texture::Texture(std::string path, const Color& color)
 {
+    this->realNativeTexture = nullptr;
+
+    
     auto render = Application::getApplication()->getRender();
     this->realNativeTexture =
         render->loadTextureFromImageFile(path.c_str(), color);
@@ -72,23 +80,31 @@ Texture::Texture(std::string path, doengine::NativeTexture* realNativeTexture)
 
 Texture::~Texture()
 {
-    if (realNativeTexture == nullptr)
+    if (realNativeTexture)
     {
-        delete realNativeTexture;
-        realNativeTexture = nullptr;
+        realNativeTexture->Destroy();
+        realNativeTexture.reset();
     }
 }
 void Texture::Draw(int x, int y)
 {
+    if (!realNativeTexture)
+        return;
     realNativeTexture->Draw(x, y);
 }
 void Texture::Draw(const Rect& offset)
 {
+    if (!realNativeTexture)
+        return;
+
     realNativeTexture->Draw(offset);
 }
 
 void Texture::Draw(const Rect& offset, const Rect& clipset)
 {
+    if (!realNativeTexture)
+        return;
+
     this->realNativeTexture->Draw(offset, clipset);
 }
 void Texture::Draw(const Rect& offset, const Rect& clipset, const double angle)
@@ -103,62 +119,89 @@ void Texture::Draw(const Rect& offset, const Rect& clipset, const double angle,
 }
 void Texture::ModulateColor(const Color& color)
 {
+    if (!realNativeTexture)
+        return;
+
     this->realNativeTexture->ModulateColor(color);
 }
 int Texture::getWidth()
 {
+    if (!realNativeTexture)
+        return 0;
+
     return this->realNativeTexture->getWidth();
 }
 int Texture::getHeight()
 {
+    if (!realNativeTexture)
+        return 0;
+
     return this->realNativeTexture->getHeight();
 }
 bool Texture::validTexture()
 {
+    if (!realNativeTexture)
+        return false;
+
     return realNativeTexture->validTexture();
 }
 
-Texture* Texture::subTexture(const Rect& clipset)
+void Texture::LoadTexture(const std::string& file, const Color& color)
 {
-    Texture* ret = new Texture();
+    if(!Application::getApplication()->IsRunning())return;
+    if (!realNativeTexture)
+    {
+        auto render = Application::getApplication()->getRender();
+        this->realNativeTexture =
+            render->loadTextureFromImageFile(file.c_str(), color);
+    }
+    else
+    {
+        realNativeTexture->Destroy();
+    }
+}
+
+std::shared_ptr<Texture> Texture::subTexture(const Rect& clipset)
+{
+    std::shared_ptr<Texture> ret = std::make_shared<Texture>();
     ret->realNativeTexture = this->realNativeTexture->subTexture(clipset);
     return ret;
 }
 
-Texture* Texture::setNativeTexture(void* t)
+std::shared_ptr<Texture> Texture::setNativeTexture(void* t)
 {
-    Texture* ret = new Texture();
+    std::shared_ptr<Texture> ret = std::make_shared<Texture>();
     ret->realNativeTexture =
         Application::getApplication()->getRender()->createTexture();
     ret->realNativeTexture->setNativeTexture(t);
     return ret;
 }
 
-TextureManager* TextureManager::instance;
+std::map<std::variant<std::string, int>, std::shared_ptr<Texture>> textures;
 
-std::map<std::variant<std::string, int>, Texture*> textures;
-
-TextureManager* TextureManager::getTextureManager()
+std::shared_ptr<TextureManager> TextureManager::getTextureManager()
 {
-    if (instance == nullptr)
-        instance = new TextureManager();
+    static std::shared_ptr<TextureManager> instance(
+        std::make_shared<TextureManager>());
     return instance;
 }
 
 void TextureManager::loadTextureFromFile(
-    const std::variant<std::string, int>& id, string src, const Color  )
+    const std::variant<std::string, int>& id, string src, const Color)
 {
-    Texture* texture = new Texture(src);
+    std::shared_ptr<Texture> texture = std::make_shared<Texture>(src);
     addTexture(id, texture);
 }
 
-void TextureManager::loadTextureFromTexture(std::string  , Texture*  ,
-                                            const Rect&  )
+void TextureManager::loadTextureFromTexture(std::string,
+                                            std::shared_ptr<Texture>,
+                                            const Rect&)
 {
     /// Todo, easy.
 }
 
-void TextureManager::addTexture(std::string id, Texture* texture)
+void TextureManager::addTexture(std::string id,
+                                std::shared_ptr<Texture> texture)
 {
     auto it = textures.find(id);
     if (texture->validTexture())
@@ -174,7 +217,7 @@ void TextureManager::addTexture(std::string id, Texture* texture)
     }
 }
 void TextureManager::addTexture(const std::variant<std::string, int>& id,
-                                Texture* texture)
+                                std::shared_ptr<Texture> texture)
 {
     auto it = textures.find(id);
     if (texture->validTexture())
@@ -195,21 +238,21 @@ void* Texture::getNativeBuffer()
     return this->realNativeTexture->getNativeBuffer();
 }
 
-void TextureManager::removeTexture(std::string )
+void TextureManager::removeTexture(std::string)
 {
 }
 
-Texture* TextureManager::getTexture(const std::variant<std::string, int>& id)
+std::shared_ptr<Texture> TextureManager::getTexture(
+    const std::variant<std::string, int>& id)
 {
-
     auto find = textures.find(id);
     if (find == textures.end())
-        return nullptr;
+        return std::make_shared<Texture>();
     return find->second;
 }
 
-Texture* TextureManager::getTextureOr(const std::variant<std::string, int>& id,
-                                      std::function<void()>  )
+std::shared_ptr<Texture> TextureManager::getTextureOr(
+    const std::variant<std::string, int>& id, std::function<void()>)
 {
     return textures[id];
 }
@@ -217,11 +260,12 @@ Texture* TextureManager::getTextureOr(const std::variant<std::string, int>& id,
 void TextureManager::loadFont(const std::variant<std::string, int>& key,
                               string src, int pts)
 {
-    auto pf = new TTFText();
+    auto pf = std::make_shared<TTFText>();
     pf->setFont(src, pts);
     fonts[key] = pf;
 }
-TTFText* TextureManager::getFont(const std::variant<std::string, int>& id)
+std::shared_ptr<TTFText> TextureManager::getFont(
+    const std::variant<std::string, int>& id)
 {
     return fonts[id];
 }
@@ -244,6 +288,29 @@ TextureManager::TextureStatus TextureManager::drawTexture(const std::string id,
         return TextureManager::TextureStatus::TextureIdInvalid;
     text->Draw(offset);
     return TextureManager::TextureStatus::Success;
+}
+
+TextureManager::TextureStatus TextureManager::drawTexture(int id,
+                                                          const Rect offset)
+{
+    auto text = getTexture(id);
+    if (text == nullptr)
+        return TextureManager::TextureStatus::TextureIdInvalid;
+    text->Draw(offset);
+    return TextureManager::TextureStatus::Success;
+}
+void TextureManager::destroyAll()
+{
+
+    if (textures.size() <= 0)
+    {
+        LogOuput(logger_type::Information, "No Texture to Del");
+        return;
+    }
+    for (auto it : textures)
+    {
+        it.second.reset();
+    }
 }
 
 } // namespace doengine

@@ -38,12 +38,12 @@ namespace doengine
  void SelectionRect::setup()
  {
     if(!font)
-        font = new doengine::TTFText();
+        font = std::make_shared<doengine::TTFText>();
    if(!fontsrc.empty())
       font->setFont(fontsrc, 18);
    else
    {
-      ////
+ 
    }
  }
 
@@ -111,11 +111,13 @@ void SelectionRect::Render()
         if (y <= 16)
             y = rect.y + 64;
         
-        font->DrawText(rect.x, y, "(%d,%d, %d, %d)", rect.x, rect.y, rect.w,
-                       rect.h);
+        font->DrawText(rect.x, y, "(%d,%d, %d, %d)", rect.x, rect.y, rect.w, rect.h);
+
         if(onSelectionFinished)
         {
-            onSelectionFinished(rect);
+            ///LogOuput(logger_type::Error, "Calling Selection Rect Callback:[%d, %d, %d, %d]", 
+            ////    rect.x, rect.y, rect.w, rect.h);
+           //// onSelectionFinished({rect.x, rect.y, rect.w, rect.h});
         }
     }
 }
@@ -151,14 +153,21 @@ void SelectionRect::MouseButtonDown(const Mouse& mouse)
         updateCoords({mouse.getMousePosition()});
     }
 }
-void SelectionRect::MouseButtonUp(const Mouse&  )
+void SelectionRect::MouseButtonUp(const Mouse&  m)
 {
     if (function_active)
+    {
         active = false;
+        if (onSelectionFinished)
+        {
+            auto rect = NormalizeRect(start, current);
+            onSelectionFinished({rect.x, rect.y, rect.w, rect.h});
+        }
+    }
 }
 void SelectionRect::registerSelectionRectFinished(std::function<void(Rect)> fn)
 {
-    onSelectionFinished = fn;
+    onSelectionFinished = std::move(fn);
 }
 void SelectionRect::setFontColor(const doengine::Color& color)
 {

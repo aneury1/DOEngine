@@ -52,7 +52,8 @@ class NativeTexture;
 
 class Texture
 {
-    NativeTexture* realNativeTexture;
+    std::shared_ptr<NativeTexture> realNativeTexture;
+
 
   public:
     Texture();
@@ -73,8 +74,9 @@ class Texture
     int getWidth();
     int getHeight();
     bool validTexture();
-    Texture* setNativeTexture(void*);
-    Texture* subTexture(const Rect& clipset);
+    void LoadTexture(const std::string& file, const Color& color);
+    std::shared_ptr<Texture> setNativeTexture(void *);
+    std::shared_ptr<Texture> subTexture(const Rect& clipset);
 
     void* getNativeBuffer();
 };
@@ -82,36 +84,30 @@ class Texture
 class TextureManager
 {
 
+
+    std::map<std::variant<std::string,int>, std::shared_ptr<Texture>> textures;
+    std::map<std::variant<std::string,int>, std::shared_ptr<TTFText>> fonts;
+
+  public:
     TextureManager()
     {
     }
+    static std::shared_ptr<TextureManager> getTextureManager();
 
-    static TextureManager* instance;
+    void loadTextureFromFile(const std::variant<std::string, int>& key, string src,const Color trans={0,0,0,0});
+    void loadFont(const std::variant<std::string, int>& key, string src, int pts);
+    std::shared_ptr<TTFText> getFont(const std::variant<std::string, int>& id);
 
-    std::map<std::variant<std::string, int>, Texture*> textures;
-    std::map<std::variant<std::string, int>, TTFText*> fonts;
-
-  public:
-    static TextureManager* getTextureManager();
-
-    void loadTextureFromFile(const std::variant<std::string, int>& key,
-                             string src, const Color trans = {0, 0, 0, 0});
-    void loadFont(const std::variant<std::string, int>& key, string src,
-                  int pts);
-    TTFText* getFont(const std::variant<std::string, int>& id);
-
-    void loadTextureFromTexture(string id, Texture* texture,
+    void loadTextureFromTexture(string id, std::shared_ptr<Texture> texture,
                                 const Rect& clipset);
 
-    void addTexture(string id, Texture* texture);
-    void addTexture(const std::variant<std::string, int>& key,
-                    Texture* texture);
+    void addTexture(string id, std::shared_ptr<Texture> texture);
+    void addTexture(const std::variant<std::string, int>& key, std::shared_ptr<Texture> texture);
 
     void removeTexture(string id);
 
-    Texture* getTexture(const std::variant<std::string, int>& id);
-    Texture* getTextureOr(const std::variant<std::string, int>& id,
-                          std::function<void()> orCall);
+    std::shared_ptr<Texture> getTexture(const std::variant<std::string, int>& id);
+    std::shared_ptr<Texture> getTextureOr(const std::variant<std::string, int>& id, std::function<void()> orCall);
 
     enum class TextureStatus
     {
@@ -119,9 +115,11 @@ class TextureManager
         Error,
         TextureIdInvalid
     };
-    TextureStatus drawTexture(const std::string, const Rect offset,
-                              const Rect clipset);
-    TextureStatus drawTexture(const std::string id, const Rect offset);
+    TextureStatus drawTexture(const std::string,const Rect offset ,const Rect clipset);
+    TextureStatus drawTexture(const std::string id,const Rect offset);
+    TextureStatus drawTexture(int id,const Rect offset);
+    void destroyAll();
+   
 };
 
 } // namespace doengine

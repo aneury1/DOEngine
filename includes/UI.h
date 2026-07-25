@@ -72,7 +72,7 @@ struct BorderPress
 
    struct UIElement
    {
-        Renderer *getRenderer(){
+        std::shared_ptr<doengine::Renderer> getRenderer(){
             return renderer;
         }
         UIElement(){
@@ -84,7 +84,7 @@ struct BorderPress
 
         protected:
             int index;
-            Renderer *renderer;
+            std::shared_ptr<doengine::Renderer>  renderer;
             ComponentType type;    
    };
     

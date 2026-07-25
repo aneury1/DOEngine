@@ -26,12 +26,12 @@ const std::vector<std::string> music = {
 struct MusicPlayerState : public doengine::GameState
 {
   
-    Renderer* renderer;
-    TTFText*  text;
+    std::shared_ptr<doengine::Renderer> renderer;
+    std::shared_ptr<TTFText>  text;
     
-    Texture* ps = nullptr;
-    Texture* parcial = nullptr;
-    Texture* fontRenderer = nullptr;
+    std::shared_ptr<Texture> ps = nullptr;
+    std::shared_ptr<Texture> parcial = nullptr;
+    std::shared_ptr<Texture> fontRenderer = nullptr;
     
     virtual void OnEnter()
     {

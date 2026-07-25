@@ -66,12 +66,12 @@ class SDLRenderer : public Renderer
     virtual void DrawRoundedRect(int x, int y, int w, int h, int roundedRadius,
                                  Color color) override;
 
-    virtual NativeTexture* loadTextureFromImageFile(const char* src,
+    virtual std::shared_ptr<NativeTexture> loadTextureFromImageFile(const char* src,
                                                     Color color) override;
-    virtual NativeTexture* loadTextureFromImageFile(const char* src) override;
-    virtual NativeTextRenderer* getTextRenderer() override;
+    virtual std::shared_ptr<NativeTexture> loadTextureFromImageFile(const char* src) override;
+    virtual std::shared_ptr<NativeTextRenderer> getTextRenderer() override;
 
-    virtual NativeTexture* createTexture() override;
+     virtual std::shared_ptr<NativeTexture> createTexture()override;
 
     virtual void DrawTexture(const std::variant<std::string, int>&, int x,
                              int y) override;

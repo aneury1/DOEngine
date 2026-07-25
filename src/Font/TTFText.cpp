@@ -77,11 +77,17 @@ void TTFText::DrawText(int x, int y, const char* fmt, ...)
 
 void TTFText::DrawText(const char* text, int x, int y)
 {
-    if (nativeRenderer)
+    if (nativeRenderer){
+       //// LogOuput(logger_type::Information, "TTFText::DrawText calling native Renderer, to Draw [%s]", text);
+        
         nativeRenderer->DrawText(text, x, y);
+    }
+    else{
+        LogOuput(logger_type::Information, "TTFText::setFont Fontrneder nullptr");
+    }
 }
 
-Texture* TTFText::createText(const std::string& text)
+std::shared_ptr<Texture> TTFText::createText(const std::string& text)
 {
     return nativeRenderer->createText(text);
 }
@@ -92,7 +98,7 @@ void TTFText::wrapText(const char* text, int maxWidth, char* wrappedText)
     return;
 }
 
-Texture* TTFText::createBitmapFont(const std::string& font_path,
+std::shared_ptr<Texture> TTFText::createBitmapFont(const std::string& font_path,
                                    const doengine::Color& bg,
                                    const doengine::Color& fg)
 {

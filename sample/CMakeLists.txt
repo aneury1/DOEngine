@@ -17,7 +17,7 @@ add_executable(Sound
     Sound.cpp
 )
 
-add_subdirectory(SpriteSelectorRect SpriteSelectorRect/build)
+# add_subdirectory(SpriteSelectorRect SpriteSelectorRect/build)
 add_subdirectory(Collector Collector/build)
 add_subdirectory(Sprites Sprites/build)
 add_subdirectory(SnakeGame SnakeGame/build)

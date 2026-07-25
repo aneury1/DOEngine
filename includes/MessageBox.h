@@ -54,7 +54,7 @@ enum class MessageBoxFlag : int
 
 struct MessageBox : public doengine::MouseEvent
 {
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
     doengine::Rect position;
     doengine::Rect tposition;
     doengine::Rect bposition;

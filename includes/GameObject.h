@@ -66,7 +66,7 @@ class GameObject
     bool debuging_enable;
 
     Rect position;
-    Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
 
     bool renderable;
     bool solid;
@@ -80,7 +80,7 @@ class GameObject
     virtual ~GameObject();
     virtual void Update(float timer = 0) = 0;
     virtual void Render() = 0;
-    Renderer* getRenderer();
+    std::shared_ptr<doengine::Renderer> getRenderer();
     Rect getPosition();
 
     inline int getId()

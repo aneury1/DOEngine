@@ -88,7 +88,7 @@ void DraggableObject::updateCoords(const doengine::Rect& rect)
         offset.y = rect.y;
     }
 }
-void DraggableObject::render(doengine::Renderer*  )
+void DraggableObject::render(std::shared_ptr<doengine::Renderer>  )
 {
     //// does nothing.... as protected
 }
@@ -172,7 +172,7 @@ void DraggableGameObject::updateCoords(const doengine::Rect& o)
     }
 }
 
-void DraggableGameObject::render(doengine::Renderer* )
+void DraggableGameObject::render(std::shared_ptr<doengine::Renderer> )
 {
 
     auto texture =

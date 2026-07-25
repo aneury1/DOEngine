@@ -39,7 +39,7 @@ struct Position
 struct Block
 {
 
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
     Block();
     void Draw(int offsetX, int offsetY);
     void Move(int rows, int columns);
@@ -234,7 +234,7 @@ class ZBlock : public Block
 
 struct Grid
 {
-    doengine::Renderer* renderer;
+    std::shared_ptr<doengine::Renderer> renderer;
     int rows;
     int cols;
     int cell_size;
@@ -355,7 +355,7 @@ void Grid::MoveRowDown(int row, int numRows)
 
 struct TetrisState : public doengine::GameState
 {
-    doengine::Renderer* render;
+    std::shared_ptr<doengine::Renderer> render;
     bool gameOver;
     int score;
     void MoveBlockLeft()

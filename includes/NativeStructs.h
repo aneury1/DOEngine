@@ -31,6 +31,7 @@
  */
 
 #pragma once
+#include <memory>
 #include "Geometric.h"
 #include "Texture.h"
 namespace doengine
@@ -47,16 +48,12 @@ struct NativeTexture
 {
     int id;
     Rect rectSize;
-    virtual ~NativeTexture()
-    {
-    }
-    NativeTexture()
-    {
-    }
-
-    virtual NativeTexture* subTexture(Rect clipset) = 0;
-    virtual NativeTexture* setNativeTexture(void* text) = 0;
-    virtual NativeTexture* loadFromFile(const char* src) = 0;
+    virtual ~NativeTexture(){}
+    NativeTexture(){}
+  
+    virtual std::shared_ptr<NativeTexture> subTexture(Rect clipset) = 0;
+    virtual std::shared_ptr<NativeTexture> setNativeTexture(void *text) = 0;
+    virtual std::shared_ptr<NativeTexture> loadFromFile(const char* src) = 0;
     virtual void Draw(int x, int y) = 0;
     virtual void Draw(const Rect& offset) = 0;
     virtual void Draw(const Rect& offset, const Rect& clipset) = 0;
@@ -86,12 +83,9 @@ struct NativeTextRenderer
     virtual void setFontSize(int fntSize) = 0;
     virtual void setForegroundColor(doengine::Color color) = 0;
     virtual void setBackgroundColor(doengine::Color color) = 0;
-    virtual Texture* createText(const std::string& text) = 0;
-    virtual void wrapText(const char* text, int maxWidth,
-                          char* wrappedText) = 0;
-    virtual Texture* createBitmapFont(const std::string& font_path,
-                                      const doengine::Color& bg,
-                                      const doengine::Color& fg) = 0;
+    virtual std::shared_ptr<Texture> createText(const std::string& text) = 0;
+    virtual void wrapText(const char* text, int maxWidth, char* wrappedText) =0;
+    virtual std::shared_ptr<Texture>  createBitmapFont(const std::string& font_path,const doengine::Color& bg,const doengine::Color& fg)= 0;
 };
 
 struct NativeBitmapTextRenderer

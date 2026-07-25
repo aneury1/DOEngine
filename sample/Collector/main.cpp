@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
     auto resoltion = doengine::Application::getApplication()->getDisplayMode(0);
     doengine::Rect rect{1320, 900};
     app->createWindow(rect);
-    auto playstate = new IntroGameState();
+    auto playstate = std::make_shared<IntroGameState>();
     app->addState(playstate, playing);
     app->setState(playing);
 

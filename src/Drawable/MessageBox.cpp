@@ -42,7 +42,7 @@ MessageBox::MessageBox(const std::string& text,
     : text(text),
       onClick(onClick)
 {
-    auto* app = doengine::Application::getApplication();
+    auto app = doengine::Application::getApplication();
 
     position.w = app->getW() / 2;
     position.h = 200;

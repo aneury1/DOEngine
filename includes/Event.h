@@ -44,7 +44,6 @@ struct Event
 {
     static uint32_t timeElapsed;
     static std::unordered_map<unsigned char, bool> keys_pressed;
-    static std::vector<KeyDownEvent*> keydown;
     static std::vector<KeyUpEvent*> keyup;
     static std::vector<TextInputEvent*> TextInputList;
     static std::vector<MouseEvent*> mouseEvent;
@@ -62,10 +61,10 @@ struct Event
 
     static void PollEvent();
     static void AddKeyPressEventListener(KeyUpEvent* ev);
-    static void AddKeyPressEventListener(KeyDownEvent* ev);
+    
     static void AddKeyboardEvent(KeyboardInputhandlingEvent* ev);
     static void RemoveKeyPressEventListener(KeyUpEvent* ev);
-    static void RemoveKeyPressEventListener(KeyDownEvent* ev);
+ 
     static void AddMouseEvent(MouseEvent* event);
     static void RemovedMouseEvent(MouseEvent* event);
     static void AddJoypadEventListener(JoyButtonUpEvent* ev);
@@ -77,6 +76,8 @@ struct Event
     static void RemoveKeyboardEvent(KeyboardInputhandlingEvent* ev);
     static void AddTextInputEvent(TextInputEvent *event);
     static void RemoveTextInputEvent(TextInputEvent *event);
+
+    static void RemoveAllEvent();
 };
 
 
